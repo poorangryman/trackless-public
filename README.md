@@ -52,6 +52,10 @@ I am publishing the source code openly because I believe that sharing a real, im
 
 If you're an experienced Android developer and notice something that could be significantly improved, constructive feedback is welcome.
 
+**I'm also very open to suggestions and contributions from the community.** If you have ideas for new features, improvements, bug fixes, UI/UX changes, or anything else that could make TrackLess better, feel free to share them.
+
+If you have experience with Android development, Kotlin/Java, UI/UX, testing, security, or any other area relevant to the project, **any help, advice, constructive criticism, or contribution would be greatly appreciated.** I'm still learning, so there is definitely a lot I can improve.
+
 **I also used ChatGPT to write and polish this README.** My English isn't good enough to express all of this clearly and naturally on my own, so I relied on ChatGPT to help translate and formulate my thoughts. The ideas and information about the project are mine; ChatGPT helped me put them into proper English.
 
 ## Building
