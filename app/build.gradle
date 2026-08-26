@@ -4,6 +4,11 @@ plugins {
 
 def tracklessVersionName = '1.2.4'
 
+def hasReleaseSigning = System.getenv('TRACKLESS_KEYSTORE_PATH') &&
+        System.getenv('TRACKLESS_KEYSTORE_PASSWORD') &&
+        System.getenv('TRACKLESS_KEY_ALIAS') &&
+        System.getenv('TRACKLESS_KEY_PASSWORD')
+
 android {
     namespace = 'ru.otvykaniye.tracker'
     compileSdk = 35
@@ -16,12 +21,27 @@ android {
         versionName = tracklessVersionName
     }
 
+    if (hasReleaseSigning) {
+        signingConfigs {
+            tracklessRelease {
+                storeFile = file(System.getenv('TRACKLESS_KEYSTORE_PATH'))
+                storePassword = System.getenv('TRACKLESS_KEYSTORE_PASSWORD')
+                keyAlias = System.getenv('TRACKLESS_KEY_ALIAS')
+                keyPassword = System.getenv('TRACKLESS_KEY_PASSWORD')
+            }
+        }
+    }
+
     buildTypes {
         debug {
+            // Standard Android debug signing is used automatically.
         }
         release {
             minifyEnabled = false
             debuggable = false
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.tracklessRelease
+            }
         }
     }
 
@@ -35,7 +55,12 @@ tasks.matching { it.name == 'assembleRelease' }.configureEach {
     doLast {
         def releaseDir = file("$buildDir/outputs/apk/release")
         def sourceApk = file("$releaseDir/app-release.apk")
-        def namedApk = file("$releaseDir/TrackLess-v${tracklessVersionName}.apk")
+        def versionFile = rootProject.file('VERSION.txt')
+        def version = versionFile.exists() && versionFile.text.trim()
+                ? versionFile.text.trim()
+                : tracklessVersionName
+        def namedApk = file("$releaseDir/TrackLess-v${version}.apk")
+
         if (sourceApk.exists() && sourceApk.absolutePath != namedApk.absolutePath) {
             copy {
                 from sourceApk

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F1E1A">
+<title>TrackLess — трекер</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#0F1E1A;--surface:#16302A;--surface2:#1C3830;--line:#274139;--text:#EDEFE9;--dim:#8FA69B;--accent:#6FBF9A;--accent2:#3E6B57;--amber:#E0B15C;--clay:#D98C6B;--r:18px;--mono:"SF Mono","Roboto Mono",ui-monospace,Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;padding:0;background:radial-gradient(120% 140% at 50% -10%,#16332B 0%,#0F1E1A 55%,#0B1613 100%);color:var(--text);font-family:var(--sans);min-height:100%;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}#app{max-width:480px;margin:0 auto;padding:0 16px}.hidden{display:none!important}
+header.top{display:flex;align-items:center;justify-content:space-between;padding:11px 0 7px}.brand{display:flex;flex-direction:column;gap:2px}.eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);font-weight:700}.brand h1{margin:0;font-size:21px;letter-spacing:-.02em}.icon-btn{width:42px;height:42px;border-radius:13px;background:var(--surface);border:1px solid var(--line);color:var(--text);display:flex;align-items:center;justify-content:center}.icon-btn:active{transform:scale(.95)}
+.kind-menu{position:relative;margin-top:10px}.kind-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:14px;padding:11px 13px;font-weight:750;font-size:14px}.kind-trigger .kind-meta{display:flex;align-items:center;gap:8px}.kind-trigger .chev{color:var(--dim);font-size:12px}.kind-popup{position:absolute;left:0;right:0;top:calc(100% + 7px);z-index:30;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 14px 30px #0008}.kind-option{width:100%;display:flex;align-items:center;gap:9px;border:0;background:transparent;color:var(--dim);padding:11px 10px;border-radius:10px;text-align:left;font-weight:700}.kind-option:hover,.kind-option.active{background:var(--surface2);color:var(--text)}
+.hero{background:linear-gradient(165deg,var(--surface),var(--surface2));border:1px solid var(--line);border-radius:24px;padding:22px 18px 18px;margin-top:12px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-100px;top:-110px;background:var(--accent);opacity:.06}.hero .clock{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:42px;font-weight:650;letter-spacing:-.02em;margin:5px 0 2px;color:var(--accent)}.hero .sub{color:var(--dim);font-size:13px;margin-bottom:16px}.log-btn{width:100%;border:0;border-radius:15px;padding:16px 18px;background:var(--accent);color:#0B1613;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:9px}.log-btn:active{transform:scale(.985)}.undo{display:block;margin:7px auto 0;background:none;border:0;color:var(--dim);font-size:12px;text-decoration:underline;text-underline-offset:3px}
+.level{display:flex;align-items:center;gap:13px;margin-top:18px}.level-icon{width:44px;height:48px;flex:0 0 44px}.level-info{flex:1}.label{display:flex;justify-content:space-between;font-size:12px;color:var(--dim);margin-bottom:6px}.label b{color:var(--text)}.bar{height:9px;border-radius:6px;background:var(--surface2);overflow:hidden;border:1px solid var(--line)}.fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .35s ease}.fill.over{background:linear-gradient(90deg,#8a5a44,var(--clay))}.hint{font-size:11px;color:var(--dim);margin-top:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px 14px}.stat .v{font-family:var(--mono);font-size:22px;font-weight:650}.stat .l{font-size:11.5px;color:var(--dim);margin-top:2px}.stat.money .v{color:var(--amber)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;margin-top:12px;padding:15px}.panel h2{font-size:11px;margin:0 0 11px;color:var(--dim);font-weight:750;letter-spacing:.08em;text-transform:uppercase}.panel-note{font-size:12px;color:var(--dim);line-height:1.45;margin:-3px 0 10px}#chart{width:100%;height:125px;display:block}.entry{display:flex;align-items:center;justify-content:space-between;padding:9px 10px;border-radius:10px;background:var(--surface2);margin-bottom:6px;font-size:13px}.entry:last-child{margin-bottom:0}.entry .time{font-family:var(--mono)}.entry button{background:none;border:0;color:var(--dim);font-size:17px;padding:2px 5px}.empty{color:var(--dim);font-size:13px;padding:5px 1px}.foot{text-align:center;color:var(--dim);font-size:11.5px;margin:14px 0 8px;line-height:1.5}
+.modal-backdrop{position:fixed;inset:0;background:var(--bg);display:flex;align-items:stretch;justify-content:center;z-index:50}.modal{width:100%;max-width:480px;background:var(--bg);border:0;border-radius:0;padding:19px 18px 28px;max-height:none;height:100%;overflow:auto}.modal h2{margin:0;font-size:19px}.desc{color:var(--dim);font-size:12.5px;margin:4px 0 15px}.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}.field input{width:100%;background:var(--surface2);border:1px solid var(--line);color:var(--text);padding:11px 12px;border-radius:10px;font-size:15px;outline:none}.field input:focus{border-color:var(--accent)}.field input::placeholder{color:var(--dim);opacity:.8}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.lang-tabs{grid-template-columns:1fr 1fr}.lang-field{margin-top:4px}.tab{border:1px solid var(--line);background:var(--surface2);color:var(--dim);padding:9px 4px;border-radius:10px;font-size:12px;text-align:center}.tab.active{background:var(--accent2);color:var(--text);border-color:var(--accent)}.info{padding:10px 11px;border-radius:11px;background:#0B1613;border:1px solid var(--line);font-size:12px;color:var(--dim);line-height:1.45}.info b{color:var(--text)}.actions{display:flex;gap:8px;margin-top:16px}.primary{flex:1;border:0;border-radius:12px;padding:13px;background:var(--accent);color:#0B1613;font-weight:800}.secondary{border:1px solid var(--line);border-radius:12px;padding:13px 16px;background:var(--surface2);color:var(--text)}.settings-about{border-top:1px solid var(--line);margin-top:15px;padding-top:13px;text-align:center;color:var(--dim);font-size:11.5px;line-height:1.5}.linkrow{display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:15px;padding-top:13px}.linkrow button{background:none;border:0;color:var(--dim);font-size:12px;text-decoration:underline}.linkrow .danger{color:var(--clay)}
+.compact-lang{display:flex;align-items:center;gap:5px;color:var(--dim);font-size:12px;font-weight:750;letter-spacing:.04em}.compact-lang button{border:0;background:transparent;color:var(--dim);padding:5px 3px;font-size:12px;font-weight:750}.compact-lang button.active{color:var(--accent)}.choice-grid{display:grid;gap:6px}.choice-grid.two{grid-template-columns:1fr 1fr}.choice-grid.four{grid-template-columns:repeat(4,1fr)}.choice{border:1px solid var(--line);background:var(--surface2);color:var(--dim);padding:10px 5px;border-radius:10px;font-size:12px;font-weight:650;text-align:center}.choice.active{background:var(--accent2);color:var(--text);border-color:var(--accent)}.setup-step .desc{margin-bottom:16px}.setup-step .actions{margin-top:16px}.setup-step .actions .secondary{flex:0 0 88px}.modal .choice{font-size:11.5px;padding:9px 3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="onboarding">
+    <header class="top">
+      <div class="brand"><span class="eyebrow" id="ob-first-run">Первый запуск</span><h1 id="ob-app-title">TrackLess</h1></div>
+      <div class="compact-lang" id="ob-language-tabs">
+        <button class="lang-choice active" data-lang="ru">RU</button><span>·</span><button class="lang-choice" data-lang="en">EN</button>
+      </div>
+    </header>
+
+    <section class="panel setup-step" id="ob-basic-step" style="margin-top:10px">
+      <h2 id="ob-basic-title">Базовые настройки</h2>
+      <div class="desc" id="ob-basic-desc">Выберите язык, валюту и тип трекера.</div>
+
+      <div class="field">
+        <label id="ob-language-label">Язык</label>
+        <div class="choice-grid two" id="ob-language-choice">
+          <button class="choice active" data-lang="ru">Русский</button>
+          <button class="choice" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="ob-currency-label">Валюта</label>
+        <div class="choice-grid four" id="ob-currency-choice">
+          <button class="choice active" data-currency="RUB">₽ RUB</button>
+          <button class="choice" data-currency="EUR">€ EUR</button>
+          <button class="choice" data-currency="USD">$ USD</button>
+          <button class="choice" data-currency="GBP">£ GBP</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="ob-kind-basic-label">Что отслеживать</label>
+        <div class="choice-grid two" id="ob-kind-choice">
+          <button class="choice active" data-kind="snus"><span>🟢</span> <span data-kind-text="snus">Снюс</span></button>
+          <button class="choice" data-kind="cigarette"><span>🚬</span> <span data-kind-text="cigarette">Сигареты</span></button>
+        </div>
+      </div>
+
+      <button class="primary" id="ob-basic-next" style="width:100%">Далее</button>
+    </section>
+
+    <section class="panel setup-step hidden" id="ob-tracker-step" style="margin-top:10px">
+      <h2 id="ob-settings-title">Настройка трекера</h2>
+      <div class="desc" id="ob-tracker-desc">Теперь задайте параметры и цель отслеживания.</div>
+
+      <div class="field"><label id="ob-baseline-label">Сколько использований снюса в день сейчас, в среднем?</label><input id="ob-baseline" type="number" inputmode="numeric" min="0" placeholder=""></div>
+      <div id="ob-snus-fields">
+        <div class="field"><label id="ob-price-label">Цена одной банки</label><input id="ob-price" type="number" inputmode="decimal" min="0" placeholder=""></div>
+        <div class="field"><label id="ob-per-pack-label">Пакетиков в одной банке</label><input id="ob-per-pack" type="number" inputmode="numeric" min="1" placeholder=""></div>
+        <div class="field"><label id="ob-reuse-label">Среднее число использований одного пакетика</label><input id="ob-reuse" type="number" inputmode="decimal" min="1" step="0.5" value="3"></div>
+        <div class="info" id="ob-reuse-info">Если один пакетик используется несколько раз, каждое нажатие «Записать» считается отдельным использованием.</div>
+      </div>
+      <div id="ob-cig-fields" class="hidden">
+        <div class="field"><label id="ob-cig-price-label">Цена одной пачки</label><input id="ob-cig-price" type="number" inputmode="decimal" min="0" placeholder=""></div>
+        <div class="field"><label id="ob-cig-pack-size-label">Сигарет в пачке</label><input id="ob-cig-pack-size" type="number" inputmode="numeric" min="1" value="20"></div>
+      </div>
+
+      <div class="field" style="margin-top:13px"><label id="ob-goal-label">Цель</label>
+        <div class="tabs" id="ob-mode-tabs"><button class="tab active" data-mode="reduce">Снижать</button><button class="tab" data-mode="limit">Лимит</button><button class="tab" data-mode="track">Считать</button></div>
+      </div>
+      <div class="field" id="ob-quitdate-field"><label id="ob-quitdate-label">К какой дате выйти на ноль?</label><input id="ob-quitdate" type="date"></div>
+      <div class="field hidden" id="ob-limit-field"><label id="ob-limit-label">Дневной лимит</label><input id="ob-limit" type="number" inputmode="numeric" min="0" placeholder=""></div>
+      <div class="actions"><button class="secondary" id="ob-back">Назад</button><button class="primary" id="ob-submit">Начать отслеживание</button></div>
+    </section>
+    <footer class="foot" id="ob-footer">Данные хранятся только на этом устройстве.<br>Без рекламы и аккаунта.</footer>
+  </div>
+
+  <div id="main" class="hidden">
+    <header class="top"><div class="brand"><span class="eyebrow" id="today-date">—</span><h1 id="app-title">TrackLess</h1></div><button class="icon-btn" id="settings-btn" aria-label="Настройки">⚙</button></header>
+    <div class="hero">
+      <span class="eyebrow" id="hero-eyebrow">С последнего использования прошло</span>
+      <div class="clock" id="since-clock">— : — : —</div>
+      <div class="sub" id="hero-sub">Записей пока нет</div>
+      <button class="log-btn" id="log-btn"><span style="font-size:20px">＋</span><span id="log-label">Записать использование</span></button>
+      <button class="undo hidden" id="undo-btn">Отменить последнюю запись</button>
+      <div class="level"><div class="level-icon" id="level-icon"></div><div class="level-info"><div class="label"><span id="level-label">Сегодня</span><b id="level-count">0 / 0</b></div><div class="bar"><div class="fill" id="level-bar"></div></div><div class="hint" id="level-hint">—</div></div></div>
+    </div>
+    <div class="stats"><div class="stat"><div class="v" id="stat-today">0</div><div class="l" id="stat-today-label">Сегодня</div></div><div class="stat"><div class="v" id="stat-avg">0</div><div class="l">Среднее за 7 дней</div></div><div class="stat"><div class="v" id="stat-streak">0</div><div class="l">Дней в пределах цели</div></div><div class="stat money"><div class="v" id="stat-saved">0 ₽</div><div class="l">Сэкономлено</div></div></div>
+    <section class="panel"><h2 id="chart-title">Последние 14 дней</h2><canvas id="chart"></canvas></section>
+    <section class="panel"><h2 id="history-title">Сегодняшние записи</h2><div id="history-list"></div></section>
+  </div>
+</div>
+
+<div class="modal-backdrop hidden" id="settings-modal"><div class="modal">
+  <h2 id="settings-title">Настройки</h2><div class="desc" id="settings-desc">Параметры выбранного трекера.</div><div class="field lang-field"><label id="language-label">Язык</label><div class="choice-grid two" id="language-tabs"><button class="choice active" data-lang="ru">Русский</button><button class="choice" data-lang="en">English</button></div></div>
+  <div class="field"><label id="currency-label">Валюта</label><div class="choice-grid four" id="currency-tabs"><button class="choice active" data-currency="RUB">₽ RUB</button><button class="choice" data-currency="EUR">€ EUR</button><button class="choice" data-currency="USD">$ USD</button><button class="choice" data-currency="GBP">£ GBP</button></div></div>
+  <div class="kind-menu" id="settings-kind-menu" style="margin-bottom:14px"><button class="kind-trigger" id="settings-kind-trigger"><span class="kind-meta"><span id="settings-kind-emoji">🟢</span><span id="settings-kind-label">Снюс</span></span><span class="chev">⌄</span></button><div class="kind-popup hidden" id="settings-kind-popup"><button class="kind-option active" data-kind="snus"><span>🟢</span>Снюс</button><button class="kind-option" data-kind="cigarette"><span>🚬</span>Сигареты</button></div></div>
+  <div id="s-snus-fields">
+    <div class="field"><label id="s-baseline-label">Использований в день сейчас</label><input id="s-baseline" type="number" inputmode="numeric" min="0"></div>
+    <div class="field"><label id="s-price-label">Цена банки, ₽</label><input id="s-price" type="number" inputmode="decimal" min="0"></div>
+    <div class="field"><label id="s-per-pack-label">Пакетиков в банке</label><input id="s-per-pack" type="number" inputmode="numeric" min="1"></div>
+    <div class="field"><label id="s-reuse-label">Среднее использований одного пакетика</label><input id="s-reuse" type="number" inputmode="decimal" min="1" step="0.5"></div>
+    <div class="info" id="s-snus-info">Стоимость одного использования = цена банки ÷ (пакетики в банке × использования одного пакетика).</div>
+  </div>
+  <div id="s-cig-fields" class="hidden">
+    <div class="field"><label id="s-cig-baseline-label">Сигарет в день сейчас</label><input id="s-cig-baseline" type="number" inputmode="numeric" min="0"></div>
+    <div class="field"><label id="s-cig-price-label">Цена пачки, ₽</label><input id="s-cig-price" type="number" inputmode="decimal" min="0"></div>
+    <div class="field"><label id="s-cig-pack-size-label">Сигарет в пачке</label><input id="s-cig-pack-size" type="number" inputmode="numeric" min="1"></div>
+    <div class="info" id="s-cig-info">Стоимость одной сигареты = цена пачки ÷ количество сигарет в пачке.</div>
+  </div>
+  <div class="field" style="margin-top:13px"><label id="ob-goal-label">Цель</label><div class="tabs" id="s-mode-tabs"><button class="tab" data-mode="reduce">Снижать</button><button class="tab" data-mode="limit">Лимит</button><button class="tab" data-mode="track">Считать</button></div></div>
+  <div class="field" id="s-quitdate-field"><label id="s-quitdate-label">Дата выхода на ноль</label><input id="s-quitdate" type="date"></div>
+  <div class="field hidden" id="s-limit-field"><label id="s-limit-label">Дневной лимит</label><input id="s-limit" type="number" inputmode="numeric" min="0"></div>
+  <div class="actions"><button class="primary" id="s-save">Сохранить</button><button class="secondary" id="s-close">Закрыть</button></div>
+  <div class="linkrow"><button id="s-export">Экспорт данных</button><button id="s-import-trigger">Импорт данных</button></div>
+  <div class="linkrow"><button class="danger" id="s-reset">Сбросить всё</button></div>
+  <div class="settings-about" id="settings-about">Приложение создано poorangryman с помощью ИИ.<br>Данные пользователя хранятся локально на устройстве.</div>
+  <input type="file" id="importFile" accept="application/json" style="display:none">
+</div></div>
+
+<script>
+(function(){'use strict';
+const KEY='otvykaniye-tracker-v4',DAY=86400000;
+const CURRENCIES={RUB:'₽',EUR:'€',USD:'$',GBP:'£'};
+const $=id=>document.getElementById(id);
+function iso(d=new Date()){const o=d.getTimezoneOffset()*60000;return new Date(d-o).toISOString().slice(0,10)}
+function dateOf(s){return new Date(s+'T00:00:00')}
+function diffDays(a,b){return Math.round((dateOf(b)-dateOf(a))/DAY)}
+function profile(kind){return state.profiles[kind]}
+function makeProfile(kind){return kind==='snus'?{baseline:10,price:200,perPack:20,reuse:3,mode:'reduce',quitDate:null,dailyLimit:6,startDate:iso(),entries:[]}:{baseline:10,price:220,packSize:20,mode:'reduce',quitDate:null,dailyLimit:6,startDate:iso(),entries:[]}}
+function defaultState(){return{onboarded:false,setupStep:1,activeKind:'snus',language:((navigator.language||'').toLowerCase().startsWith('en')?'en':'ru'),currency:((navigator.language||'').toLowerCase().includes('gb')?'GBP':((navigator.language||'').toLowerCase().includes('us')?'USD':((navigator.language||'').toLowerCase().includes('de')||((navigator.language||'').toLowerCase().includes('fr'))?'EUR':'RUB'))),profiles:{snus:makeProfile('snus'),cigarette:makeProfile('cigarette')}}}
+function migrate(raw){
+  const s=defaultState(); if(!raw)return s;
+  if(raw.profiles&&raw.profiles.snus&&raw.profiles.cigarette){return Object.assign(s,raw,{language:raw.language==='en'?'en':'ru',currency:CURRENCIES[raw.currency]?raw.currency:'RUB',setupStep:raw.onboarded?2:1,profiles:Object.assign(s.profiles,raw.profiles)})}
+  // Migration from the original single-mode tracker.
+  const old=Object.assign({},s.profiles.snus,raw); delete old.onboarded; delete old.activeKind; delete old.profiles;
+  if(old.perTin!=null){old.perPack=old.perTin;delete old.perTin}
+  old.reuse=Number(old.reuse)||1; s.profiles.snus=old; s.onboarded=!!raw.onboarded; return s;
+}
+function nativeState(){try{if(window.AndroidBridge){const raw=window.AndroidBridge.getStateJson();if(raw)return migrate(JSON.parse(raw))}}catch(e){}return null}
+function load(){try{const native=nativeState();if(native)return native;return migrate(JSON.parse(localStorage.getItem(KEY)||'null'))}catch(e){return defaultState()}}
+let state=load();
+function save(){const raw=JSON.stringify(state);localStorage.setItem(KEY,raw);try{if(window.AndroidBridge)window.AndroidBridge.saveStateJson(raw)}catch(e){}}
+window.__saveToAndroid=()=>save();
+window.__syncFromAndroid=()=>{try{if(!window.AndroidBridge)return;const raw=window.AndroidBridge.getStateJson();if(!raw)return;state=migrate(JSON.parse(raw));localStorage.setItem(KEY,JSON.stringify(state));boot()}catch(e){}}
+function p(){return profile(state.activeKind)}
+function entriesDay(day){return p().entries.filter(e=>iso(new Date(e.ts))===day)}
+function countDay(day){return entriesDay(day).length}
+function target(day){const x=p();if(x.mode==='track')return null;if(x.mode==='limit')return Number(x.dailyLimit)||0;if(!x.quitDate)return Number(x.baseline)||0;const total=Math.max(1,diffDays(x.startDate,x.quitDate)),idx=Math.min(total,Math.max(0,diffDays(x.startDate,day)));return Math.max(0,Math.round((Number(x.baseline)||0)*(1-idx/total)))}
+function avg7(){let sum=0,n=0,t=iso();for(let i=1;i<=7;i++){const d=iso(new Date(dateOf(t).getTime()-i*DAY));if(diffDays(p().startDate,d)<0)continue;sum+=countDay(d);n++}return n?sum/n:0}
+function streak(){let n=0,d=iso(new Date(Date.now()-DAY));while(diffDays(p().startDate,d)>=0){const t=target(d);if(t!==null&&countDay(d)>t)break;n++;d=iso(new Date(dateOf(d).getTime()-DAY))}return n}
+function unitCost(){const x=p();return state.activeKind==='snus'?(Number(x.price)||0)/(Math.max(1,Number(x.perPack)||1)*Math.max(1,Number(x.reuse)||1)):(Number(x.price)||0)/Math.max(1,Number(x.packSize)||1)}
+function money(value){return (Number(value)||0).toLocaleString(state.language==='en'?'en-US':'ru-RU',{maximumFractionDigits:2})+' '+(CURRENCIES[state.currency]||'₽')}
+function saved(){let sum=0,t=iso(),d=p().startDate,cost=unitCost();while(diffDays(d,t)>=0){sum+=Math.max(0,(Number(p().baseline)||0)-countDay(d))*cost;d=iso(new Date(dateOf(d).getTime()+DAY))}return Math.round(sum)}
+function fmt(ms){const s=Math.max(0,Math.floor(ms/1000)),h=String(Math.floor(s/3600)).padStart(2,'0'),m=String(Math.floor(s%3600/60)).padStart(2,'0'),q=String(s%60).padStart(2,'0');return h+':'+m+':'+q}
+function kindName(kind){return kind==='snus'?tr('snus'):tr('cigarettes')}
+function setKind(kind){state.activeKind=kind;save();updateKindMenus();renderAll();closeKindPopups()}
+function setTabs(container,mode){document.querySelectorAll('#'+container+' .tab').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode))}
+function updateModeFields(prefix){const mode=document.querySelector('#'+prefix+'-mode-tabs .tab.active')?.dataset.mode||'reduce';$(prefix+'-quitdate-field')?.classList.toggle('hidden',mode!=='reduce');$(prefix+'-limit-field')?.classList.toggle('hidden',mode!=='limit')}
+function updateKindMenus(){const k=state.activeKind,emoji=k==='snus'?'🟢':'🚬',name=kindName(k);['ob','settings'].forEach(prefix=>{const el=$(prefix+'-kind-label'),em=$(prefix+'-kind-emoji');if(el)el.textContent=name;if(em)em.textContent=emoji});document.querySelectorAll('.kind-option').forEach(b=>b.classList.toggle('active',b.dataset.kind===k));}
+function closeKindPopups(){document.querySelectorAll('.kind-popup').forEach(x=>x.classList.add('hidden'))}
+function toggleKindPopup(id){const el=$(id);if(!el)return;const was=el.classList.contains('hidden');closeKindPopups();if(was)el.classList.remove('hidden')}
+function setSettingsKind(kind){settingsKind=kind;document.querySelectorAll('#settings-kind-menu .kind-option').forEach(b=>b.classList.toggle('active',b.dataset.kind===kind));$('s-snus-fields').classList.toggle('hidden',kind!=='snus');$('s-cig-fields').classList.toggle('hidden',kind!=='cigarette');$('settings-kind-label').textContent=kindName(kind);$('settings-kind-emoji').textContent=kind==='snus'?'🟢':'🚬';$('settings-desc').textContent=kind==='snus'?tr('settingsDescSnus'):tr('settingsDescCig')}
+let settingsKind='snus';
+function renderTop(){const d=new Date(),f=d.toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});$('today-date').textContent=f.charAt(0).toUpperCase()+f.slice(1);$('app-title').textContent=tr('title')}
+function iconSVG(){return state.activeKind==='snus'?'<svg viewBox="0 0 46 54" width="44" height="48"><rect x="6" y="10" width="34" height="40" rx="8" fill="#0B1613" stroke="#274139"/><rect x="9" y="32" width="28" height="15" rx="5" fill="#6FBF9A"/><rect x="12" y="5" width="22" height="9" rx="4" fill="#1C3830" stroke="#274139"/></svg>':'<div style="font-size:36px;line-height:48px;text-align:center">🚬</div>'}
+function renderHero(){const x=p(),last=x.entries.length?x.entries[x.entries.length-1]:null;const unit=state.activeKind==='snus'?'использования':'сигареты';$('hero-eyebrow').textContent='С последнего '+(state.activeKind==='snus'?'использования':'курения')+' прошло';$('log-label').textContent=state.activeKind==='snus'?'Записать использование':'Записать сигарету';$('level-icon').innerHTML=iconSVG();if(last){$('hero-sub').textContent='Последняя запись: '+new Date(last.ts).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});$('undo-btn').classList.remove('hidden')}else{$('hero-sub').textContent='Записей пока нет';$('undo-btn').classList.add('hidden')}const today=countDay(iso()),t=target(iso()),cap=Math.max(1,t===null?Math.max(today,x.baseline):Math.max(today,t));const ratio=Math.min(1,today/cap);$('level-count').textContent=t===null?today+' (без цели)':today+' / '+t;$('level-bar').style.width=(ratio*100)+'%';$('level-bar').classList.toggle('over',t!==null&&today>t);if(state.activeKind==='snus'){const eq=today/Math.max(1,x.reuse);$('level-label').textContent='Сегодня';$('level-hint').textContent='≈ '+eq.toFixed(1)+' пакетика использовано · 1 пакетик ≈ '+x.reuse+' использований'}else{$('level-label').textContent='Сегодня';$('level-hint').textContent='≈ '+(today/Math.max(1,x.packSize)).toFixed(2)+' пачки'}$('stat-today-label').textContent=state.activeKind==='snus'?'Использований сегодня':'Сигарет сегодня'}
+function tick(){const last=p().entries.length?p().entries[p().entries.length-1]:null;$('since-clock').textContent=last?fmt(Date.now()-last.ts):'— : — : —'}
+function renderStats(){$('stat-today').textContent=countDay(iso());$('stat-avg').textContent=avg7().toFixed(1);$('stat-streak').textContent=streak();$('stat-saved').textContent=money(saved());document.querySelectorAll('.stat .l')[1].textContent=tr('avg7');document.querySelectorAll('.stat .l')[2].textContent=tr('goalDays');document.querySelectorAll('.stat .l')[3].textContent=tr('saved')}
+function renderHistory(){const list=entriesDay(iso()).slice().reverse(),el=$('history-list');el.innerHTML='';if(!list.length){el.innerHTML='<div class="empty">Записей за сегодня пока нет.</div>';return}list.forEach(e=>{const row=document.createElement('div');row.className='entry';row.innerHTML='<span class="time">'+new Date(e.ts).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})+'</span><button aria-label="Удалить">✕</button>';row.querySelector('button').onclick=()=>{p().entries=p().entries.filter(v=>v.id!==e.id);save();renderAll()};el.appendChild(row)})}
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function renderChart(){const c=$('chart'),dpr=devicePixelRatio||1,w=c.clientWidth||300,h=125;c.width=w*dpr;c.height=h*dpr;const ctx=c.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,w,h);const days=[];for(let i=13;i>=0;i--){const d=iso(new Date(Date.now()-i*DAY));days.push({d,n:countDay(d),t:target(d)})}const max=Math.max(1,p().baseline,...days.map(x=>x.n)),bw=w/days.length,ch=h-18;ctx.strokeStyle='#8FA69B';ctx.setLineDash([3,3]);ctx.lineWidth=1.2;ctx.beginPath();days.forEach((x,i)=>{if(x.t===null)return;const xx=i*bw+bw/2,yy=5+ch-(x.t/max)*ch;if(i===0||days[i-1].t===null)ctx.moveTo(xx,yy);else ctx.lineTo(xx,yy)});ctx.stroke();ctx.setLineDash([]);days.forEach((x,i)=>{const bh=(x.n/max)*ch,xx=i*bw+bw*.25,yy=5+ch-bh;ctx.fillStyle=x.t!==null&&x.n>x.t?'#D98C6B':'#6FBF9A';ctx.globalAlpha=x.d===iso()?1:.78;roundRect(ctx,xx,yy,bw*.5,Math.max(2,bh),3);ctx.fill();ctx.globalAlpha=1})}
+function renderAll(){renderTop();renderHero();tick();renderStats();renderHistory();renderChart()}
+function openSettings(){const s=p();$('s-baseline').value=state.activeKind==='snus'?s.baseline:'';$('s-price').value=state.activeKind==='snus'?s.price:'';$('s-per-pack').value=state.activeKind==='snus'?s.perPack:'';$('s-reuse').value=state.activeKind==='snus'?s.reuse:'';$('s-cig-baseline').value=state.activeKind==='cigarette'?s.baseline:'';$('s-cig-price').value=state.activeKind==='cigarette'?s.price:'';$('s-cig-pack-size').value=state.activeKind==='cigarette'?s.packSize:'';$('s-quitdate').value=s.quitDate||'';$('s-limit').value=s.dailyLimit;setSettingsKind(state.activeKind);setTabs('s-mode-tabs',s.mode);updateModeFields('s');$('settings-modal').classList.remove('hidden')}
+
+function applyOnboardingKind(kind){
+  state.activeKind=kind;
+  const snus=kind==='snus';
+  $('ob-snus-fields').classList.toggle('hidden',!snus);
+  $('ob-cig-fields').classList.toggle('hidden',snus);
+  $('ob-baseline-label').textContent=snus?tr('baselineSnus'):tr('baselineCig');
+  updateChoiceState();
+}
+function showOnboardingStep(step){
+  state.setupStep=step;
+  $('ob-basic-step').classList.toggle('hidden',step!==1);
+  $('ob-tracker-step').classList.toggle('hidden',step!==2);
+  if(step===2){applyOnboardingKind(state.activeKind);setTabs('ob-mode-tabs','reduce');updateModeFields('ob')}
+}
+document.querySelectorAll('#ob-kind-choice .choice').forEach(b=>b.addEventListener('click',()=>applyOnboardingKind(b.dataset.kind)));
+$('ob-basic-next').onclick=()=>{showOnboardingStep(2);save()};
+$('ob-back').onclick=()=>{showOnboardingStep(1);save()};
+$('settings-kind-trigger').onclick=()=>toggleKindPopup('settings-kind-popup');
+document.querySelectorAll('#settings-kind-popup .kind-option').forEach(b=>b.onclick=()=>{
+  setSettingsKind(b.dataset.kind);
+  closeKindPopups();
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.kind-menu'))closeKindPopups()});
+document.querySelectorAll('#ob-mode-tabs .tab').forEach(b=>b.onclick=()=>{setTabs('ob-mode-tabs',b.dataset.mode);updateModeFields('ob')});
+document.querySelectorAll('#s-mode-tabs .tab').forEach(b=>b.onclick=()=>{setTabs('s-mode-tabs',b.dataset.mode);updateModeFields('s')});
+$('log-btn').onclick=()=>{p().entries.push({id:Date.now()+'-'+Math.random().toString(36).slice(2,7),ts:Date.now()});save();renderAll();if(navigator.vibrate)navigator.vibrate(12)};
+$('undo-btn').onclick=()=>{p().entries.pop();save();renderAll()};
+$('settings-btn').onclick=openSettings;
+$('s-close').onclick=()=>$('settings-modal').classList.add('hidden');
+$('settings-modal').onclick=e=>{if(e.target.id==='settings-modal')$('settings-modal').classList.add('hidden')};
+$('s-save').onclick=()=>{
+  const kind=settingsKind,x=profile(kind);
+  if(kind==='snus'){x.baseline=Number($('s-baseline').value)||0;x.price=Number($('s-price').value)||0;x.perPack=Math.max(1,Number($('s-per-pack').value)||1);x.reuse=Math.max(1,Number($('s-reuse').value)||1)}
+  else{x.baseline=Number($('s-cig-baseline').value)||0;x.price=Number($('s-cig-price').value)||0;x.packSize=Math.max(1,Number($('s-cig-pack-size').value)||1)}
+  x.mode=document.querySelector('#s-mode-tabs .tab.active').dataset.mode;x.quitDate=$('s-quitdate').value||null;x.dailyLimit=Number($('s-limit').value)||0;
+  state.activeKind=kind;save();$('settings-modal').classList.add('hidden');updateKindMenus();renderAll()
+};
+$('s-export').onclick=()=>{const json=JSON.stringify(state,null,2); if(window.AndroidBridge&&AndroidBridge.exportState){AndroidBridge.exportState(json)} else {const blob=new Blob([json],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='trackless-backup-'+iso()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),500)}};
+$('s-import-trigger').onclick=()=>{if(window.AndroidBridge&&AndroidBridge.importState){AndroidBridge.importState()}else{$('importFile').click()}};
+$('importFile').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state=migrate(JSON.parse(r.result));save();$('settings-modal').classList.add('hidden');boot()}catch(err){alert(tr('backupError'))}};r.readAsText(f)};
+window.__importFromAndroid=function(json){try{state=migrate(JSON.parse(json));save();$('settings-modal').classList.add('hidden');boot()}catch(err){alert(tr('backupError'))}};
+$('s-reset').onclick=()=>{if(confirm(tr('resetConfirm'))){localStorage.removeItem(KEY);state=defaultState();$('settings-modal').classList.add('hidden');boot()}};
+$('ob-submit').onclick=()=>{
+  const kind=state.activeKind,x=profile(kind);
+  x.baseline=Math.max(0,Number($('ob-baseline').value)||0);
+  x.mode=document.querySelector('#ob-mode-tabs .tab.active').dataset.mode;
+  x.quitDate=$('ob-quitdate').value||null;
+  x.dailyLimit=Number($('ob-limit').value)||Math.max(0,Math.round(x.baseline*.7));
+  x.startDate=iso();
+  if(kind==='snus'){x.price=Number($('ob-price').value)||0;x.perPack=Math.max(1,Number($('ob-per-pack').value)||1);x.reuse=Math.max(1,Number($('ob-reuse').value)||1)}
+  else{x.price=Number($('ob-cig-price').value)||0;x.packSize=Math.max(1,Number($('ob-cig-pack-size').value)||1)}
+  state.onboarded=true;state.setupStep=2;save();boot();
+};
+function boot(){
+  applyLanguage();
+  if(state.onboarded){
+    $('onboarding').classList.add('hidden');$('main').classList.remove('hidden');updateKindMenus();renderAll()
+  }else{
+    $('onboarding').classList.remove('hidden');$('main').classList.add('hidden');showOnboardingStep(state.setupStep||1);updateKindMenus()
+  }
+}
+const I18N={
+ru:{
+title:'TrackLess',firstRun:'Первый запуск',basicTitle:'Базовые настройки',basicDesc:'Выберите язык, валюту и тип трекера.',trackerDesc:'Теперь задайте параметры и цель отслеживания.',next:'Далее',back:'Назад',
+settings:'Настройка трекера',today:'Сегодня',settingsTitle:'Настройки',settingsDescSnus:'Настройки снюса, включая повторное использование пакетика.',settingsDescCig:'Настройки сигарет и стоимости пачки.',language:'Язык',currency:'Валюта',ru:'Русский',en:'English',
+snus:'Снюс',cigarettes:'Сигареты',kindBasic:'Что отслеживать',goal:'Цель',reduce:'Снижать',limit:'Лимит',track:'Считать',quitDate:'К какой дате выйти на ноль?',dailyLimit:'Дневной лимит',start:'Начать отслеживание',
+last14:'Последние 14 дней',todayEntries:'Сегодняшние записи',save:'Сохранить',close:'Закрыть',export:'Экспорт данных',import:'Импорт данных',reset:'Сбросить всё',last:'Последняя',recordUse:'Записать использование',recordCig:'Записать сигарету',undo:'Отменить последнюю запись',
+avg7:'Среднее за 7 дней',goalDays:'Дней в пределах цели',saved:'Сэкономлено',historyEmpty:'Записей за сегодня пока нет.',delete:'Удалить',local:'Данные хранятся только на этом устройстве.',private:'Без рекламы и аккаунта.',snusHint:(eq,reuse)=>'≈ '+eq.toFixed(1)+' пакетика использовано · 1 пакетик ≈ '+reuse+' использований',cigHint:(packs)=>'≈ '+packs.toFixed(2)+' пачки',localMain:'Данные хранятся локально на устройстве.',privateMain:'Без рекламы и трекеров.',noRecords:'Записей пока нет',noGoal:'без цели',todayUse:'Использований сегодня',todayCig:'Сигарет сегодня',
+baselineSnus:'Использований в день сейчас',priceTin:'Цена банки',perTin:'Пакетиков в банке',reuse:'Среднее использований одного пакетика',baselineCig:'Сигарет в день сейчас',pricePack:'Цена пачки',perPack:'Сигарет в пачке',
+reuseInfo:'Стоимость одного использования = цена банки ÷ (пакетики в банке × использования одного пакетика).',snusInfo:'Если один пакетик используется несколько раз, каждое нажатие «Записать» считается отдельным использованием.',cigInfo:'Стоимость одной сигареты = цена пачки ÷ количество сигарет в пачке.',
+placeholderBaseline:'например, 12',placeholderTinPrice:'например, 200',placeholderPouches:'например, 20',placeholderPackPrice:'например, 220',placeholderLimit:'например, 6',heroSinceSnus:'С последнего использования прошло',heroSinceCig:'С последнего курения прошло',backupError:'Не удалось прочитать файл.',resetConfirm:'Удалить все данные и начать заново?',settingsAbout:'Приложение создано poorangryman с помощью ИИ.<br>Данные пользователя хранятся локально на устройстве.'
+},
+en:{
+title:'TrackLess',firstRun:'First setup',basicTitle:'Basic settings',basicDesc:'Choose your language, currency and tracker type.',trackerDesc:'Now set your tracking parameters and goal.',next:'Next',back:'Back',
+settings:'Tracker setup',today:'Today',settingsTitle:'Settings',settingsDescSnus:'Snus settings, including pouch reuse.',settingsDescCig:'Cigarette settings and pack price.',language:'Language',currency:'Currency',ru:'Русский',en:'English',
+snus:'Snus',cigarettes:'Cigarettes',kindBasic:'What to track',goal:'Goal',reduce:'Reduce',limit:'Limit',track:'Count',quitDate:'Target quit date',dailyLimit:'Daily limit',start:'Start tracking',
+last14:'Last 14 days',todayEntries:"Today's entries",save:'Save',close:'Close',export:'Export data',import:'Import data',reset:'Reset everything',last:'Last',recordUse:'Log use',recordCig:'Log cigarette',undo:'Undo last entry',
+avg7:'7-day average',goalDays:'Days within goal',saved:'Saved',historyEmpty:"No entries for today yet.",delete:'Delete',local:'Data is stored only on this device.',private:'No ads or account.',snusHint:(eq,reuse)=>'≈ '+eq.toFixed(1)+' pouches used · 1 pouch ≈ '+reuse+' uses',cigHint:(packs)=>'≈ '+packs.toFixed(2)+' packs',localMain:'Data stays locally on the device.',privateMain:'No ads or trackers.',noRecords:'No entries yet',noGoal:'no goal',todayUse:'Uses today',todayCig:'Cigarettes today',
+baselineSnus:'Current uses per day',priceTin:'Can price',perTin:'Pouches per can',reuse:'Average uses per pouch',baselineCig:'Current cigarettes per day',pricePack:'Pack price',perPack:'Cigarettes per pack',
+reuseInfo:'Cost per use = can price ÷ (pouches per can × uses per pouch).',snusInfo:'If one pouch is reused several times, each tap on Log counts as one separate use.',cigInfo:'Cost per cigarette = pack price ÷ cigarettes per pack.',
+placeholderBaseline:'e.g. 12',placeholderTinPrice:'e.g. 200',placeholderPouches:'e.g. 20',placeholderPackPrice:'e.g. 220',placeholderLimit:'e.g. 6',heroSinceSnus:'Time since last use',heroSinceCig:'Time since last cigarette',backupError:'Could not read the backup file.',resetConfirm:'Delete all data and start over?',settingsAbout:'Created by poorangryman with the help of AI.<br>User data is stored locally on the device.'
+}};
+function tr(k,...args){const lang=state.language==='en'?'en':'ru';const v=I18N[lang][k];return typeof v==='function'?v(...args):(v??k)}
+function setLanguage(lang){state.language=lang==='en'?'en':'ru';save();applyLanguage();renderAll()}
+function updateChoiceState(){
+  document.querySelectorAll('[data-lang]').forEach(b=>b.classList.toggle('active',b.dataset.lang===state.language));
+  document.querySelectorAll('[data-currency]').forEach(b=>b.classList.toggle('active',b.dataset.currency===state.currency));
+  document.querySelectorAll('[data-kind]').forEach(b=>b.classList.toggle('active',b.dataset.kind===state.activeKind));
+}
+function applyLanguage(){
+ const en=state.language==='en'; document.documentElement.lang=en?'en':'ru'; document.title=en?'TrackLess — tracker':'TrackLess — трекер';
+ $('ob-first-run').textContent=tr('firstRun'); $('ob-app-title').textContent=tr('title');
+ $('ob-basic-title').textContent=tr('basicTitle'); $('ob-basic-desc').textContent=tr('basicDesc'); $('ob-basic-next').textContent=tr('next');
+ $('ob-settings-title').textContent=tr('settings'); $('ob-tracker-desc').textContent=tr('trackerDesc'); $('ob-goal-label').textContent=tr('goal'); $('ob-quitdate-label').textContent=tr('quitDate'); $('ob-limit-label').textContent=tr('dailyLimit'); $('ob-submit').textContent=tr('start'); $('ob-back').textContent=tr('back');
+ $('ob-language-label').textContent=tr('language'); $('ob-currency-label').textContent=tr('currency'); $('ob-kind-basic-label').textContent=tr('kindBasic');
+ $('chart-title').textContent=tr('last14'); $('history-title').textContent=tr('todayEntries'); $('settings-title').textContent=tr('settingsTitle'); $('language-label').textContent=tr('language'); $('currency-label').textContent=tr('currency');
+ $('s-baseline-label').textContent=tr('baselineSnus'); $('s-price-label').textContent=tr('priceTin'); $('s-per-pack-label').textContent=tr('perTin'); $('s-reuse-label').textContent=tr('reuse'); $('s-cig-baseline-label').textContent=tr('baselineCig'); $('s-cig-price-label').textContent=tr('pricePack'); $('s-cig-pack-size-label').textContent=tr('perPack');
+ $('ob-price-label').textContent=tr('priceTin'); $('ob-limit-label').textContent=tr('dailyLimit'); $('s-limit-label').textContent=tr('dailyLimit'); $('ob-per-pack-label').textContent=tr('perTin'); $('ob-reuse-label').textContent=tr('reuse'); $('ob-cig-price-label').textContent=tr('pricePack'); $('ob-cig-pack-size-label').textContent=tr('perPack');
+ $('s-snus-info').textContent=tr('reuseInfo'); $('ob-reuse-info').textContent=tr('snusInfo'); $('s-cig-info').textContent=tr('cigInfo'); $('settings-desc').textContent=state.activeKind==='snus'?tr('settingsDescSnus'):tr('settingsDescCig');
+ $('s-save').textContent=tr('save'); $('s-close').textContent=tr('close'); $('s-export').textContent=tr('export'); $('s-import-trigger').textContent=tr('import'); $('s-reset').textContent=tr('reset'); $('settings-btn').setAttribute('aria-label',tr('settingsTitle')); $('settings-about').innerHTML=tr('settingsAbout');
+ document.querySelectorAll('#ob-mode-tabs .tab,#s-mode-tabs .tab').forEach(b=>{b.textContent=tr(b.dataset.mode)});
+ document.querySelectorAll('[data-kind-text]').forEach(b=>{b.textContent=b.dataset.kind==='snus'?tr('snus'):tr('cigarettes')});
+ document.querySelectorAll('#settings-kind-popup .kind-option').forEach(b=>{const k=b.dataset.kind; if(b.lastChild.nodeType===3)b.lastChild.textContent=k==='snus'?tr('snus'):tr('cigarettes')});
+ document.querySelectorAll('#ob-language-choice .choice,#language-tabs .choice').forEach(b=>{b.textContent=b.dataset.lang==='ru'?tr('ru'):tr('en')});
+ const foots=document.querySelectorAll('.foot'); if(foots[0])foots[0].innerHTML=tr('local')+'<br>'+tr('private'); if(foots[1])foots[1].innerHTML=tr('localMain')+'<br>'+tr('privateMain');
+ $('app-title').textContent=tr('title');
+ $('ob-baseline').placeholder=tr('placeholderBaseline');
+ $('ob-price').placeholder=tr('placeholderTinPrice');
+ $('ob-per-pack').placeholder=tr('placeholderPouches');
+ $('ob-cig-price').placeholder=tr('placeholderPackPrice');
+ $('ob-limit').placeholder=tr('placeholderLimit');
+ $('s-price-label').textContent=tr('priceTin')+' · '+(CURRENCIES[state.currency]||'₽');
+ $('s-cig-price-label').textContent=tr('pricePack')+' · '+(CURRENCIES[state.currency]||'₽');
+ $('ob-price-label').textContent=tr('priceTin')+' · '+(CURRENCIES[state.currency]||'₽');
+ $('ob-cig-price-label').textContent=tr('pricePack')+' · '+(CURRENCIES[state.currency]||'₽');
+ updateChoiceState(); applyOnboardingKind(state.activeKind);
+}
+function setLanguage(lang){state.language=lang==='en'?'en':'ru';save();applyLanguage();renderAll()}
+function setCurrency(currency){if(!CURRENCIES[currency])return;state.currency=currency;save();applyLanguage();renderAll()}
+document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>setLanguage(b.dataset.lang)));
+document.querySelectorAll('[data-currency]').forEach(b=>b.addEventListener('click',()=>setCurrency(b.dataset.currency)));
+const _oldRenderTop=renderTop; renderTop=function(){const d=new Date(),loc=state.language==='en'?'en-US':'ru-RU',f=d.toLocaleDateString(loc,{weekday:'long',day:'numeric',month:'long'});$('today-date').textContent=f.charAt(0).toUpperCase()+f.slice(1);$('app-title').textContent=tr('title')};
+const _oldRenderHero=renderHero; renderHero=function(){const x=p(),last=x.entries.length?x.entries[x.entries.length-1]:null;$('hero-eyebrow').textContent=state.activeKind==='snus'?tr('heroSinceSnus'):tr('heroSinceCig');$('log-label').textContent=state.activeKind==='snus'?tr('recordUse'):tr('recordCig');$('level-icon').innerHTML=iconSVG();if(last){$('hero-sub').textContent=tr('last')+': '+new Date(last.ts).toLocaleTimeString(state.language==='en'?'en-US':'ru-RU',{hour:'2-digit',minute:'2-digit'});$('undo-btn').textContent=tr('undo');$('undo-btn').classList.remove('hidden')}else{$('hero-sub').textContent=tr('noRecords');$('undo-btn').classList.add('hidden')}const today=countDay(iso()),t=target(iso()),cap=Math.max(1,t===null?Math.max(today,x.baseline):Math.max(today,t));const ratio=Math.min(1,today/cap);$('level-count').textContent=t===null?today+' ('+tr('noGoal')+')':today+' / '+t;$('level-bar').style.width=(ratio*100)+'%';$('level-bar').classList.toggle('over',t!==null&&today>t);$('level-label').textContent=tr('today');if(state.activeKind==='snus'){const eq=today/Math.max(1,x.reuse);$('level-hint').textContent=tr('snusHint',eq,x.reuse)}else{$('level-hint').textContent=tr('cigHint',today/Math.max(1,x.packSize))}$('stat-today-label').textContent=state.activeKind==='snus'?tr('todayUse'):tr('todayCig')};
+const _oldRenderStats=renderStats; renderStats=function(){$('stat-today').textContent=countDay(iso());$('stat-avg').textContent=avg7().toFixed(1);$('stat-streak').textContent=streak();$('stat-saved').textContent=money(saved());document.querySelectorAll('.stat .l')[1].textContent=tr('avg7');document.querySelectorAll('.stat .l')[2].textContent=tr('goalDays');document.querySelectorAll('.stat .l')[3].textContent=tr('saved')};
+const _oldRenderHistory=renderHistory; renderHistory=function(){const list=entriesDay(iso()).slice().reverse(),el=$('history-list');el.innerHTML='';if(!list.length){el.innerHTML='<div class="empty">'+tr('historyEmpty')+'</div>';return}list.forEach(e=>{const row=document.createElement('div');row.className='entry';row.innerHTML='<span class="time">'+new Date(e.ts).toLocaleTimeString(state.language==='en'?'en-US':'ru-RU',{hour:'2-digit',minute:'2-digit'})+'</span><button aria-label="'+tr('delete')+'">✕</button>';row.querySelector('button').onclick=()=>{p().entries=p().entries.filter(v=>v.id!==e.id);save();renderAll()};el.appendChild(row)})};
+const _oldSetSettingsKind=setSettingsKind; setSettingsKind=function(kind){_oldSetSettingsKind(kind);$('settings-desc').textContent=kind==='snus'?tr('settingsDescSnus'):tr('settingsDescCig');};
+applyLanguage();
+setInterval(tick,1000);window.addEventListener('resize',renderChart);updateKindMenus();boot();
+})();
+</script>
+</body></html>

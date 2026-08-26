@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="7dp"
+    android:background="@drawable/widget_bg">
+
+    <Chronometer
+        android:id="@+id/widget_timer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="25dp"
+        android:gravity="center_vertical|start"
+        android:includeFontPadding="false"
+        android:textColor="#6FBF9A"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:format="%s" />
+
+    <TextView
+        android:id="@+id/widget_timer_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="25dp"
+        android:gravity="center_vertical|start"
+        android:includeFontPadding="false"
+        android:text="—:—:—"
+        android:textColor="#6FBF9A"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/widget_add"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
+        android:layout_gravity="center_vertical|end"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="+"
+        android:textColor="#0B1613"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:background="@drawable/widget_add_bg" />
+</FrameLayout>

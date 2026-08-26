@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TrackLess</string>
+    <string name="widget_small_name">TrackLess — 1×1</string>
+    <string name="widget_wide_name">TrackLess — 2×1</string>
+    <string name="widget_small_description">TrackLess — timer and quick logging</string>
+    <string name="widget_wide_description">TrackLess — timer, count and quick logging</string>
+    <string name="widget_preview_snus">🟢 Snus</string>
+    <string name="widget_preview_no_entries">No entries yet</string>
+</resources>

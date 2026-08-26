@@ -1,16 +1,38 @@
 package ru.otvykaniye.tracker;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.webkit.JavascriptInterface;
-import android.widget.Toast;
+import java.nio.charset.StandardCharsets;
 
 public class TrackerBridge {
     private final MainActivity activity;
-    private final Context context;
-    public TrackerBridge(MainActivity activity) { this.activity = activity; this.context = activity.getApplicationContext(); }
-    @JavascriptInterface public String getStateJson() { return AppDataStore.getState(context); }
-    @JavascriptInterface public void saveStateJson(String json) { AppDataStore.saveState(context, json); WidgetUi.updateAll(context); }
-    @JavascriptInterface public void exportBackup(String json) { activity.exportBackup(json); }
-    @JavascriptInterface public void importBackup() { activity.importBackup(); }
-    public void showMessage(String message) { Toast.makeText(context, message, Toast.LENGTH_SHORT).show(); }
+    public TrackerBridge(MainActivity activity) { this.activity = activity; }
+
+    @JavascriptInterface
+    public String getStateJson() { return AppDataStore.getState(activity); }
+
+    @JavascriptInterface
+    public void saveStateJson(String json) {
+        AppDataStore.saveState(activity, json);
+        WidgetUi.updateAll(activity);
+    }
+
+    @JavascriptInterface
+    public void exportState(String json) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("application/json");
+        i.putExtra(Intent.EXTRA_TEXT, json);
+        i.putExtra(Intent.EXTRA_TITLE, "trackless-backup.json");
+        activity.startActivity(Intent.createChooser(i, "Экспорт данных"));
+    }
+
+    @JavascriptInterface
+    public void importState() {
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        i.setType("application/json");
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        activity.startActivityForResult(i, MainActivity.IMPORT_REQUEST);
+    }
 }

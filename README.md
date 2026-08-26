@@ -54,6 +54,12 @@ If you're an experienced Android developer and notice something that could be si
 
 **I also used ChatGPT to write and polish this README.** My English isn't good enough to express all of this clearly and naturally on my own, so I relied on ChatGPT to help translate and formulate my thoughts. The ideas and information about the project are mine; ChatGPT helped me put them into proper English.
 
+## Building
+
+Open the project in Android Studio and run it on an Android device or emulator.
+
+For a release build without a private signing key, run the Gradle `assembleRelease` task. The resulting APK is suitable for testing. A production release key can be supplied through environment variables without committing it to the repository.
+
 ## License
 
 See [LICENSE](LICENSE).
