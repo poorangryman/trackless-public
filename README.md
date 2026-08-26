@@ -42,6 +42,17 @@ I wanted a tool that would simply help me **see what I was actually consuming**,
 
 That's basically the whole idea behind TrackLess.
 
+## Community feedback and contributions
+
+If you use TrackLess, **feedback, bug reports, feature requests, and contributions are welcome**.
+
+- [Report a bug or discuss TrackLess](https://github.com/poorangryman/trackless-public/issues/1)
+- [Open a new issue](https://github.com/poorangryman/trackless-public/issues/new)
+
+For bug reports, please include your Android version, device model, TrackLess version, steps to reproduce the problem, and screenshots or logs when possible.
+
+If you are an Android developer, or have experience with Kotlin/Java, testing, security, architecture, or UI/UX, constructive suggestions and pull requests are especially welcome.
+
 ## A note about the code
 
 This project is my first serious attempt at creating an Android application, and I am learning as I go.
