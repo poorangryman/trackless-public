@@ -3,7 +3,7 @@ name: Build TrackLess APK
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, feature/modernize-kotlin-datastore]
 
 permissions:
   contents: write
