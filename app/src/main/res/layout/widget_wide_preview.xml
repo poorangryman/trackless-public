@@ -2,7 +2,7 @@
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
+    android:padding="12dp"
     android:background="@drawable/widget_bg">
 
     <LinearLayout
@@ -16,28 +16,29 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingEnd="7dp">
+            android:paddingEnd="8dp">
+
+            <TextView
+                android:id="@+id/widget_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="TRACKLESS · SNUS"
+                android:textColor="#8FA89B"
+                android:textSize="9sp"
+                android:letterSpacing="0.12"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/widget_timer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:textColor="#6FBF9A"
-                android:textSize="25sp"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:text="02:18:42" />
-
-            <TextView
-                android:id="@+id/widget_timer_empty"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:text="— : — : —"
-                android:textColor="#6FBF9A"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:text="04:22:15"
+                android:layout_marginTop="2dp" />
 
             <TextView
                 android:id="@+id/widget_count"
@@ -45,21 +46,19 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:text="3 today"
-                android:textColor="#8FA69B"
-                android:textSize="10sp"
+                android:textColor="#4ADE80"
+                android:textSize="11sp"
+                android:textStyle="bold"
                 android:layout_marginTop="3dp" />
         </LinearLayout>
 
-        <TextView
+        <ImageView
             android:id="@+id/widget_add"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="+"
-            android:textColor="#0B1613"
-            android:textSize="27sp"
-            android:textStyle="bold"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_widget_plus"
+            android:contentDescription="Add"
             android:background="@drawable/widget_add_bg" />
     </LinearLayout>
 </FrameLayout>

@@ -134,17 +134,53 @@ header.top {
 .kind-pill {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 12px;
+  gap: 7px;
+  padding: 8px 13px;
   border-radius: var(--r-pill);
   background: var(--surface);
   border: 1px solid var(--glass-border);
   font-size: 13px;
   font-weight: 700;
   box-shadow: var(--glass-specular);
-  transition: transform .12s, background .12s;
+  transition: transform .12s, background .12s, border-color .12s;
 }
 .kind-pill:active { transform: scale(0.96); }
+#kind-pill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+.chevron-svg {
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.65;
+}
+.chevron-svg.rotated {
+  transform: rotate(180deg);
+}
+.svg-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.card-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.trig-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  stroke: currentColor;
+  opacity: 0.8;
+}
+.trigger-pill.active .trig-icon {
+  stroke: var(--accent);
+  opacity: 1;
+}
 .icon-btn {
   width: 42px;
   height: 42px;
@@ -155,9 +191,8 @@ header.top {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
   box-shadow: var(--glass-specular);
-  transition: transform .12s, background .12s;
+  transition: transform .12s, background .12s, border-color .12s;
 }
 .icon-btn:active { transform: scale(0.94); background: var(--surface-hover); }
 
@@ -168,7 +203,7 @@ header.top {
   right: 0;
   top: calc(100% + 8px);
   z-index: 60;
-  min-width: 170px;
+  min-width: 175px;
   background: rgba(14, 25, 21, 0.96);
   border: 1px solid var(--glass-border-bright);
   border-radius: 16px;
@@ -192,6 +227,9 @@ header.top {
 .kind-option.active, .kind-option:hover {
   background: rgba(74, 222, 128, 0.12);
   color: var(--text);
+}
+.kind-option.active .svg-icon, .kind-option:hover .svg-icon {
+  stroke: var(--accent);
 }
 
 /* Hero Section */
@@ -285,22 +323,27 @@ header.top {
 .triggers-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 7px;
 }
 .trigger-pill {
-  padding: 6px 10px;
-  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 11px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--glass-border);
   font-size: 12px;
   font-weight: 600;
   color: var(--dim);
-  transition: all .12s;
+  transition: all .14s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.trigger-pill:active { transform: scale(0.96); }
 .trigger-pill.active {
-  background: rgba(74, 222, 128, 0.18);
-  border-color: var(--accent);
-  color: #F1F5F9;
+  background: rgba(74, 222, 128, 0.16);
+  border-color: rgba(74, 222, 128, 0.45);
+  color: #FFFFFF;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
 }
 
 .undo {
@@ -530,15 +573,24 @@ header.top {
 .health-item {
   display: flex;
   align-items: flex-start;
-  gap: 9px;
-  padding: 8px 10px;
-  border-radius: 11px;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.03);
   font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
 }
 .health-item.done {
   border-left: 3px solid var(--accent);
   background: rgba(74, 222, 128, 0.06);
+  border-color: rgba(74, 222, 128, 0.15);
+}
+.health-status-icon {
+  margin-top: 1px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Panels */
@@ -627,22 +679,33 @@ header.top {
   color: var(--text);
 }
 .entry-tag {
-  font-size: 11px;
-  padding: 2px 7px;
-  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.06);
   color: var(--dim);
 }
 .entry button {
   background: none;
   border: 0;
-  color: var(--dim);
-  font-size: 17px;
-  padding: 2px 8px;
-  border-radius: 6px;
-  transition: color .12s;
+  color: var(--dim-darker);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 8px;
+  transition: color .12s, background .12s;
 }
-.entry button:active { color: var(--coral); }
+.entry button:active, .entry button:hover {
+  color: var(--coral);
+  background: rgba(251, 113, 133, 0.12);
+}
 .empty {
   color: var(--dim);
   font-size: 13px;
@@ -932,8 +995,14 @@ header.top {
       <div class="field">
         <label id="ob-kind-basic-label">Что отслеживать</label>
         <div class="choice-grid two" id="ob-kind-choice">
-          <button class="choice active" data-kind="snus"><span>🟢</span> <span data-kind-text="snus">Снюс</span></button>
-          <button class="choice" data-kind="cigarette"><span>🚬</span> <span data-kind-text="cigarette">Сигареты</span></button>
+          <button class="choice active" data-kind="snus">
+            <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>
+            <span data-kind-text="snus">Снюс</span>
+          </button>
+          <button class="choice" data-kind="cigarette">
+            <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>
+            <span data-kind-text="cigarette">Сигареты</span>
+          </button>
         </div>
       </div>
 
@@ -992,16 +1061,24 @@ header.top {
       <div class="header-actions">
         <div class="kind-menu-wrap">
           <button class="kind-pill" id="kind-pill-trigger">
-            <span id="kind-pill-emoji">🟢</span>
+            <span id="kind-pill-icon"></span>
             <span id="kind-pill-name">Снюс</span>
-            <span style="font-size:10px;opacity:.6">⌄</span>
+            <svg class="chevron-svg" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="kind-popup hidden" id="kind-popup-menu">
-            <button class="kind-option active" data-kind="snus"><span>🟢</span><span data-kind-text="snus">Снюс</span></button>
-            <button class="kind-option" data-kind="cigarette"><span>🚬</span><span data-kind-text="cigarette">Сигареты</span></button>
+            <button class="kind-option active" data-kind="snus">
+              <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>
+              <span data-kind-text="snus">Снюс</span>
+            </button>
+            <button class="kind-option" data-kind="cigarette">
+              <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>
+              <span data-kind-text="cigarette">Сигареты</span>
+            </button>
           </div>
         </div>
-        <button class="icon-btn" id="settings-btn" aria-label="Настройки">⚙</button>
+        <button class="icon-btn" id="settings-btn" aria-label="Настройки">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
       </div>
     </header>
 
@@ -1015,11 +1092,11 @@ header.top {
 
       <div class="hero-actions">
         <button class="log-btn" id="log-btn">
-          <span style="font-size:20px;line-height:1">＋</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span id="log-label">Записать</span>
         </button>
         <button class="craving-btn" id="craving-btn">
-          <span>⚡</span>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" fill-opacity="0.2"/></svg>
           <span id="craving-label">Тяга SOS</span>
         </button>
       </div>
@@ -1028,12 +1105,30 @@ header.top {
       <div class="triggers-box" id="triggers-box">
         <div class="triggers-label" id="triggers-label">Контекст (триггер) перед записью:</div>
         <div class="triggers-pills">
-          <button class="trigger-pill active" data-trig="habit">🔄 <span data-trig-text="habit">Привычка</span></button>
-          <button class="trigger-pill" data-trig="stress">⚡ <span data-trig-text="stress">Стресс</span></button>
-          <button class="trigger-pill" data-trig="after_meal">🍽 <span data-trig-text="after_meal">После еды</span></button>
-          <button class="trigger-pill" data-trig="coffee">☕ <span data-trig-text="coffee">Кофе / Чай</span></button>
-          <button class="trigger-pill" data-trig="boredom">🛋 <span data-trig-text="boredom">Скука</span></button>
-          <button class="trigger-pill" data-trig="social">👥 <span data-trig-text="social">Компания</span></button>
+          <button class="trigger-pill active" data-trig="habit">
+            <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+            <span data-trig-text="habit">Привычка</span>
+          </button>
+          <button class="trigger-pill" data-trig="stress">
+            <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span data-trig-text="stress">Стресс</span>
+          </button>
+          <button class="trigger-pill" data-trig="after_meal">
+            <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20M21 2v6a3 3 0 0 1-3 3M3 2v7c0 1.66 1.34 3 3 3v8M6 2v7M9 2v7"/></svg>
+            <span data-trig-text="after_meal">После еды</span>
+          </button>
+          <button class="trigger-pill" data-trig="coffee">
+            <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
+            <span data-trig-text="coffee">Кофе / Чай</span>
+          </button>
+          <button class="trigger-pill" data-trig="boredom">
+            <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4M2 13a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5H2v-5zM6 18v3M18 18v3"/></svg>
+            <span data-trig-text="boredom">Скука</span>
+          </button>
+          <button class="trigger-pill" data-trig="social">
+            <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span data-trig-text="social">Компания</span>
+          </button>
         </div>
       </div>
 
@@ -1076,7 +1171,7 @@ header.top {
     <div class="glass wishlist-card" id="wishlist-card">
       <div class="wishlist-header">
         <div class="wishlist-title-wrap">
-          <span style="font-size:18px">🎁</span>
+          <svg class="card-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="3"/><path d="M12 8v13M3 13h18M8 8a3 3 0 1 1 3-3c0 1.5-3 3-3 3zM16 8a3 3 0 1 0-3-3c0 1.5 3 3 3 3z"/></svg>
           <span class="wishlist-title" id="wishlist-title">Копилка на мечту</span>
         </div>
         <span class="wishlist-pct" id="wishlist-pct">0%</span>
@@ -1093,10 +1188,13 @@ header.top {
     <!-- Health Recovery Card -->
     <div class="glass health-card" id="health-card">
       <div class="health-header">
-        <h2 class="health-h2"><span>🌱</span> <span id="health-title">Восстановление здоровья</span></h2>
+        <h2 class="health-h2">
+          <svg class="card-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13C4 7 10 3 20 3c0 10-4 16-11 17z"/><path d="M9 15l6-6"/></svg>
+          <span id="health-title">Восстановление здоровья</span>
+        </h2>
         <button class="health-toggle-btn" id="health-toggle-btn">
           <span id="health-toggle-text">Все этапы</span>
-          <span id="health-toggle-chev">⌄</span>
+          <svg class="chevron-svg" id="health-toggle-chev" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
       </div>
       <div class="health-current-box" id="health-current-box">
@@ -1179,8 +1277,14 @@ header.top {
     <div class="field">
       <label id="settings-kind-label-text">Что отслеживать</label>
       <div class="choice-grid two" id="settings-kind-tabs">
-        <button class="choice active" data-kind="snus"><span>🟢</span> <span data-kind-text="snus">Снюс</span></button>
-        <button class="choice" data-kind="cigarette"><span>🚬</span> <span data-kind-text="cigarette">Сигареты</span></button>
+        <button class="choice active" data-kind="snus">
+          <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>
+          <span data-kind-text="snus">Снюс</span>
+        </button>
+        <button class="choice" data-kind="cigarette">
+          <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>
+          <span data-kind-text="cigarette">Сигареты</span>
+        </button>
       </div>
     </div>
 
@@ -1215,7 +1319,7 @@ header.top {
 
     <!-- Wishlist Goal Config -->
     <div class="field" style="margin-top:14px">
-      <label id="s-wishlist-title-label">🎁 Цель экономии («Копилка»)</label>
+      <label id="s-wishlist-title-label">Цель экономии («Копилка»)</label>
       <input id="s-wishlist-title" type="text" placeholder="например, Наушники или Путешествие">
     </div>
     <div class="field">
@@ -1247,7 +1351,10 @@ header.top {
 <!-- SOS Craving Surfer & 4-7-8 Breathing Modal -->
 <div class="modal-backdrop hidden" id="sos-modal">
   <div class="modal sos-card">
-    <h2 id="sos-title" style="color:var(--amber)">⚡ Справиться с тягой</h2>
+    <h2 style="color:var(--amber);display:flex;align-items:center;justify-content:center;gap:7px">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#FBBF24" fill-opacity="0.2"/></svg>
+      <span id="sos-title">Справиться с тягой</span>
+    </h2>
     <div class="desc" id="sos-desc">Острая тяга длится всего 3–5 минут. Сделайте дыхательное упражнение и переждите волну.</div>
 
     <div class="breath-container">
@@ -1264,7 +1371,10 @@ header.top {
     </div>
 
     <div class="actions" style="flex-direction:column;gap:8px">
-      <button class="primary" id="sos-success-btn" style="background:linear-gradient(135deg,#38BDF8,#4ADE80)">🎉 Тяга отступила!</button>
+      <button class="primary" id="sos-success-btn" style="background:linear-gradient(135deg,#38BDF8,#4ADE80);display:flex;align-items:center;justify-content:center;gap:8px">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span id="sos-success-text">Тяга отступила!</span>
+      </button>
       <button class="secondary" id="sos-close-btn">Вернуться</button>
     </div>
   </div>
@@ -1499,10 +1609,12 @@ function updateModeFields(prefix) {
 
 function updateKindMenus() {
   const k = state.activeKind;
-  const emoji = k === 'snus' ? '🟢' : '🚬';
   const name = kindName(k);
   $('kind-pill-name').textContent = name;
-  $('kind-pill-emoji').textContent = emoji;
+  const icon = k === 'snus'
+    ? '<svg class="svg-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>'
+    : '<svg class="svg-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>';
+  $('kind-pill-icon').innerHTML = icon;
   document.querySelectorAll('.kind-option').forEach(b => b.classList.toggle('active', b.dataset.kind === k));
 }
 
@@ -1537,7 +1649,7 @@ function renderTop() {
 function iconSVG() {
   return state.activeKind === 'snus'
     ? '<svg viewBox="0 0 46 54" width="44" height="48"><rect x="6" y="10" width="34" height="40" rx="8" fill="#0A1310" stroke="#254336" stroke-width="1.5"/><rect x="9" y="32" width="28" height="15" rx="5" fill="#4ADE80" opacity="0.9"/><rect x="12" y="5" width="22" height="9" rx="4" fill="#162D24" stroke="#254336" stroke-width="1.5"/></svg>'
-    : '<div style="font-size:36px;line-height:48px;text-align:center">🚬</div>';
+    : '<svg viewBox="0 0 46 54" width="44" height="48"><rect x="19" y="8" width="8" height="40" rx="3" fill="#162D24" stroke="#D97706" stroke-width="1.5"/><rect x="19" y="34" width="8" height="14" rx="2" fill="#FBBF24" opacity="0.9"/><path d="M21 4c0-2 4-2 4-4" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round"/></svg>';
 }
 
 function renderHero() {
@@ -1657,11 +1769,14 @@ function renderHealthList() {
     const isDone = elapsed >= s.ms;
     const row = document.createElement('div');
     row.className = 'health-item' + (isDone ? ' done' : '');
+    const statusIcon = isDone
+      ? '<svg viewBox="0 0 20 20" width="17" height="17" fill="none"><circle cx="10" cy="10" r="8" fill="#4ADE80" fill-opacity="0.16" stroke="#4ADE80" stroke-width="1.8"/><polyline points="6.5 10 9 12.5 13.5 7.5" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : '<svg viewBox="0 0 20 20" width="17" height="17" fill="none"><circle cx="10" cy="10" r="8" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="2.5 3"/><circle cx="10" cy="10" r="2.5" fill="rgba(255,255,255,0.3)"/></svg>';
     row.innerHTML = `
-      <div style="font-size:13px">${isDone ? '🟢' : '⚪'}</div>
+      <div class="health-status-icon">${statusIcon}</div>
       <div style="flex:1">
         <div style="font-weight:750;color:${isDone ? 'var(--text)' : 'var(--dim)'}">${isEn ? s.titleEn : s.titleRu}</div>
-        <div style="color:var(--dim);font-size:11.5px;margin-top:2px">${isEn ? s.descEn : s.descRu}</div>
+        <div style="color:var(--dim);font-size:11.5px;margin-top:2px;line-height:1.4">${isEn ? s.descEn : s.descRu}</div>
       </div>
     `;
     listEl.appendChild(row);
@@ -1687,12 +1802,30 @@ function renderHourly() {
 
 // History List with Triggers
 const TRIGGER_NAMES = {
-  habit: { ru: 'Привычка', en: 'Habit', emoji: '🔄' },
-  stress: { ru: 'Стресс', en: 'Stress', emoji: '⚡' },
-  after_meal: { ru: 'После еды', en: 'After meal', emoji: '🍽' },
-  coffee: { ru: 'Кофе/Чай', en: 'Coffee/Tea', emoji: '☕' },
-  boredom: { ru: 'Скука', en: 'Boredom', emoji: '🛋' },
-  social: { ru: 'Компания', en: 'Social', emoji: '👥' }
+  habit: {
+    ru: 'Привычка', en: 'Habit',
+    icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>'
+  },
+  stress: {
+    ru: 'Стресс', en: 'Stress',
+    icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
+  },
+  after_meal: {
+    ru: 'После еды', en: 'After meal',
+    icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20M21 2v6a3 3 0 0 1-3 3M3 2v7c0 1.66 1.34 3 3 3v8M6 2v7M9 2v7"/></svg>'
+  },
+  coffee: {
+    ru: 'Кофе/Чай', en: 'Coffee/Tea',
+    icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>'
+  },
+  boredom: {
+    ru: 'Скука', en: 'Boredom',
+    icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4M2 13a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5H2v-5zM6 18v3M18 18v3"/></svg>'
+  },
+  social: {
+    ru: 'Компания', en: 'Social',
+    icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+  }
 };
 
 function renderHistory() {
@@ -1714,9 +1847,11 @@ function renderHistory() {
     row.innerHTML = `
       <div class="entry-meta">
         <span class="time">${new Date(entry.ts).toLocaleTimeString(isEn ? 'en-US' : 'ru-RU', { hour: '2-digit', minute: '2-digit' })}</span>
-        <span class="entry-tag">${trigInfo.emoji} ${trigLabel}</span>
+        <span class="entry-tag">${trigInfo.icon} <span>${trigLabel}</span></span>
       </div>
-      <button aria-label="${tr('delete')}">✕</button>
+      <button aria-label="${tr('delete')}">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
     `;
     row.querySelector('button').onclick = () => {
       p().entries = p().entries.filter(v => v.id !== entry.id);
@@ -1925,7 +2060,7 @@ document.addEventListener('click', e => {
 // Health Card Full List Toggle
 $('health-toggle-btn').onclick = () => {
   const isHidden = $('health-all-stages').classList.toggle('hidden');
-  $('health-toggle-chev').textContent = isHidden ? '⌄' : '⌃';
+  $('health-toggle-chev').classList.toggle('rotated', !isHidden);
   $('health-toggle-text').textContent = isHidden ? tr('healthAllStages') : tr('healthHideStages');
   if (!isHidden) renderHealthList();
   haptic('tick');
@@ -2296,7 +2431,7 @@ const I18N = {
     trig_boredom: 'Скука',
     trig_social: 'Компания',
     wishlistDefault: 'Копилка на мечту',
-    wishlistLabel: '🎁 Цель экономии («Копилка»)',
+    wishlistLabel: 'Цель экономии («Копилка»)',
     wishlistCostLabel: 'Стоимость цели',
     wishlistTitlePlaceholder: 'например, Наушники или Путешествие',
     wishlistCostPlaceholder: 'например, 15000',
@@ -2310,13 +2445,13 @@ const I18N = {
     hlDay: 'День<br>12–18',
     hlEve: 'Вечер<br>18–24',
     hlNight: 'Ночь<br>00–6',
-    sosTitle: '⚡ Справиться с тягой',
+    sosTitle: 'Справиться с тягой',
     sosDesc: 'Острая тяга длится всего 3–5 минут. Сделайте дыхательное упражнение и переждите волну.',
     breathInhale: 'Вдох',
     breathHold: 'Задержка',
     breathExhale: 'Выдох',
     cravingTimerLabel: 'Таймер преодоления тяги:',
-    sosSuccessBtn: '🎉 Тяга отступила!',
+    sosSuccessBtn: 'Тяга отступила!',
     sosCloseBtn: 'Вернуться',
     backupError: 'Не удалось прочитать файл.',
     resetConfirm: 'Удалить все данные и начать заново?'
@@ -2395,7 +2530,7 @@ const I18N = {
     trig_boredom: 'Boredom',
     trig_social: 'Social',
     wishlistDefault: 'Savings Goal',
-    wishlistLabel: '🎁 Savings goal (Wishlist)',
+    wishlistLabel: 'Savings goal (Wishlist)',
     wishlistCostLabel: 'Goal cost',
     wishlistTitlePlaceholder: 'e.g., AirPods or Weekend trip',
     wishlistCostPlaceholder: 'e.g., 200',
@@ -2409,13 +2544,13 @@ const I18N = {
     hlDay: 'Day<br>12–18',
     hlEve: 'Evening<br>18–24',
     hlNight: 'Night<br>00–6',
-    sosTitle: '⚡ Ride out the craving',
+    sosTitle: 'Ride out the craving',
     sosDesc: 'Peak cravings last only 3–5 minutes. Practice the 4-7-8 breath and ride the wave.',
     breathInhale: 'Inhale',
     breathHold: 'Hold',
     breathExhale: 'Exhale',
     cravingTimerLabel: 'Craving timer:',
-    sosSuccessBtn: '🎉 Urge passed!',
+    sosSuccessBtn: 'Urge passed!',
     sosCloseBtn: 'Back',
     backupError: 'Could not read the backup file.',
     resetConfirm: 'Delete all data and start over?'
@@ -2535,7 +2670,8 @@ function applyLanguage() {
   $('sos-title').textContent = tr('sosTitle');
   $('sos-desc').textContent = tr('sosDesc');
   $('craving-timer-label').textContent = tr('cravingTimerLabel');
-  $('sos-success-btn').textContent = tr('sosSuccessBtn');
+  if ($('sos-success-text')) $('sos-success-text').textContent = tr('sosSuccessBtn');
+  else $('sos-success-btn').textContent = tr('sosSuccessBtn');
   $('sos-close-btn').textContent = tr('sosCloseBtn');
 
   document.querySelectorAll('#ob-mode-tabs .tab, #s-mode-tabs .tab').forEach(b => {

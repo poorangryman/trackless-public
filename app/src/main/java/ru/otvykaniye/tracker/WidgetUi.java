@@ -29,12 +29,13 @@ public final class WidgetUi {
         int today = 0;
         long last = 0;
         String lang = "ru";
+        String kind = "snus";
 
         try {
             String raw = AppDataStore.getState(context);
             if (!raw.isEmpty()) {
                 JSONObject state = new JSONObject(raw);
-                String kind = state.optString("activeKind", "snus");
+                kind = state.optString("activeKind", "snus");
                 lang = "en".equals(state.optString("language", "ru")) ? "en" : "ru";
                 JSONObject profiles = state.optJSONObject("profiles");
                 JSONObject profile = profiles == null ? null : profiles.optJSONObject(kind);
@@ -77,13 +78,20 @@ public final class WidgetUi {
             views.setViewVisibility(R.id.widget_timer_empty, android.view.View.VISIBLE);
         }
 
-        // The 2x1 widget can also show today's count; the compact 1x1 stays minimal.
+        // The 2x1 widget can also show today's count and active tracker kind.
         if (wide) {
             String countText = "en".equals(lang)
-                    ? today + (today == 1 ? " today" : " today")
+                    ? today + " today"
                     : today + " сегодня";
             views.setTextViewText(R.id.widget_count, countText);
             views.setViewVisibility(R.id.widget_count, android.view.View.VISIBLE);
+
+            String kindLabel = "snus".equals(kind)
+                    ? ("en".equals(lang) ? "SNUS" : "СНЮС")
+                    : ("en".equals(lang) ? "CIGARETTES" : "СИГАРЕТЫ");
+            views.setTextViewText(R.id.widget_title, "TRACKLESS · " + kindLabel);
+        } else {
+            views.setTextViewText(R.id.widget_title, "TRACKLESS");
         }
 
         // Tapping the widget body opens the application.
