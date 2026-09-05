@@ -16,6 +16,7 @@ import androidx.glance.appwidget.AndroidRemoteViews
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.appwidget.updateAll
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
@@ -98,7 +99,7 @@ class SmallTrackerWidget : GlanceAppWidget() {
                     )
                 } else {
                     Text(
-                        text = "— : — : —",
+                        text = "â€” : â€” : â€”",
                         style = TextStyle(
                             color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
                             fontSize = 14.sp,

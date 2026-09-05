@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker
+Ôªøpackage ru.otvykaniye.tracker
 
 import android.content.Context
 import android.os.SystemClock
@@ -81,12 +81,12 @@ class WideTrackerWidget : GlanceAppWidget() {
                     modifier = GlanceModifier.defaultWeight().padding(end = 8.dp)
                 ) {
                     val kindLabel = if ("snus" == kind) {
-                        if ("en" == lang) "SNUS" else "—Õﬁ—"
+                        if ("en" == lang) "SNUS" else "–°–ù–Æ–°"
                     } else {
-                        if ("en" == lang) "CIGARETTES" else "—»√¿–≈“€"
+                        if ("en" == lang) "CIGARETTES" else "–°–ò–ì–ê–†–ï–¢–´"
                     }
                     Text(
-                        text = "TRACKLESS ∑ $kindLabel",
+                        text = "TRACKLESS ¬∑ $kindLabel",
                         style = TextStyle(
                             color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
                             fontSize = 9.sp,
@@ -106,7 +106,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                         )
                     } else {
                         Text(
-                            text = "ó : ó : ó",
+                            text = "‚Äî : ‚Äî : ‚Äî",
                             style = TextStyle(
                                 color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
                                 fontSize = 22.sp,
@@ -117,7 +117,7 @@ class WideTrackerWidget : GlanceAppWidget() {
 
                     Spacer(modifier = GlanceModifier.height(3.dp))
 
-                    val countText = if ("en" == lang) "$today today" else "$today ÒÂ„Ó‰Ìˇ"
+                    val countText = if ("en" == lang) "$today today" else "$today —Å–µ–≥–æ–¥–Ω—è"
                     Text(
                         text = countText,
                         style = TextStyle(

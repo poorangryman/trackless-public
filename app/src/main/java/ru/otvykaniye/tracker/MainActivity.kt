@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker
+﻿package ru.otvykaniye.tracker
 
 import android.annotation.SuppressLint
 import android.app.Activity

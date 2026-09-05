@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker
+﻿package ru.otvykaniye.tracker
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -8,6 +8,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.webkit.JavascriptInterface
 import android.widget.Toast
+import androidx.glance.appwidget.updateAll
 
 class TrackerBridge(private val activity: MainActivity) {
 
