@@ -21,18 +21,24 @@ The idea is simple: record each use and let the application handle the statistic
 ### Features
 
 - Track individual snus/nicotine pouch and cigarette uses
+- **Noble Apple Liquid Glass interface** with obsidian dark tones, translucent frosted glass cards, and fluid micro-interactions
+- **SOS Craving Surfer & 4-7-8 Breathing Guide** to help overcome intense urge spikes without relapsing
+- **Health Recovery Milestones Timeline** tracking biological body repair from 20 minutes to 1 month
+- **Financial Wishlist ("Копилка на мечту")** calculating real-time progress toward personal reward goals using saved money
+- **Context Trigger Tagging** (Stress, Habit, After Meal, Coffee, Boredom, Social) to understand consumption drivers
+- **Hourly Pattern Breakdown** to visualize peak usage times throughout the day
+- **Native Android Haptic Feedback** for tactile button presses and breathing pulses
 - Record product type and relevant consumption details
-- View consumption history
+- View consumption history and interactive 14-day bar chart
 - Track daily and historical consumption statistics
 - Monitor changes in consumption over time
-- Track spending based on configured prices
+- Track spending and money saved based on configured prices
 - Track time since the last recorded use
-- View personal progress and consumption trends
-- Home-screen widgets for quick access to relevant information
-- Import and export application data
-- Local data storage
+- Home-screen widgets (1x1 and 2x1) for quick glance and one-tap logging
+- Import and export application data (JSON)
+- 100% local data storage on device
 - No mandatory account or cloud service
-- No advertising
+- No advertising or telemetry
 
 TrackLess is intentionally designed to stay relatively simple. It is not intended to replace medical advice, smoking-cessation treatment, or professional healthcare.
 

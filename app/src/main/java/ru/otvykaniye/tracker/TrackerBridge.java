@@ -43,4 +43,28 @@ public class TrackerBridge {
             Toast.makeText(activity, "No file manager available", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @JavascriptInterface
+    public void haptic(String type) {
+        activity.runOnUiThread(() -> {
+            try {
+                android.os.Vibrator v = (android.os.Vibrator) activity.getSystemService(android.content.Context.VIBRATOR_SERVICE);
+                if (v == null || !v.hasVibrator()) return;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    if ("tick".equalsIgnoreCase(type) || "light".equalsIgnoreCase(type)) {
+                        v.vibrate(android.os.VibrationEffect.createPredefined(android.os.VibrationEffect.EFFECT_TICK));
+                    } else if ("heavy".equalsIgnoreCase(type) || "success".equalsIgnoreCase(type)) {
+                        v.vibrate(android.os.VibrationEffect.createPredefined(android.os.VibrationEffect.EFFECT_HEAVY_CLICK));
+                    } else {
+                        v.vibrate(android.os.VibrationEffect.createPredefined(android.os.VibrationEffect.EFFECT_CLICK));
+                    }
+                } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    int duration = "tick".equalsIgnoreCase(type) ? 12 : 35;
+                    v.vibrate(android.os.VibrationEffect.createOneShot(duration, android.os.VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    v.vibrate("tick".equalsIgnoreCase(type) ? 12 : 35);
+                }
+            } catch (Exception ignored) {}
+        });
+    }
 }

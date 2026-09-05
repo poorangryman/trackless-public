@@ -25,11 +25,11 @@ public class MainActivity extends Activity {
 
         // Keep the WebView in the normal content area so the header does not
         // collide with the Android system bars on modern Android versions.
-        getWindow().setStatusBarColor(0xFF0F1E1A);
-        getWindow().setNavigationBarColor(0xFF0B1613);
+        getWindow().setStatusBarColor(0xFF0A1310);
+        getWindow().setNavigationBarColor(0xFF060B09);
 
         webView = new WebView(this);
-        webView.setBackgroundColor(0xFF0F1E1A);
+        webView.setBackgroundColor(0xFF0A1310);
         webView.setFitsSystemWindows(true);
         webView.setPadding(0, 0, 0, 0);
 
