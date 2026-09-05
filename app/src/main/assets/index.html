@@ -305,7 +305,6 @@ function applyLanguage(){
  $('ob-cig-price-label').textContent=tr('pricePack')+' · '+(CURRENCIES[state.currency]||'₽');
  updateChoiceState(); applyOnboardingKind(state.activeKind);
 }
-function setLanguage(lang){state.language=lang==='en'?'en':'ru';save();applyLanguage();renderAll()}
 function setCurrency(currency){if(!CURRENCIES[currency])return;state.currency=currency;save();applyLanguage();renderAll()}
 document.querySelectorAll('[data-lang]').forEach(b=>b.addEventListener('click',()=>setLanguage(b.dataset.lang)));
 document.querySelectorAll('[data-currency]').forEach(b=>b.addEventListener('click',()=>setCurrency(b.dataset.currency)));

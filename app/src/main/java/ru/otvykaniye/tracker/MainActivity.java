@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends Activity {
     public static final int IMPORT_REQUEST = 741;
@@ -70,6 +71,8 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
         if (webView != null) {
+            // Trigger a save via the JS bridge.  The JS side calls
+            // AndroidBridge.saveStateJson() which writes to SharedPreferences.
             webView.evaluateJavascript("window.__saveToAndroid && window.__saveToAndroid();", null);
         }
     }
@@ -83,7 +86,7 @@ public class MainActivity extends Activity {
         if (uri == null || webView == null) return;
 
         try (InputStream input = getContentResolver().openInputStream(uri);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(input))) {
+             BufferedReader reader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
             StringBuilder json = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
@@ -99,6 +102,7 @@ public class MainActivity extends Activity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBackPressed() {
         if (webView != null && webView.canGoBack()) {

@@ -21,7 +21,7 @@ public final class AppDataStore {
 
     public static void saveState(Context context, String json) {
         if (json == null || json.trim().isEmpty()) return;
-        prefs(context).edit().putString(KEY_STATE, json).apply();
+        prefs(context).edit().putString(KEY_STATE, json).commit();
     }
 
     public static boolean recordActiveKind(Context context) {

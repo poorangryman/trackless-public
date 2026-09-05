@@ -2,7 +2,10 @@ plugins {
     id 'com.android.application'
 }
 
-def tracklessVersionName = '1.2.4'
+def versionFile = rootProject.file('VERSION.txt')
+def tracklessVersionName = versionFile.exists() && versionFile.text.trim()
+        ? versionFile.text.trim()
+        : '1.2.5'
 
 def hasReleaseSigning = System.getenv('TRACKLESS_KEYSTORE_PATH') &&
         System.getenv('TRACKLESS_KEYSTORE_PASSWORD') &&
@@ -17,7 +20,7 @@ android {
         applicationId = 'ru.otvykaniye.tracker'
         minSdk = 23
         targetSdk = 35
-        versionCode = 8
+        versionCode = 9
         versionName = tracklessVersionName
     }
 
@@ -39,8 +42,14 @@ android {
         release {
             minifyEnabled = false
             debuggable = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             if (hasReleaseSigning) {
                 signingConfig = signingConfigs.tracklessRelease
+            } else {
+                // Fallback: use the default debug signing so the APK is always
+                // installable.  This makes local builds and CI without secrets
+                // produce an APK that Android will accept.
+                signingConfig = signingConfigs.debug
             }
         }
     }
@@ -54,14 +63,15 @@ android {
 tasks.matching { it.name == 'assembleRelease' }.configureEach {
     doLast {
         def releaseDir = file("$buildDir/outputs/apk/release")
-        def sourceApk = file("$releaseDir/app-release.apk")
-        def versionFile = rootProject.file('VERSION.txt')
-        def version = versionFile.exists() && versionFile.text.trim()
-                ? versionFile.text.trim()
-                : tracklessVersionName
+        def version = tracklessVersionName
         def namedApk = file("$releaseDir/TrackLess-v${version}.apk")
 
-        if (sourceApk.exists() && sourceApk.absolutePath != namedApk.absolutePath) {
+        // The output APK name varies depending on whether signing is configured.
+        def candidates = ['app-release.apk', 'app-release-unsigned.apk']
+        def sourceApk = candidates.collect { file("$releaseDir/$it") }
+                .find { it.exists() && it.absolutePath != namedApk.absolutePath }
+
+        if (sourceApk != null) {
             copy {
                 from sourceApk
                 into releaseDir

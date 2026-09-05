@@ -1,10 +1,9 @@
 package ru.otvykaniye.tracker;
 
-import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.net.Uri;
 import android.webkit.JavascriptInterface;
-import java.nio.charset.StandardCharsets;
+import android.widget.Toast;
 
 public class TrackerBridge {
     private final MainActivity activity;
@@ -21,18 +20,27 @@ public class TrackerBridge {
 
     @JavascriptInterface
     public void exportState(String json) {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("application/json");
-        i.putExtra(Intent.EXTRA_TEXT, json);
-        i.putExtra(Intent.EXTRA_TITLE, "trackless-backup.json");
-        activity.startActivity(Intent.createChooser(i, "Экспорт данных"));
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("application/json");
+            i.putExtra(Intent.EXTRA_TEXT, json);
+            i.putExtra(Intent.EXTRA_TITLE, "trackless-backup.json");
+            activity.startActivity(Intent.createChooser(i, null));
+        } catch (ActivityNotFoundException ignored) {
+            Toast.makeText(activity, "No sharing app available", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    @SuppressWarnings("deprecation")
     @JavascriptInterface
     public void importState() {
-        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        i.setType("application/json");
-        i.addCategory(Intent.CATEGORY_OPENABLE);
-        activity.startActivityForResult(i, MainActivity.IMPORT_REQUEST);
+        try {
+            Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            i.setType("application/json");
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            activity.startActivityForResult(i, MainActivity.IMPORT_REQUEST);
+        } catch (ActivityNotFoundException ignored) {
+            Toast.makeText(activity, "No file manager available", Toast.LENGTH_SHORT).show();
+        }
     }
 }

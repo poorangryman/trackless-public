@@ -17,6 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Read version
+        id: version
+        run: |
+          VERSION=$(cat VERSION.txt | tr -d '[:space:]')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Building TrackLess v$VERSION"
+
       - name: Setup Java 17
         uses: actions/setup-java@v5
         with:
@@ -28,36 +36,87 @@ jobs:
         with:
           gradle-version: '8.13'
 
+      - name: Decode keystore
+        if: ${{ env.HAS_KEYSTORE == 'true' }}
+        env:
+          HAS_KEYSTORE: ${{ secrets.TRACKLESS_KEYSTORE_B64 != '' }}
+          TRACKLESS_KEYSTORE_B64: ${{ secrets.TRACKLESS_KEYSTORE_B64 }}
+        run: |
+          echo "$TRACKLESS_KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/trackless-release.keystore"
+          echo "TRACKLESS_KEYSTORE_PATH=$RUNNER_TEMP/trackless-release.keystore" >> "$GITHUB_ENV"
+
+      - name: Configure signing
+        if: ${{ env.TRACKLESS_KEYSTORE_PATH != '' }}
+        run: |
+          echo "TRACKLESS_KEYSTORE_PASSWORD=${{ secrets.TRACKLESS_STORE_PASSWORD }}" >> "$GITHUB_ENV"
+          echo "TRACKLESS_KEY_ALIAS=${{ secrets.TRACKLESS_KEY_ALIAS }}" >> "$GITHUB_ENV"
+          echo "TRACKLESS_KEY_PASSWORD=${{ secrets.TRACKLESS_KEY_PASSWORD }}" >> "$GITHUB_ENV"
+
       - name: Build release APK
         run: gradle assembleRelease --no-daemon
 
-      - name: Prepare APK
+      - name: Verify APK
         shell: bash
         run: |
           set -euo pipefail
-          apk="$(find app/build/outputs/apk/release -maxdepth 1 -type f -name '*.apk' | head -n 1)"
+          RELEASE_DIR="app/build/outputs/apk/release"
+          apk="$(find "$RELEASE_DIR" -maxdepth 1 -type f -name '*.apk' | head -n 1)"
           if [ -z "$apk" ]; then
-            echo "No release APK was produced."
+            echo "::error::No release APK was produced."
             exit 1
           fi
-          cp "$apk" "app/build/outputs/apk/release/TrackLess-v1.2.4.apk"
+
+          # Check if APK is signed
+          if command -v apksigner &>/dev/null; then
+            if apksigner verify "$apk" 2>/dev/null; then
+              echo "✅ APK is properly signed (apksigner)"
+            else
+              echo "::warning::APK signature verification failed"
+            fi
+          elif jarsigner -verify -silent "$apk" 2>/dev/null; then
+            echo "✅ APK is signed (jarsigner)"
+          else
+            echo "::warning::APK may not be signed. Users may not be able to install it."
+          fi
+
+      - name: Prepare APK
+        id: apk
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.version.outputs.version }}"
+          APK_NAME="TrackLess-v${VERSION}.apk"
+          RELEASE_DIR="app/build/outputs/apk/release"
+
+          apk="$(find "$RELEASE_DIR" -maxdepth 1 -type f -name '*.apk' | head -n 1)"
+          cp "$apk" "$RELEASE_DIR/$APK_NAME"
+          echo "apk_path=$RELEASE_DIR/$APK_NAME" >> "$GITHUB_OUTPUT"
+          echo "apk_name=$APK_NAME" >> "$GITHUB_OUTPUT"
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: TrackLess-v1.2.4
-          path: app/build/outputs/apk/release/TrackLess-v1.2.4.apk
+          name: ${{ steps.apk.outputs.apk_name }}
+          path: ${{ steps.apk.outputs.apk_path }}
           if-no-files-found: error
 
       - name: Create GitHub Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh release view v1.2.4 >/dev/null 2>&1; then
-            gh release upload v1.2.4 app/build/outputs/apk/release/TrackLess-v1.2.4.apk --clobber
+          TAG="${{ steps.version.outputs.tag }}"
+          APK="${{ steps.apk.outputs.apk_path }}"
+          VERSION="${{ steps.version.outputs.version }}"
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$APK" --clobber
           else
-            gh release create v1.2.4 \
-              app/build/outputs/apk/release/TrackLess-v1.2.4.apk \
-              --title "TrackLess v1.2.4" \
-              --notes "First public release of TrackLess."
+            gh release create "$TAG" \
+              "$APK" \
+              --title "TrackLess v$VERSION" \
+              --notes "TrackLess v$VERSION release."
           fi
+
+      - name: Cleanup keystore
+        if: always()
+        run: rm -f "$RUNNER_TEMP/trackless-release.keystore"
