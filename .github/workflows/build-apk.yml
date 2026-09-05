@@ -19,7 +19,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Build with Gradle
-        run: ./gradlew assembleDebug > build_output.txt 2>&1 || true
+        run: bash gradlew assembleDebug > build_output.txt 2>&1 || true
       - name: Commit build output
         run: |
           git config --global user.name "GitHub Actions"
