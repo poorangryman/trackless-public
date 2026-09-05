@@ -1409,7 +1409,7 @@ header.top {
       <button class="danger" id="s-reset">Сбросить всё</button>
     </div>
     <div class="settings-about" id="settings-about">
-      TrackLess v1.3.1 · Liquid Glass Edition<br>
+      TrackLess v1.3.2 · Liquid Glass Edition<br>
       Приложение создано poorangryman с помощью ИИ.<br>
       Все данные хранятся локально на вашем устройстве.
     </div>
@@ -2472,7 +2472,7 @@ $('ob-back').onclick = () => {
 
 $('ob-submit').onclick = () => {
   const kind = state.activeKind;
-  const x = profile(kind);
+  const x = state.profiles[kind];
   x.baseline = Math.max(0, Number($('ob-baseline').value) || 0);
   x.mode = document.querySelector('#ob-mode-tabs .tab.active')?.dataset.mode || 'reduce';
   x.quitDate = $('ob-quitdate').value || null;
