@@ -1,1 +1,38 @@
-/home/runner/work/_temp/9b4023ff-bf87-416e-b2fb-b3729af9cb14.sh: line 1: ./gradlew: Permission denied
+Downloading https://services.gradle.org/distributions/gradle-8.13-bin.zip
+.............10%.............20%.............30%.............40%.............50%.............60%.............70%.............80%.............90%.............100%
+
+Welcome to Gradle 8.13!
+
+Here are the highlights of this release:
+ - Daemon JVM auto-provisioning
+ - Enhancements for Scala plugin and JUnit testing
+ - Improvements for build authors and plugin developers
+
+For more details see https://docs.gradle.org/8.13/release-notes.html
+
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+[Incubating] Problems report is available at: file:///home/runner/work/trackless-public/trackless-public/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file '/home/runner/work/trackless-public/trackless-public/app/build.gradle' line: 1
+
+* What went wrong:
+Could not compile build file '/home/runner/work/trackless-public/trackless-public/app/build.gradle'.
+> startup failed:
+  build file '/home/runner/work/trackless-public/trackless-public/app/build.gradle': 1: Unexpected character: '﻿' @ line 1, column 1.
+     ﻿plugins {
+     ^
+  
+  1 error
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 33s
