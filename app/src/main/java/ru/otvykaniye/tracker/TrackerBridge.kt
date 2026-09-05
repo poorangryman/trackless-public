@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker
+package ru.otvykaniye.tracker
 
 import android.content.ActivityNotFoundException
 import android.content.Context

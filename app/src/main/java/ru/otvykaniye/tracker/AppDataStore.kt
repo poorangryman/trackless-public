@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker
+package ru.otvykaniye.tracker
 
 import android.content.Context
 import androidx.datastore.core.DataStore
