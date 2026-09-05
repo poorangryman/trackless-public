@@ -14,7 +14,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".WidgetActionReceiver" android:exported="false" />
+
         <receiver android:name=".SmallTrackerWidgetProvider" android:exported="true" android:label="TrackLess">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

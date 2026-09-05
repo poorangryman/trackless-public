@@ -19,7 +19,10 @@ class TrackerBridge(private val activity: MainActivity) {
     @JavascriptInterface
     fun saveStateJson(json: String) {
         AppDataStore.saveState(activity, json)
-        WidgetUi.updateAll(activity)
+        kotlinx.coroutines.runBlocking {
+            SmallTrackerWidget().updateAll(activity)
+            WideTrackerWidget().updateAll(activity)
+        }
     }
 
     @JavascriptInterface
