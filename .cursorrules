@@ -1,0 +1,12 @@
+# TrackLess Development Rules
+
+## Mandatory Release Versioning
+Whenever any code or UI change is made in this repository:
+1. Always bump the version in VERSION.txt (e.g. 1.3.1 -> 1.3.2).
+2. Ensure app/src/main/assets/index.html settings footer reflects TrackLess vX.Y.Z.
+3. Build the release APK with Gradle so TrackLess-vX.Y.Z.apk is generated.
+4. Commit with the version in the commit message and push with git tag vX.Y.Z so GitHub Actions generates a unique release.
+
+## UI/UX Rules
+- No native alert() dialogs in webview. Use liquid glass inspector or modals with haptic feedback.
+- No emojis in functional controls or list bullets. Use minimalist stroked vector SVG icons.

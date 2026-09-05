@@ -5,7 +5,19 @@ plugins {
 def versionFile = rootProject.file('VERSION.txt')
 def tracklessVersionName = versionFile.exists() && versionFile.text.trim()
         ? versionFile.text.trim()
-        : '1.2.5'
+        : '1.3.1'
+
+def computeVersionCode(String ver) {
+    try {
+        def parts = ver.tokenize('.').collect { it.toInteger() }
+        if (parts.size() >= 3) {
+            return parts[0] * 10000 + parts[1] * 100 + parts[2]
+        } else if (parts.size() == 2) {
+            return parts[0] * 10000 + parts[1] * 100
+        }
+    } catch (Exception ignored) {}
+    return 10
+}
 
 def hasReleaseSigning = System.getenv('TRACKLESS_KEYSTORE_PATH') &&
         System.getenv('TRACKLESS_KEYSTORE_PASSWORD') &&
@@ -20,8 +32,8 @@ android {
         applicationId = 'ru.otvykaniye.tracker'
         minSdk = 23
         targetSdk = 35
-        versionCode = 10
-        versionName = tracklessVersionName
+        versionCode computeVersionCode(tracklessVersionName)
+        versionName tracklessVersionName
     }
 
     if (hasReleaseSigning) {

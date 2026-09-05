@@ -627,6 +627,68 @@ header.top {
   cursor: pointer;
 }
 
+/* Interactive Chart Inspector Card (replaces ugly alerts) */
+.chart-inspector {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(10, 20, 16, 0.7);
+  border: 1px solid var(--glass-border-bright);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--glass-specular);
+  animation: chartInspectFade .2s ease-out;
+}
+@keyframes chartInspectFade {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.chart-inspect-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.chart-inspect-date {
+  font-size: 11px;
+  color: var(--dim);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.chart-inspect-val {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.chart-inspect-val b {
+  color: var(--accent);
+  font-size: 18px;
+}
+.chart-inspect-badge {
+  font-size: 11.5px;
+  font-weight: 750;
+  padding: 4px 9px;
+  border-radius: 8px;
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(74, 222, 128, 0.28);
+}
+.chart-inspect-badge.over {
+  background: rgba(251, 113, 133, 0.12);
+  color: var(--coral);
+  border-color: rgba(251, 113, 133, 0.28);
+}
+.chart-inspect-badge.neutral {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--dim);
+  border-color: var(--glass-border);
+}
+
 /* Hourly distribution mini-bars */
 .hourly-grid {
   display: grid;
@@ -1214,6 +1276,13 @@ header.top {
         <h2 id="chart-title">Последние 14 дней</h2>
         <span class="chart-summary-tag" id="chart-summary">Всего: 0</span>
       </div>
+      <div id="chart-inspector" class="chart-inspector">
+        <div class="chart-inspect-left">
+          <div class="chart-inspect-date" id="chart-inspect-date">—</div>
+          <div class="chart-inspect-val" id="chart-inspect-val">—</div>
+        </div>
+        <div class="chart-inspect-badge" id="chart-inspect-badge">—</div>
+      </div>
       <canvas id="chart"></canvas>
     </section>
 
@@ -1340,7 +1409,7 @@ header.top {
       <button class="danger" id="s-reset">Сбросить всё</button>
     </div>
     <div class="settings-about" id="settings-about">
-      TrackLess v1.3.0 · Liquid Glass Edition<br>
+      TrackLess v1.3.1 · Liquid Glass Edition<br>
       Приложение создано poorangryman с помощью ИИ.<br>
       Все данные хранятся локально на вашем устройстве.
     </div>
@@ -1879,6 +1948,54 @@ const EN_DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
 let chartDaysData = [];
 
+let selectedChartIndex = 13; // default to today
+
+function updateChartInspector() {
+  const inspector = $('chart-inspector');
+  if (!inspector || !chartDaysData.length) return;
+  if (selectedChartIndex < 0 || selectedChartIndex >= chartDaysData.length) {
+    selectedChartIndex = chartDaysData.length - 1;
+  }
+  const item = chartDaysData[selectedChartIndex];
+  const isEn = state.language === 'en';
+  const loc = isEn ? 'en-US' : 'ru-RU';
+  const isToday = item.d === iso();
+  const yesterdayIso = iso(new Date(Date.now() - DAY));
+  const isYesterday = item.d === yesterdayIso;
+
+  let datePrefix = '';
+  if (isToday) datePrefix = (isEn ? 'Today, ' : 'Сегодня, ');
+  else if (isYesterday) datePrefix = (isEn ? 'Yesterday, ' : 'Вчера, ');
+
+  const dateText = datePrefix + item.dateObj.toLocaleDateString(loc, {
+    weekday: isToday || isYesterday ? undefined : 'short',
+    day: 'numeric',
+    month: 'long'
+  });
+  $('chart-inspect-date').textContent = dateText;
+
+  const unitStr = state.activeKind === 'snus'
+    ? (isEn ? 'uses' : 'исп.')
+    : (isEn ? 'cigs' : 'сиг.');
+
+  $('chart-inspect-val').innerHTML = `<b>${item.n}</b> <span style="font-size:12px;font-weight:600;color:var(--dim)">${unitStr}</span>`;
+
+  const badge = $('chart-inspect-badge');
+  if (item.t === null) {
+    badge.className = 'chart-inspect-badge neutral';
+    badge.textContent = isEn ? 'No target' : 'Без цели';
+  } else if (item.n > item.t) {
+    const over = item.n - item.t;
+    badge.className = 'chart-inspect-badge over';
+    badge.textContent = isEn ? `+${over} over goal (${item.t})` : `+${over} сверх цели (${item.t})`;
+  } else {
+    badge.className = 'chart-inspect-badge';
+    badge.textContent = isEn
+      ? (item.n === 0 ? `0 / ${item.t} in goal` : `In goal · target ${item.t}`)
+      : (item.n === 0 ? `0 из ${item.t} в цели` : `В цели · норма ${item.t}`);
+  }
+}
+
 function renderChart() {
   const c = $('chart'), dpr = window.devicePixelRatio || 1;
   const w = c.clientWidth || 300, h = 155;
@@ -1936,10 +2053,18 @@ function renderChart() {
   days.forEach((x, i) => {
     const isToday = x.d === iso();
     const isOver = x.t !== null && x.n > x.t;
+    const isSelected = (i === selectedChartIndex);
     const bh = (x.n / max) * ch;
     const barW = Math.max(8, bw * 0.58);
     const xx = i * bw + (bw - barW) / 2;
     const yy = topPad + ch - bh;
+
+    // Selection highlight column
+    if (isSelected) {
+      roundRect(ctx, xx - 3, topPad - 3, barW + 6, ch + 6, 6);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.fill();
+    }
 
     // Bar gradient
     const grad = ctx.createLinearGradient(0, yy, 0, yy + bh);
@@ -1956,6 +2081,14 @@ function renderChart() {
     roundRect(ctx, xx, yy, barW, Math.max(3, bh), 4);
     ctx.fill();
     ctx.globalAlpha = 1;
+
+    // Selected bar white specular stroke
+    if (isSelected) {
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.5;
+      roundRect(ctx, xx, yy, barW, Math.max(3, bh), 4);
+      ctx.stroke();
+    }
 
     // Number above bar
     ctx.font = isToday ? 'bold 11px SF Mono, monospace' : '10px SF Mono, monospace';
@@ -1978,27 +2111,32 @@ function renderChart() {
       ctx.fill();
     }
   });
+
+  updateChartInspector();
 }
 
-// Chart Interactive Tap
-$('chart').onclick = e => {
+// Chart Interactive Touch & Tap (no annoying alerts)
+function selectChartBarAt(clientX) {
   const rect = $('chart').getBoundingClientRect();
-  const clickX = e.clientX - rect.left;
-  const w = $('chart').clientWidth || 300;
+  const clickX = Math.max(0, Math.min(rect.width, clientX - rect.left));
+  const w = rect.width || 300;
   const idx = Math.floor((clickX / w) * 14);
   if (idx >= 0 && idx < chartDaysData.length) {
-    const item = chartDaysData[idx];
-    const isEn = state.language === 'en';
-    const loc = isEn ? 'en-US' : 'ru-RU';
-    const dateStr = item.dateObj.toLocaleDateString(loc, { day: 'numeric', month: 'short' });
-    const targetStr = item.t !== null ? (isEn ? ` (Target: ${item.t})` : ` (Цель: ${item.t})`) : '';
-    const unitStr = state.activeKind === 'snus'
-      ? (isEn ? 'uses' : 'исп.')
-      : (isEn ? 'cigs' : 'сиг.');
-    alert(`${dateStr}: ${item.n} ${unitStr}${targetStr}`);
-    haptic('tick');
+    if (selectedChartIndex !== idx) {
+      selectedChartIndex = idx;
+      haptic('tick');
+      renderChart();
+    }
   }
-};
+}
+
+$('chart').onclick = e => selectChartBarAt(e.clientX);
+$('chart').addEventListener('touchstart', e => {
+  if (e.touches && e.touches.length) selectChartBarAt(e.touches[0].clientX);
+}, { passive: true });
+$('chart').addEventListener('touchmove', e => {
+  if (e.touches && e.touches.length) selectChartBarAt(e.touches[0].clientX);
+}, { passive: true });
 
 function renderAll() {
   renderTop();
