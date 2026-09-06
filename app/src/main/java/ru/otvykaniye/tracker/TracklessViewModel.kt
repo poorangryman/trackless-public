@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.util.UUID
 
 class TracklessViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = TracklessRepository(application)
@@ -61,19 +60,18 @@ class TracklessViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun recordUse(trigger: String) {
-        updateState { currentState ->
-            val kind = currentState.activeKind
-            val profile = currentState.profiles[kind] ?: return@updateState currentState
-            val now = System.currentTimeMillis()
-            val newEntry = ConsumptionEntry(
-                id = "$now-${UUID.randomUUID().toString().take(5)}",
-                ts = now,
-                trigger = trigger
-            )
-            val newProfile = profile.copy(entries = profile.entries + newEntry)
-            val newProfiles = currentState.profiles.toMutableMap()
-            newProfiles[kind] = newProfile
-            currentState.copy(profiles = newProfiles)
+        viewModelScope.launch {
+            val recorded = stateMutex.withLock {
+                repository.recordUse(trigger)
+            }
+            if (recorded) {
+                try {
+                    SmallTrackerWidget().updateAll(getApplication())
+                    WideTrackerWidget().updateAll(getApplication())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 
@@ -125,8 +123,6 @@ class TracklessViewModel(application: Application) : AndroidViewModel(applicatio
                 repository.saveState(newState)
             }
 
-            // Widget refresh is deliberately outside the state lock so a slow
-            // Glance update cannot delay the next state mutation.
             try {
                 SmallTrackerWidget().updateAll(getApplication())
                 WideTrackerWidget().updateAll(getApplication())
