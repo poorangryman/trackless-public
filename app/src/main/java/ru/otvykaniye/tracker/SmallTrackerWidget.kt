@@ -35,7 +35,7 @@ import androidx.glance.text.TextStyle
 
 class LogActionCallback : ActionCallback {
     override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-        if (AppDataStore.recordActiveKind(context)) {
+        if (AppDataStore.recordUse(context, "widget")) {
             SmallTrackerWidget().updateAll(context)
             WideTrackerWidget().updateAll(context)
         }
