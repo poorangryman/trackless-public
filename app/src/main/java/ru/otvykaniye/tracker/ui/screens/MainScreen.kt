@@ -1,9 +1,12 @@
 package ru.otvykaniye.tracker.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,8 +23,15 @@ fun MainScreen(viewModel: TracklessViewModel) {
     val timeSinceLast by viewModel.timeSinceLastEntry.collectAsState()
 
     var showSos by remember { mutableStateOf(false) }
+    var showSettings by remember { mutableStateOf(false) }
 
     val scrollState = rememberScrollState()
+
+    if (showSettings) {
+        BackHandler {
+            showSettings = false
+        }
+    }
 
     Scaffold(
         containerColor = BgDeep,
@@ -39,7 +49,13 @@ fun MainScreen(viewModel: TracklessViewModel) {
                     fontWeight = FontWeight.Bold,
                     color = TextPrimary
                 )
-                // Settings button etc.
+                IconButton(onClick = { showSettings = true }) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = "Настройки",
+                        tint = TextDim
+                    )
+                }
             }
         }
     ) { padding ->
@@ -63,6 +79,13 @@ fun MainScreen(viewModel: TracklessViewModel) {
 
     if (showSos) {
         SosDialog(onDismiss = { showSos = false })
+    }
+    
+    if (showSettings) {
+        SettingsDialog(
+            viewModel = viewModel,
+            onDismiss = { showSettings = false }
+        )
     }
 }
 
@@ -120,6 +143,38 @@ fun SosDialog(onDismiss: () -> Unit) {
         text = { Text("Острая тяга длится всего 3-5 минут. Сделайте дыхательное упражнение и переждите волну.") },
         confirmButton = {
             Button(onClick = onDismiss) { Text("Тяга отступила!") }
+        },
+        containerColor = BgCard
+    )
+}
+
+@Composable
+fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
+    val state by viewModel.state.collectAsState()
+    val activeProfile = state.profiles[state.activeKind]
+    
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Настройки", color = TextPrimary) },
+        text = { 
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("Содержание никотина (мг/г или мг/пак):", color = TextDim)
+                OutlinedTextField(
+                    value = activeProfile?.nicotinePerPouch?.toString() ?: "0.0",
+                    onValueChange = { /* Placeholder to show field exists */ },
+                    textStyle = androidx.compose.ui.text.TextStyle(color = TextPrimary),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = BgDeep,
+                        unfocusedContainerColor = BgDeep,
+                        focusedTextColor = TextPrimary,
+                        unfocusedTextColor = TextPrimary
+                    )
+                )
+                Text("Здесь будут остальные настройки (в разработке).", color = TextDim)
+            }
+        },
+        confirmButton = {
+            Button(onClick = onDismiss) { Text("Закрыть") }
         },
         containerColor = BgCard
     )
