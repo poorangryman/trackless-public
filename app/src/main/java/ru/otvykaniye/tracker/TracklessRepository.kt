@@ -15,11 +15,4 @@ class TracklessRepository(private val context: Context) {
         val json = state.toJson().toString()
         AppDataStore.saveStateSuspend(context, json)
     }
-
-    // Load state directly (blocking, for initialization if needed)
-    fun getStateBlocking(): TracklessState {
-        val json = AppDataStore.getState(context)
-        return TracklessState.fromJson(json)
-    }
 }
-
