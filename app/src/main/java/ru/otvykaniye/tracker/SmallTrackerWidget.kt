@@ -73,7 +73,7 @@ class SmallTrackerWidget : GlanceAppWidget() {
                     .fillMaxSize()
                     .padding(9.dp)
                     .background(ImageProvider(R.drawable.widget_bg))
-                    .clickable(actionStartActivity<MainActivity>()),
+                    .clickable(actionStartActivity(android.content.ComponentName(context, MainActivity::class.java))),
                 horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
                 verticalAlignment = Alignment.Vertical.CenterVertically
             ) {

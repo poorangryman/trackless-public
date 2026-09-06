@@ -74,7 +74,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                     .fillMaxSize()
                     .padding(12.dp)
                     .background(ImageProvider(R.drawable.widget_bg))
-                    .clickable(actionStartActivity<MainActivity>()),
+                    .clickable(actionStartActivity(android.content.ComponentName(context, MainActivity::class.java))),
                 verticalAlignment = Alignment.Vertical.CenterVertically
             ) {
                 Column(
