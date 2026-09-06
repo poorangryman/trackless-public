@@ -35,7 +35,7 @@ object AppDataStore {
         }
     }
 
-    suspend fun recordActiveKind(context: Context): Boolean {
+    suspend fun recordUse(context: Context, trigger: String): Boolean {
         return try {
             var recorded = false
             context.dataStore.edit { preferences ->
@@ -55,8 +55,9 @@ object AppDataStore {
 
                 val now = System.currentTimeMillis()
                 entries.put(JSONObject().apply {
-                    put("id", "$now-widget")
+                    put("id", "$now-${trigger.hashCode()}")
                     put("ts", now)
+                    put("trigger", trigger)
                 })
 
                 preferences[KEY_STATE] = state.toString()
@@ -66,5 +67,9 @@ object AppDataStore {
         } catch (ignored: Exception) {
             false
         }
+    }
+
+    suspend fun recordActiveKind(context: Context): Boolean {
+        return recordUse(context, "widget")
     }
 }
