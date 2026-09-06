@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:text="TRACKLESS В· SNUS"
+                android:text="TRACKLESS · SNUS"
                 android:textColor="#8FA89B"
                 android:textSize="9sp"
                 android:letterSpacing="0.12"

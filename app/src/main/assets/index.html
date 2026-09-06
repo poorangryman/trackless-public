@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A1310">
-<title>TrackLess вЂ” С‚СЂРµРєРµСЂ</title>
+<title>TrackLess — трекер</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
@@ -1023,7 +1023,7 @@ header.top {
   <div id="onboarding">
     <header class="top">
       <div class="brand">
-        <span class="eyebrow" id="ob-first-run">РџРµСЂРІС‹Р№ Р·Р°РїСѓСЃРє</span>
+        <span class="eyebrow" id="ob-first-run">Первый запуск</span>
         <h1 id="ob-app-title">TrackLess</h1>
       </div>
       <div class="choice-grid two" id="ob-language-tabs" style="width:110px">
@@ -1033,112 +1033,112 @@ header.top {
     </header>
 
     <section class="glass setup-step" id="ob-basic-step" style="padding:20px;margin-top:12px">
-      <h2 id="ob-basic-title" style="margin:0 0 4px;font-size:18px">Р‘Р°Р·РѕРІС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё</h2>
-      <div class="desc" id="ob-basic-desc">Р’С‹Р±РµСЂРёС‚Рµ СЏР·С‹Рє, РІР°Р»СЋС‚Сѓ Рё С‡С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ.</div>
+      <h2 id="ob-basic-title" style="margin:0 0 4px;font-size:18px">Базовые настройки</h2>
+      <div class="desc" id="ob-basic-desc">Выберите язык, валюту и что отслеживать.</div>
 
       <div class="field">
-        <label id="ob-language-label">РЇР·С‹Рє</label>
+        <label id="ob-language-label">Язык</label>
         <div class="choice-grid two" id="ob-language-choice">
-          <button class="choice active" data-lang="ru">Р СѓСЃСЃРєРёР№</button>
+          <button class="choice active" data-lang="ru">Русский</button>
           <button class="choice" data-lang="en">English</button>
         </div>
       </div>
 
       <div class="field">
-        <label id="ob-currency-label">Р’Р°Р»СЋС‚Р°</label>
+        <label id="ob-currency-label">Валюта</label>
         <div class="choice-grid four" id="ob-currency-choice">
-          <button class="choice active" data-currency="RUB">в‚Ѕ RUB</button>
-          <button class="choice" data-currency="EUR">в‚¬ EUR</button>
+          <button class="choice active" data-currency="RUB">₽ RUB</button>
+          <button class="choice" data-currency="EUR">€ EUR</button>
           <button class="choice" data-currency="USD">$ USD</button>
-          <button class="choice" data-currency="GBP">ВЈ GBP</button>
+          <button class="choice" data-currency="GBP">£ GBP</button>
         </div>
       </div>
 
       <div class="field">
-        <label id="ob-kind-basic-label">Р§С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ</label>
+        <label id="ob-kind-basic-label">Что отслеживать</label>
         <div class="choice-grid two" id="ob-kind-choice">
           <button class="choice active" data-kind="snus">
             <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>
-            <span data-kind-text="snus">РЎРЅСЋСЃ</span>
+            <span data-kind-text="snus">Снюс</span>
           </button>
           <button class="choice" data-kind="cigarette">
             <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>
-            <span data-kind-text="cigarette">РЎРёРіР°СЂРµС‚С‹</span>
+            <span data-kind-text="cigarette">Сигареты</span>
           </button>
         </div>
       </div>
 
-      <button class="primary" id="ob-basic-next" style="width:100%;margin-top:10px">Р”Р°Р»РµРµ</button>
+      <button class="primary" id="ob-basic-next" style="width:100%;margin-top:10px">Далее</button>
     </section>
 
     <section class="glass setup-step hidden" id="ob-tracker-step" style="padding:20px;margin-top:12px">
-      <h2 id="ob-settings-title" style="margin:0 0 4px;font-size:18px">РќР°СЃС‚СЂРѕР№РєР° С‚СЂРµРєРµСЂР°</h2>
-      <div class="desc" id="ob-tracker-desc">Р—Р°РґР°Р№С‚Рµ РїР°СЂР°РјРµС‚СЂС‹ РїРѕС‚СЂРµР±Р»РµРЅРёСЏ Рё С†РµР»СЊ.</div>
+      <h2 id="ob-settings-title" style="margin:0 0 4px;font-size:18px">Настройка трекера</h2>
+      <div class="desc" id="ob-tracker-desc">Задайте параметры потребления и цель.</div>
 
       <div class="field">
-        <label id="ob-baseline-label">РЎРєРѕР»СЊРєРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёР№ РІ РґРµРЅСЊ СЃРµР№С‡Р°СЃ?</label>
+        <label id="ob-baseline-label">Сколько использований в день сейчас?</label>
         <input id="ob-baseline" type="number" inputmode="numeric" min="0" placeholder="">
       </div>
 
       <div id="ob-snus-fields">
-        <div class="field"><label id="ob-price-label">Р¦РµРЅР° РѕРґРЅРѕР№ Р±Р°РЅРєРё</label><input id="ob-price" type="number" inputmode="decimal" min="0" placeholder=""></div>
-        <div class="field"><label id="ob-per-pack-label">РџР°РєРµС‚РёРєРѕРІ РІ Р±Р°РЅРєРµ</label><input id="ob-per-pack" type="number" inputmode="numeric" min="1" placeholder=""></div>
-        <div class="field"><label id="ob-reuse-label">РЎСЂРµРґРЅРµРµ С‡РёСЃР»Рѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёР№ РѕРґРЅРѕРіРѕ РїР°РєРµС‚РёРєР°</label><input id="ob-reuse" type="number" inputmode="decimal" min="1" step="0.5" value="3"></div>
-        <div class="info" id="ob-reuse-info">Р•СЃР»Рё РѕРґРёРЅ РїР°РєРµС‚РёРє РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р·, РєР°Р¶РґРѕРµ РЅР°Р¶Р°С‚РёРµ В«Р—Р°РїРёСЃР°С‚СЊВ» СЃС‡РёС‚Р°РµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј.</div>
+        <div class="field"><label id="ob-price-label">Цена одной банки</label><input id="ob-price" type="number" inputmode="decimal" min="0" placeholder=""></div>
+        <div class="field"><label id="ob-per-pack-label">Пакетиков в банке</label><input id="ob-per-pack" type="number" inputmode="numeric" min="1" placeholder=""></div>
+        <div class="field"><label id="ob-reuse-label">Среднее число использований одного пакетика</label><input id="ob-reuse" type="number" inputmode="decimal" min="1" step="0.5" value="3"></div>
+        <div class="info" id="ob-reuse-info">Если один пакетик используется несколько раз, каждое нажатие «Записать» считается отдельным использованием.</div>
       </div>
 
       <div id="ob-cig-fields" class="hidden">
-        <div class="field"><label id="ob-cig-price-label">Р¦РµРЅР° РѕРґРЅРѕР№ РїР°С‡РєРё</label><input id="ob-cig-price" type="number" inputmode="decimal" min="0" placeholder=""></div>
-        <div class="field"><label id="ob-cig-pack-size-label">РЎРёРіР°СЂРµС‚ РІ РїР°С‡РєРµ</label><input id="ob-cig-pack-size" type="number" inputmode="numeric" min="1" value="20"></div>
+        <div class="field"><label id="ob-cig-price-label">Цена одной пачки</label><input id="ob-cig-price" type="number" inputmode="decimal" min="0" placeholder=""></div>
+        <div class="field"><label id="ob-cig-pack-size-label">Сигарет в пачке</label><input id="ob-cig-pack-size" type="number" inputmode="numeric" min="1" value="20"></div>
       </div>
 
       <div class="field" style="margin-top:14px">
-        <label id="ob-goal-label">Р¦РµР»СЊ</label>
+        <label id="ob-goal-label">Цель</label>
         <div class="tabs" id="ob-mode-tabs">
-          <button class="tab active" data-mode="reduce">РЎРЅРёР¶Р°С‚СЊ</button>
-          <button class="tab" data-mode="limit">Р›РёРјРёС‚</button>
-          <button class="tab" data-mode="track">РЎС‡РёС‚Р°С‚СЊ</button>
+          <button class="tab active" data-mode="reduce">Снижать</button>
+          <button class="tab" data-mode="limit">Лимит</button>
+          <button class="tab" data-mode="track">Считать</button>
         </div>
       </div>
 
-      <div class="field" id="ob-quitdate-field"><label id="ob-quitdate-label">Рљ РєР°РєРѕР№ РґР°С‚Рµ РІС‹Р№С‚Рё РЅР° РЅРѕР»СЊ?</label><input id="ob-quitdate" type="date"></div>
-      <div class="field hidden" id="ob-limit-field"><label id="ob-limit-label">Р”РЅРµРІРЅРѕР№ Р»РёРјРёС‚</label><input id="ob-limit" type="number" inputmode="numeric" min="0" placeholder=""></div>
+      <div class="field" id="ob-quitdate-field"><label id="ob-quitdate-label">К какой дате выйти на ноль?</label><input id="ob-quitdate" type="date"></div>
+      <div class="field hidden" id="ob-limit-field"><label id="ob-limit-label">Дневной лимит</label><input id="ob-limit" type="number" inputmode="numeric" min="0" placeholder=""></div>
 
       <div class="actions">
-        <button class="secondary" id="ob-back">РќР°Р·Р°Рґ</button>
-        <button class="primary" id="ob-submit">РќР°С‡Р°С‚СЊ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ</button>
+        <button class="secondary" id="ob-back">Назад</button>
+        <button class="primary" id="ob-submit">Начать отслеживание</button>
       </div>
     </section>
 
-    <footer class="foot" id="ob-footer">Р”Р°РЅРЅС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ РЅР° СЌС‚РѕРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ.<br>Р‘РµР· СЂРµРєР»Р°РјС‹ Рё Р°РєРєР°СѓРЅС‚Р°.</footer>
+    <footer class="foot" id="ob-footer">Данные хранятся только на этом устройстве.<br>Без рекламы и аккаунта.</footer>
   </div>
 
   <!-- Main Screen -->
   <div id="main" class="hidden">
     <header class="top">
       <div class="brand">
-        <span class="eyebrow" id="today-date">вЂ”</span>
+        <span class="eyebrow" id="today-date">—</span>
         <h1 id="app-title">TrackLess</h1>
       </div>
       <div class="header-actions">
         <div class="kind-menu-wrap">
           <button class="kind-pill" id="kind-pill-trigger">
             <span id="kind-pill-icon"></span>
-            <span id="kind-pill-name">РЎРЅСЋСЃ</span>
+            <span id="kind-pill-name">Снюс</span>
             <svg class="chevron-svg" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="kind-popup hidden" id="kind-popup-menu">
             <button class="kind-option active" data-kind="snus">
               <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>
-              <span data-kind-text="snus">РЎРЅСЋСЃ</span>
+              <span data-kind-text="snus">Снюс</span>
             </button>
             <button class="kind-option" data-kind="cigarette">
               <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>
-              <span data-kind-text="cigarette">РЎРёРіР°СЂРµС‚С‹</span>
+              <span data-kind-text="cigarette">Сигареты</span>
             </button>
           </div>
         </div>
-        <button class="icon-btn" id="settings-btn" aria-label="РќР°СЃС‚СЂРѕР№РєРё">
+        <button class="icon-btn" id="settings-btn" aria-label="Настройки">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         </button>
       </div>
@@ -1147,64 +1147,64 @@ header.top {
     <!-- Hero Card -->
     <div class="glass hero">
       <div class="hero-header">
-        <span class="eyebrow" id="hero-eyebrow">РЎ РїРѕСЃР»РµРґРЅРµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРѕС€Р»Рѕ</span>
+        <span class="eyebrow" id="hero-eyebrow">С последнего использования прошло</span>
       </div>
-      <div class="clock" id="since-clock">вЂ” : вЂ” : вЂ”</div>
-      <div class="sub" id="hero-sub">Р—Р°РїРёСЃРµР№ РїРѕРєР° РЅРµС‚</div>
+      <div class="clock" id="since-clock">— : — : —</div>
+      <div class="sub" id="hero-sub">Записей пока нет</div>
 
       <div class="hero-actions">
         <button class="log-btn" id="log-btn">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span id="log-label">Р—Р°РїРёСЃР°С‚СЊ</span>
+          <span id="log-label">Записать</span>
         </button>
         <button class="craving-btn" id="craving-btn">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="currentColor" fill-opacity="0.2"/></svg>
-          <span id="craving-label">РўСЏРіР° SOS</span>
+          <span id="craving-label">Тяга SOS</span>
         </button>
       </div>
 
       <!-- Quick Triggers Selector -->
       <div class="triggers-box" id="triggers-box">
-        <div class="triggers-label" id="triggers-label">РљРѕРЅС‚РµРєСЃС‚ (С‚СЂРёРіРіРµСЂ) РїРµСЂРµРґ Р·Р°РїРёСЃСЊСЋ:</div>
+        <div class="triggers-label" id="triggers-label">Контекст (триггер) перед записью:</div>
         <div class="triggers-pills">
           <button class="trigger-pill active" data-trig="habit">
             <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
-            <span data-trig-text="habit">РџСЂРёРІС‹С‡РєР°</span>
+            <span data-trig-text="habit">Привычка</span>
           </button>
           <button class="trigger-pill" data-trig="stress">
             <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span data-trig-text="stress">РЎС‚СЂРµСЃСЃ</span>
+            <span data-trig-text="stress">Стресс</span>
           </button>
           <button class="trigger-pill" data-trig="after_meal">
             <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20M21 2v6a3 3 0 0 1-3 3M3 2v7c0 1.66 1.34 3 3 3v8M6 2v7M9 2v7"/></svg>
-            <span data-trig-text="after_meal">РџРѕСЃР»Рµ РµРґС‹</span>
+            <span data-trig-text="after_meal">После еды</span>
           </button>
           <button class="trigger-pill" data-trig="coffee">
             <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>
-            <span data-trig-text="coffee">РљРѕС„Рµ / Р§Р°Р№</span>
+            <span data-trig-text="coffee">Кофе / Чай</span>
           </button>
           <button class="trigger-pill" data-trig="boredom">
             <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4M2 13a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5H2v-5zM6 18v3M18 18v3"/></svg>
-            <span data-trig-text="boredom">РЎРєСѓРєР°</span>
+            <span data-trig-text="boredom">Скука</span>
           </button>
           <button class="trigger-pill" data-trig="social">
             <svg class="trig-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <span data-trig-text="social">РљРѕРјРїР°РЅРёСЏ</span>
+            <span data-trig-text="social">Компания</span>
           </button>
         </div>
       </div>
 
-      <button class="undo hidden" id="undo-btn">РћС‚РјРµРЅРёС‚СЊ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РїРёСЃСЊ</button>
+      <button class="undo hidden" id="undo-btn">Отменить последнюю запись</button>
 
       <div class="level">
         <div class="level-icon" id="level-icon"></div>
         <div class="level-info">
           <div class="label">
-            <span id="level-label">РЎРµРіРѕРґРЅСЏ</span>
+            <span id="level-label">Сегодня</span>
             <b id="level-count">0 / 0</b>
           </div>
           <div class="bar"><div class="fill" id="level-bar"></div></div>
-          <div class="hint" id="level-hint">вЂ”</div>
+          <div class="hint" id="level-hint">—</div>
         </div>
       </div>
     </div>
@@ -1213,19 +1213,19 @@ header.top {
     <div class="stats">
       <div class="glass stat">
         <div class="v" id="stat-today">0</div>
-        <div class="l" id="stat-today-label">РЎРµРіРѕРґРЅСЏ</div>
+        <div class="l" id="stat-today-label">Сегодня</div>
       </div>
       <div class="glass stat">
         <div class="v" id="stat-avg">0</div>
-        <div class="l" id="stat-avg-label">РЎСЂРµРґРЅРµРµ Р·Р° 7 РґРЅРµР№</div>
+        <div class="l" id="stat-avg-label">Среднее за 7 дней</div>
       </div>
       <div class="glass stat">
         <div class="v" id="stat-streak">0</div>
-        <div class="l" id="stat-streak-label">Р”РЅРµР№ РІ С†РµР»Рё</div>
+        <div class="l" id="stat-streak-label">Дней в цели</div>
       </div>
       <div class="glass stat money">
-        <div class="v" id="stat-saved">0 в‚Ѕ</div>
-        <div class="l" id="stat-saved-label">РЎСЌРєРѕРЅРѕРјР»РµРЅРѕ</div>
+        <div class="v" id="stat-saved">0 ₽</div>
+        <div class="l" id="stat-saved-label">Сэкономлено</div>
       </div>
     </div>
 
@@ -1234,7 +1234,7 @@ header.top {
       <div class="wishlist-header">
         <div class="wishlist-title-wrap">
           <svg class="card-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#FBBF24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="3"/><path d="M12 8v13M3 13h18M8 8a3 3 0 1 1 3-3c0 1.5-3 3-3 3zM16 8a3 3 0 1 0-3-3c0 1.5 3 3 3 3z"/></svg>
-          <span class="wishlist-title" id="wishlist-title">РљРѕРїРёР»РєР° РЅР° РјРµС‡С‚Сѓ</span>
+          <span class="wishlist-title" id="wishlist-title">Копилка на мечту</span>
         </div>
         <span class="wishlist-pct" id="wishlist-pct">0%</span>
       </div>
@@ -1242,8 +1242,8 @@ header.top {
         <div class="wishlist-fill" id="wishlist-fill" style="width:0%"></div>
       </div>
       <div class="wishlist-sub">
-        <span id="wishlist-saved-amount">0 в‚Ѕ</span>
-        <span id="wishlist-target-amount">Р¦РµР»СЊ: 5 000 в‚Ѕ</span>
+        <span id="wishlist-saved-amount">0 ₽</span>
+        <span id="wishlist-target-amount">Цель: 5 000 ₽</span>
       </div>
     </div>
 
@@ -1252,17 +1252,17 @@ header.top {
       <div class="health-header">
         <h2 class="health-h2">
           <svg class="card-icon" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#4ADE80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13C4 7 10 3 20 3c0 10-4 16-11 17z"/><path d="M9 15l6-6"/></svg>
-          <span id="health-title">Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ Р·РґРѕСЂРѕРІСЊСЏ</span>
+          <span id="health-title">Восстановление здоровья</span>
         </h2>
         <button class="health-toggle-btn" id="health-toggle-btn">
-          <span id="health-toggle-text">Р’СЃРµ СЌС‚Р°РїС‹</span>
+          <span id="health-toggle-text">Все этапы</span>
           <svg class="chevron-svg" id="health-toggle-chev" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
       </div>
       <div class="health-current-box" id="health-current-box">
-        <div class="health-badge" id="health-current-badge">РўРµРєСѓС‰РёР№ СЌС‚Р°Рї</div>
-        <div class="health-stage-title" id="health-stage-title">РћС‡РёС‰РµРЅРёРµ СЃРѕСЃСѓРґРѕРІ</div>
-        <div class="health-stage-desc" id="health-stage-desc">РџСѓР»СЊСЃ Рё РґР°РІР»РµРЅРёРµ РїСЂРёС…РѕРґСЏС‚ РІ РЅРѕСЂРјСѓ...</div>
+        <div class="health-badge" id="health-current-badge">Текущий этап</div>
+        <div class="health-stage-title" id="health-stage-title">Очищение сосудов</div>
+        <div class="health-stage-desc" id="health-stage-desc">Пульс и давление приходят в норму...</div>
         <div class="health-next-bar">
           <div class="health-next-fill" id="health-next-fill" style="width:0%"></div>
         </div>
@@ -1273,37 +1273,37 @@ header.top {
     <!-- 14 Days Chart Panel -->
     <section class="glass panel">
       <div class="panel-header-wrap">
-        <h2 id="chart-title">РџРѕСЃР»РµРґРЅРёРµ 14 РґРЅРµР№</h2>
-        <span class="chart-summary-tag" id="chart-summary">Р’СЃРµРіРѕ: 0</span>
+        <h2 id="chart-title">Последние 14 дней</h2>
+        <span class="chart-summary-tag" id="chart-summary">Всего: 0</span>
       </div>
       <div id="chart-inspector" class="chart-inspector">
         <div class="chart-inspect-left">
-          <div class="chart-inspect-date" id="chart-inspect-date">вЂ”</div>
-          <div class="chart-inspect-val" id="chart-inspect-val">вЂ”</div>
+          <div class="chart-inspect-date" id="chart-inspect-date">—</div>
+          <div class="chart-inspect-val" id="chart-inspect-val">—</div>
         </div>
-        <div class="chart-inspect-badge" id="chart-inspect-badge">вЂ”</div>
+        <div class="chart-inspect-badge" id="chart-inspect-badge">—</div>
       </div>
       <canvas id="chart"></canvas>
     </section>
 
     <!-- Hourly Pattern Breakdown -->
     <section class="glass panel">
-      <h2 id="hourly-title">Р’СЂРµРјСЏ Р°РєС‚РёРІРЅРѕСЃС‚Рё (СЃРµРіРѕРґРЅСЏ)</h2>
+      <h2 id="hourly-title">Время активности (сегодня)</h2>
       <div class="hourly-grid">
         <div class="hourly-card">
-          <div class="hl" id="hl-morning">РЈС‚СЂРѕ<br>6вЂ“12</div>
+          <div class="hl" id="hl-morning">Утро<br>6–12</div>
           <div class="hv" id="hv-morning">0</div>
         </div>
         <div class="hourly-card">
-          <div class="hl" id="hl-day">Р”РµРЅСЊ<br>12вЂ“18</div>
+          <div class="hl" id="hl-day">День<br>12–18</div>
           <div class="hv" id="hv-day">0</div>
         </div>
         <div class="hourly-card">
-          <div class="hl" id="hl-eve">Р’РµС‡РµСЂ<br>18вЂ“24</div>
+          <div class="hl" id="hl-eve">Вечер<br>18–24</div>
           <div class="hv" id="hv-eve">0</div>
         </div>
         <div class="hourly-card">
-          <div class="hl" id="hl-night">РќРѕС‡СЊ<br>00вЂ“6</div>
+          <div class="hl" id="hl-night">Ночь<br>00–6</div>
           <div class="hv" id="hv-night">0</div>
         </div>
       </div>
@@ -1311,107 +1311,107 @@ header.top {
 
     <!-- Today's Entries -->
     <section class="glass panel">
-      <h2 id="history-title">РЎРµРіРѕРґРЅСЏС€РЅРёРµ Р·Р°РїРёСЃРё</h2>
+      <h2 id="history-title">Сегодняшние записи</h2>
       <div id="history-list"></div>
     </section>
 
-    <footer class="foot" id="main-footer">Р”Р°РЅРЅС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ РЅР° СЌС‚РѕРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ.<br>Р‘РµР· СЂРµРєР»Р°РјС‹, Р°РЅР°Р»РёС‚РёРєРё Рё С‚СЂРµРєРµСЂРѕРІ.</footer>
+    <footer class="foot" id="main-footer">Данные хранятся только на этом устройстве.<br>Без рекламы, аналитики и трекеров.</footer>
   </div>
 </div>
 
 <!-- Settings Modal -->
 <div class="modal-backdrop hidden" id="settings-modal">
   <div class="modal">
-    <h2 id="settings-title">РќР°СЃС‚СЂРѕР№РєРё</h2>
-    <div class="desc" id="settings-desc">РџР°СЂР°РјРµС‚СЂС‹ РїСЂРёР»РѕР¶РµРЅРёСЏ Рё С†РµР»РµР№.</div>
+    <h2 id="settings-title">Настройки</h2>
+    <div class="desc" id="settings-desc">Параметры приложения и целей.</div>
 
     <div class="field">
-      <label id="language-label">РЇР·С‹Рє</label>
+      <label id="language-label">Язык</label>
       <div class="choice-grid two" id="language-tabs">
-        <button class="choice active" data-lang="ru">Р СѓСЃСЃРєРёР№</button>
+        <button class="choice active" data-lang="ru">Русский</button>
         <button class="choice" data-lang="en">English</button>
       </div>
     </div>
 
     <div class="field">
-      <label id="currency-label">Р’Р°Р»СЋС‚Р°</label>
+      <label id="currency-label">Валюта</label>
       <div class="choice-grid four" id="currency-tabs">
-        <button class="choice active" data-currency="RUB">в‚Ѕ RUB</button>
-        <button class="choice" data-currency="EUR">в‚¬ EUR</button>
+        <button class="choice active" data-currency="RUB">₽ RUB</button>
+        <button class="choice" data-currency="EUR">€ EUR</button>
         <button class="choice" data-currency="USD">$ USD</button>
-        <button class="choice" data-currency="GBP">ВЈ GBP</button>
+        <button class="choice" data-currency="GBP">£ GBP</button>
       </div>
     </div>
 
     <div class="field">
-      <label id="settings-kind-label-text">Р§С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ</label>
+      <label id="settings-kind-label-text">Что отслеживать</label>
       <div class="choice-grid two" id="settings-kind-tabs">
         <button class="choice active" data-kind="snus">
           <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5" stroke-dasharray="2 2"/><path d="M12 2.5v2M12 19.5v2"/></svg>
-          <span data-kind-text="snus">РЎРЅСЋСЃ</span>
+          <span data-kind-text="snus">Снюс</span>
         </button>
         <button class="choice" data-kind="cigarette">
           <svg class="svg-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="15" height="4" rx="1.5"/><line x1="8" y1="10" x2="8" y2="14"/><path d="M21 8.5c.8.6.8 1.4 0 2"/></svg>
-          <span data-kind-text="cigarette">РЎРёРіР°СЂРµС‚С‹</span>
+          <span data-kind-text="cigarette">Сигареты</span>
         </button>
       </div>
     </div>
 
     <!-- Snus Config -->
     <div id="s-snus-fields">
-      <div class="field"><label id="s-baseline-label">РСЃРїРѕР»СЊР·РѕРІР°РЅРёР№ РІ РґРµРЅСЊ СЃРµР№С‡Р°СЃ</label><input id="s-baseline" type="number" inputmode="numeric" min="0"></div>
-      <div class="field"><label id="s-price-label">Р¦РµРЅР° Р±Р°РЅРєРё</label><input id="s-price" type="number" inputmode="decimal" min="0"></div>
-      <div class="field"><label id="s-per-pack-label">РџР°РєРµС‚РёРєРѕРІ РІ Р±Р°РЅРєРµ</label><input id="s-per-pack" type="number" inputmode="numeric" min="1"></div>
-      <div class="field"><label id="s-reuse-label">РЎСЂРµРґРЅРµРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёР№ РѕРґРЅРѕРіРѕ РїР°РєРµС‚РёРєР°</label><input id="s-reuse" type="number" inputmode="decimal" min="1" step="0.5"></div>
-      <div class="info" id="s-snus-info">РЎС‚РѕРёРјРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ = С†РµРЅР° Р±Р°РЅРєРё Г· (РїР°РєРµС‚РёРєРё Г— РїРѕРІС‚РѕСЂС‹).</div>
+      <div class="field"><label id="s-baseline-label">Использований в день сейчас</label><input id="s-baseline" type="number" inputmode="numeric" min="0"></div>
+      <div class="field"><label id="s-price-label">Цена банки</label><input id="s-price" type="number" inputmode="decimal" min="0"></div>
+      <div class="field"><label id="s-per-pack-label">Пакетиков в банке</label><input id="s-per-pack" type="number" inputmode="numeric" min="1"></div>
+      <div class="field"><label id="s-reuse-label">Среднее использований одного пакетика</label><input id="s-reuse" type="number" inputmode="decimal" min="1" step="0.5"></div>
+      <div class="info" id="s-snus-info">Стоимость одного использования = цена банки ÷ (пакетики × повторы).</div>
     </div>
 
     <!-- Cigarette Config -->
     <div id="s-cig-fields" class="hidden">
-      <div class="field"><label id="s-cig-baseline-label">РЎРёРіР°СЂРµС‚ РІ РґРµРЅСЊ СЃРµР№С‡Р°СЃ</label><input id="s-cig-baseline" type="number" inputmode="numeric" min="0"></div>
-      <div class="field"><label id="s-cig-price-label">Р¦РµРЅР° РїР°С‡РєРё</label><input id="s-cig-price" type="number" inputmode="decimal" min="0"></div>
-      <div class="field"><label id="s-cig-pack-size-label">РЎРёРіР°СЂРµС‚ РІ РїР°С‡РєРµ</label><input id="s-cig-pack-size" type="number" inputmode="numeric" min="1"></div>
-      <div class="info" id="s-cig-info">РЎС‚РѕРёРјРѕСЃС‚СЊ РѕРґРЅРѕР№ СЃРёРіР°СЂРµС‚С‹ = С†РµРЅР° РїР°С‡РєРё Г· РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРёРіР°СЂРµС‚.</div>
+      <div class="field"><label id="s-cig-baseline-label">Сигарет в день сейчас</label><input id="s-cig-baseline" type="number" inputmode="numeric" min="0"></div>
+      <div class="field"><label id="s-cig-price-label">Цена пачки</label><input id="s-cig-price" type="number" inputmode="decimal" min="0"></div>
+      <div class="field"><label id="s-cig-pack-size-label">Сигарет в пачке</label><input id="s-cig-pack-size" type="number" inputmode="numeric" min="1"></div>
+      <div class="info" id="s-cig-info">Стоимость одной сигареты = цена пачки ÷ количество сигарет.</div>
     </div>
 
     <!-- Goal Section -->
     <div class="field" style="margin-top:14px">
-      <label id="s-goal-label">Р¦РµР»СЊ</label>
+      <label id="s-goal-label">Цель</label>
       <div class="tabs" id="s-mode-tabs">
-        <button class="tab" data-mode="reduce">РЎРЅРёР¶Р°С‚СЊ</button>
-        <button class="tab" data-mode="limit">Р›РёРјРёС‚</button>
-        <button class="tab" data-mode="track">РЎС‡РёС‚Р°С‚СЊ</button>
+        <button class="tab" data-mode="reduce">Снижать</button>
+        <button class="tab" data-mode="limit">Лимит</button>
+        <button class="tab" data-mode="track">Считать</button>
       </div>
     </div>
-    <div class="field" id="s-quitdate-field"><label id="s-quitdate-label">Р”Р°С‚Р° РІС‹С…РѕРґР° РЅР° РЅРѕР»СЊ</label><input id="s-quitdate" type="date"></div>
-    <div class="field hidden" id="s-limit-field"><label id="s-limit-label">Р”РЅРµРІРЅРѕР№ Р»РёРјРёС‚</label><input id="s-limit" type="number" inputmode="numeric" min="0"></div>
+    <div class="field" id="s-quitdate-field"><label id="s-quitdate-label">Дата выхода на ноль</label><input id="s-quitdate" type="date"></div>
+    <div class="field hidden" id="s-limit-field"><label id="s-limit-label">Дневной лимит</label><input id="s-limit" type="number" inputmode="numeric" min="0"></div>
 
     <!-- Wishlist Goal Config -->
     <div class="field" style="margin-top:14px">
-      <label id="s-wishlist-title-label">Р¦РµР»СЊ СЌРєРѕРЅРѕРјРёРё (В«РљРѕРїРёР»РєР°В»)</label>
-      <input id="s-wishlist-title" type="text" placeholder="РЅР°РїСЂРёРјРµСЂ, РќР°СѓС€РЅРёРєРё РёР»Рё РџСѓС‚РµС€РµСЃС‚РІРёРµ">
+      <label id="s-wishlist-title-label">Цель экономии («Копилка»)</label>
+      <input id="s-wishlist-title" type="text" placeholder="например, Наушники или Путешествие">
     </div>
     <div class="field">
-      <label id="s-wishlist-cost-label">РЎС‚РѕРёРјРѕСЃС‚СЊ С†РµР»Рё</label>
-      <input id="s-wishlist-cost" type="number" inputmode="numeric" min="0" placeholder="РЅР°РїСЂРёРјРµСЂ, 15000">
+      <label id="s-wishlist-cost-label">Стоимость цели</label>
+      <input id="s-wishlist-cost" type="number" inputmode="numeric" min="0" placeholder="например, 15000">
     </div>
 
     <div class="actions">
-      <button class="secondary" id="s-close">Р—Р°РєСЂС‹С‚СЊ</button>
-      <button class="primary" id="s-save">РЎРѕС…СЂР°РЅРёС‚СЊ</button>
+      <button class="secondary" id="s-close">Закрыть</button>
+      <button class="primary" id="s-save">Сохранить</button>
     </div>
 
     <div class="linkrow">
-      <button id="s-export">Р­РєСЃРїРѕСЂС‚ РґР°РЅРЅС‹С…</button>
-      <button id="s-import-trigger">РРјРїРѕСЂС‚ РґР°РЅРЅС‹С…</button>
+      <button id="s-export">Экспорт данных</button>
+      <button id="s-import-trigger">Импорт данных</button>
     </div>
     <div class="linkrow">
-      <button class="danger" id="s-reset">РЎР±СЂРѕСЃРёС‚СЊ РІСЃС‘</button>
+      <button class="danger" id="s-reset">Сбросить всё</button>
     </div>
     <div class="settings-about" id="settings-about">
-      TrackLess v1.3.2 В· Liquid Glass Edition<br>
-      РџСЂРёР»РѕР¶РµРЅРёРµ СЃРѕР·РґР°РЅРѕ poorangryman СЃ РїРѕРјРѕС‰СЊСЋ РР.<br>
-      Р’СЃРµ РґР°РЅРЅС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ Р»РѕРєР°Р»СЊРЅРѕ РЅР° РІР°С€РµРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ.
+      TrackLess v1.3.3 · Liquid Glass Edition<br>
+      Приложение создано poorangryman с помощью ИИ.<br>
+      Все данные хранятся локально на вашем устройстве.
     </div>
     <input type="file" id="importFile" accept="application/json" style="display:none">
   </div>
@@ -1422,29 +1422,29 @@ header.top {
   <div class="modal sos-card">
     <h2 style="color:var(--amber);display:flex;align-items:center;justify-content:center;gap:7px">
       <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#FBBF24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="#FBBF24" fill-opacity="0.2"/></svg>
-      <span id="sos-title">РЎРїСЂР°РІРёС‚СЊСЃСЏ СЃ С‚СЏРіРѕР№</span>
+      <span id="sos-title">Справиться с тягой</span>
     </h2>
-    <div class="desc" id="sos-desc">РћСЃС‚СЂР°СЏ С‚СЏРіР° РґР»РёС‚СЃСЏ РІСЃРµРіРѕ 3вЂ“5 РјРёРЅСѓС‚. РЎРґРµР»Р°Р№С‚Рµ РґС‹С…Р°С‚РµР»СЊРЅРѕРµ СѓРїСЂР°Р¶РЅРµРЅРёРµ Рё РїРµСЂРµР¶РґРёС‚Рµ РІРѕР»РЅСѓ.</div>
+    <div class="desc" id="sos-desc">Острая тяга длится всего 3–5 минут. Сделайте дыхательное упражнение и переждите волну.</div>
 
     <div class="breath-container">
       <div class="breath-circle" id="breath-circle">
-        <span class="breath-text" id="breath-text">Р’РґРѕС…</span>
+        <span class="breath-text" id="breath-text">Вдох</span>
         <span class="breath-count" id="breath-count">4</span>
       </div>
     </div>
 
     <div class="craving-timer-box">
-      <div class="craving-timer-label" id="craving-timer-label">РўР°Р№РјРµСЂ РїСЂРµРѕРґРѕР»РµРЅРёСЏ С‚СЏРіРё:</div>
+      <div class="craving-timer-label" id="craving-timer-label">Таймер преодоления тяги:</div>
       <div class="craving-timer-clock" id="craving-clock">03:00</div>
-      <div class="craving-tip" id="craving-tip">В«РўСЏРіР° вЂ” СЌС‚Рѕ РєР°Рє РІРѕР»РЅР° РІ РѕРєРµР°РЅРµ: РѕРЅР° РЅР°СЂР°СЃС‚Р°РµС‚, РґРѕСЃС‚РёРіР°РµС‚ РїРёРєР° Рё РЅРµРёР·Р±РµР¶РЅРѕ СЃРїР°РґР°РµС‚.В»</div>
+      <div class="craving-tip" id="craving-tip">«Тяга — это как волна в океане: она нарастает, достигает пика и неизбежно спадает.»</div>
     </div>
 
     <div class="actions" style="flex-direction:column;gap:8px">
       <button class="primary" id="sos-success-btn" style="background:linear-gradient(135deg,#38BDF8,#4ADE80);display:flex;align-items:center;justify-content:center;gap:8px">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <span id="sos-success-text">РўСЏРіР° РѕС‚СЃС‚СѓРїРёР»Р°!</span>
+        <span id="sos-success-text">Тяга отступила!</span>
       </button>
-      <button class="secondary" id="sos-close-btn">Р’РµСЂРЅСѓС‚СЊСЃСЏ</button>
+      <button class="secondary" id="sos-close-btn">Вернуться</button>
     </div>
   </div>
 </div>
@@ -1453,7 +1453,7 @@ header.top {
 (function(){
 'use strict';
 const KEY = 'otvykaniye-tracker-v4', DAY = 86400000;
-const CURRENCIES = { RUB: 'в‚Ѕ', EUR: 'в‚¬', USD: '$', GBP: 'ВЈ' };
+const CURRENCIES = { RUB: '₽', EUR: '€', USD: '$', GBP: '£' };
 const $ = id => document.getElementById(id);
 
 function iso(d = new Date()) {
@@ -1631,7 +1631,7 @@ function unitCost() {
 }
 
 function money(value) {
-  return (Number(value) || 0).toLocaleString(state.language === 'en' ? 'en-US' : 'ru-RU', { maximumFractionDigits: 0 }) + ' ' + (CURRENCIES[state.currency] || 'в‚Ѕ');
+  return (Number(value) || 0).toLocaleString(state.language === 'en' ? 'en-US' : 'ru-RU', { maximumFractionDigits: 0 }) + ' ' + (CURRENCIES[state.currency] || '₽');
 }
 
 function saved() {
@@ -1649,7 +1649,7 @@ function fmt(ms) {
   const h = String(Math.floor((s % 86400) / 3600)).padStart(2, '0');
   const m = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
   const q = String(s % 60).padStart(2, '0');
-  if (days > 0) return `${days}Рґ ${h}:${m}:${q}`;
+  if (days > 0) return `${days}д ${h}:${m}:${q}`;
   return `${h}:${m}:${q}`;
 }
 
@@ -1698,13 +1698,13 @@ function toggleKindPopup() {
 
 // Health Recovery Milestones data
 const HEALTH_STAGES = [
-  { id: 'h1', ms: 20 * 60 * 1000, titleRu: '20 РјРёРЅСѓС‚: РџСѓР»СЊСЃ Рё С‚РѕРЅСѓСЃ СЃРѕСЃСѓРґРѕРІ', titleEn: '20 min: Heart rate & BP', descRu: 'РџСѓР»СЊСЃ Рё СЃРѕСЃСѓРґРёСЃС‚С‹Р№ С‚РѕРЅСѓСЃ СЃС‚Р°Р±РёР»РёР·РёСЂСѓСЋС‚СЃСЏ, СЃРЅРёР¶Р°РµС‚СЃСЏ СЃРїР°Р·Рј.', descEn: 'Heart rate and vascular tone normalize, reducing strain.' },
-  { id: 'h2', ms: 8 * 3600 * 1000, titleRu: '8 С‡Р°СЃРѕРІ: РљРёСЃР»РѕСЂРѕРґ РІ РєСЂРѕРІРё', titleEn: '8 hours: Blood Oxygen', descRu: 'РЈСЂРѕРІРµРЅСЊ СѓРіР°СЂРЅРѕРіРѕ РіР°Р·Р° СЃРЅРёР¶Р°РµС‚СЃСЏ, РєСЂРѕРІСЊ РїРѕР»РЅРѕС†РµРЅРЅРѕ РЅР°СЃС‹С‰Р°РµС‚СЃСЏ РєРёСЃР»РѕСЂРѕРґРѕРј.', descEn: 'Carbon monoxide drops, blood oxygen levels reach optimal state.' },
-  { id: 'h3', ms: 24 * 3600 * 1000, titleRu: '24 С‡Р°СЃР°: РЎРЅРёР¶РµРЅРёРµ РЅР°РіСЂСѓР·РєРё РЅР° СЃРµСЂРґС†Рµ', titleEn: '24 hours: Cardiac relief', descRu: 'РЈРіР°СЂРЅС‹Р№ РіР°Р· РїРѕР»РЅРѕСЃС‚СЊСЋ РІС‹РІРµРґРµРЅ. РџРёРєРѕРІР°СЏ РЅР°РіСЂСѓР·РєР° РЅР° РјРёРѕРєР°СЂРґ СЃРЅРёР¶Р°РµС‚СЃСЏ.', descEn: 'Carbon monoxide cleared. Myocardial load is significantly relieved.' },
-  { id: 'h4', ms: 48 * 3600 * 1000, titleRu: '48 С‡Р°СЃРѕРІ: Р РµС†РµРїС‚РѕСЂС‹ Рё РЅРёРєРѕС‚РёРЅ', titleEn: '48 hours: Taste & Nicotine', descRu: 'РќРёРєРѕС‚РёРЅ РІС‹РІРµРґРµРЅ РёР· РѕСЂРіР°РЅРёР·РјР°. РћР±РѕСЃС‚СЂСЏСЋС‚СЃСЏ РІРєСѓСЃ Рё РѕР±РѕРЅСЏРЅРёРµ.', descEn: 'Nicotine cleared from body. Taste and smell receptors sharpen.' },
-  { id: 'h5', ms: 72 * 3600 * 1000, titleRu: '72 С‡Р°СЃР°: Р‘СЂРѕРЅС…Рё Рё Р»РµРіРєРёРµ', titleEn: '72 hours: Breathing easier', descRu: 'Р‘СЂРѕРЅС…Рё СЂР°СЃСЃР»Р°Р±Р»СЏСЋС‚СЃСЏ, РѕР±СЉРµРј РґС‹С…Р°РЅРёСЏ СЂР°СЃС‚РµС‚, СѓСЂРѕРІРµРЅСЊ СЌРЅРµСЂРіРёРё РїРѕРІС‹С€Р°РµС‚СЃСЏ.', descEn: 'Bronchial tubes relax, breathing deepens, overall energy rises.' },
-  { id: 'h6', ms: 14 * DAY, titleRu: '2 РЅРµРґРµР»Рё: РњРёРєСЂРѕС†РёСЂРєСѓР»СЏС†РёСЏ', titleEn: '2 weeks: Circulation', descRu: 'РЈР»СѓС‡С€Р°РµС‚СЃСЏ РєСЂРѕРІРѕРѕР±СЂР°С‰РµРЅРёРµ РІ РґРµСЃРЅР°С… Рё РєРѕРЅРµС‡РЅРѕСЃС‚СЏС…. РЎРѕРЅ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РіР»СѓР±Р¶Рµ.', descEn: 'Circulation in gums and limbs improves. Sleep quality deepens.' },
-  { id: 'h7', ms: 30 * DAY, titleRu: '1 РјРµСЃСЏС†: Р”РѕС„Р°РјРёРЅРѕРІС‹Р№ Р±Р°Р»Р°РЅСЃ', titleEn: '1 month: Dopamine balance', descRu: 'РџРµСЂРµСЃС‚СЂР°РёРІР°СЋС‚СЃСЏ РЅРёРєРѕС‚РёРЅРѕРІС‹Рµ СЂРµС†РµРїС‚РѕСЂС‹. РўСЂРµРІРѕР¶РЅРѕСЃС‚СЊ Р·Р°РјРµС‚РЅРѕ РїР°РґР°РµС‚.', descEn: 'Nicotinic receptors reset. Anxiety and urge frequency drop.' }
+  { id: 'h1', ms: 20 * 60 * 1000, titleRu: '20 минут: Пульс и тонус сосудов', titleEn: '20 min: Heart rate & BP', descRu: 'Пульс и сосудистый тонус стабилизируются, снижается спазм.', descEn: 'Heart rate and vascular tone normalize, reducing strain.' },
+  { id: 'h2', ms: 8 * 3600 * 1000, titleRu: '8 часов: Кислород в крови', titleEn: '8 hours: Blood Oxygen', descRu: 'Уровень угарного газа снижается, кровь полноценно насыщается кислородом.', descEn: 'Carbon monoxide drops, blood oxygen levels reach optimal state.' },
+  { id: 'h3', ms: 24 * 3600 * 1000, titleRu: '24 часа: Снижение нагрузки на сердце', titleEn: '24 hours: Cardiac relief', descRu: 'Угарный газ полностью выведен. Пиковая нагрузка на миокард снижается.', descEn: 'Carbon monoxide cleared. Myocardial load is significantly relieved.' },
+  { id: 'h4', ms: 48 * 3600 * 1000, titleRu: '48 часов: Рецепторы и никотин', titleEn: '48 hours: Taste & Nicotine', descRu: 'Никотин выведен из организма. Обостряются вкус и обоняние.', descEn: 'Nicotine cleared from body. Taste and smell receptors sharpen.' },
+  { id: 'h5', ms: 72 * 3600 * 1000, titleRu: '72 часа: Бронхи и легкие', titleEn: '72 hours: Breathing easier', descRu: 'Бронхи расслабляются, объем дыхания растет, уровень энергии повышается.', descEn: 'Bronchial tubes relax, breathing deepens, overall energy rises.' },
+  { id: 'h6', ms: 14 * DAY, titleRu: '2 недели: Микроциркуляция', titleEn: '2 weeks: Circulation', descRu: 'Улучшается кровообращение в деснах и конечностях. Сон становится глубже.', descEn: 'Circulation in gums and limbs improves. Sleep quality deepens.' },
+  { id: 'h7', ms: 30 * DAY, titleRu: '1 месяц: Дофаминовый баланс', titleEn: '1 month: Dopamine balance', descRu: 'Перестраиваются никотиновые рецепторы. Тревожность заметно падает.', descEn: 'Nicotinic receptors reset. Anxiety and urge frequency drop.' }
 ];
 
 function renderTop() {
@@ -1760,7 +1760,7 @@ function renderHero() {
 
 function tick() {
   const last = p().entries.length ? p().entries[p().entries.length - 1] : null;
-  $('since-clock').textContent = last ? fmt(Date.now() - last.ts) : 'вЂ” : вЂ” : вЂ”';
+  $('since-clock').textContent = last ? fmt(Date.now() - last.ts) : '— : — : —';
 }
 
 function renderStats() {
@@ -1808,8 +1808,8 @@ function renderHealthCardLive() {
   const nextStage = HEALTH_STAGES[Math.min(HEALTH_STAGES.length - 1, currentStageIndex + (elapsed >= stage.ms ? 1 : 0))];
 
   if (elapsed === 0) {
-    $('health-stage-title').textContent = isEn ? 'Recovery starts with your first pause' : 'Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ РЅР°С‡РЅРµС‚СЃСЏ РїРѕСЃР»Рµ РїР°СѓР·С‹';
-    $('health-stage-desc').textContent = isEn ? 'Every minute without nicotine brings immediate relief to your cardiovascular system.' : 'РљР°Р¶РґР°СЏ РјРёРЅСѓС‚Р° Р±РµР· РЅРёРєРѕС‚РёРЅР° РґР°РµС‚ РЅРµРјРµРґР»РµРЅРЅСѓСЋ СЂР°Р·РіСЂСѓР·РєСѓ СЃРµСЂРґРµС‡РЅРѕ-СЃРѕСЃСѓРґРёСЃС‚РѕР№ СЃРёСЃС‚РµРјРµ.';
+    $('health-stage-title').textContent = isEn ? 'Recovery starts with your first pause' : 'Восстановление начнется после паузы';
+    $('health-stage-desc').textContent = isEn ? 'Every minute without nicotine brings immediate relief to your cardiovascular system.' : 'Каждая минута без никотина дает немедленную разгрузку сердечно-сосудистой системе.';
     $('health-next-fill').style.width = '0%';
   } else {
     $('health-stage-title').textContent = isEn ? stage.titleEn : stage.titleRu;
@@ -1872,27 +1872,27 @@ function renderHourly() {
 // History List with Triggers
 const TRIGGER_NAMES = {
   habit: {
-    ru: 'РџСЂРёРІС‹С‡РєР°', en: 'Habit',
+    ru: 'Привычка', en: 'Habit',
     icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>'
   },
   stress: {
-    ru: 'РЎС‚СЂРµСЃСЃ', en: 'Stress',
+    ru: 'Стресс', en: 'Stress',
     icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>'
   },
   after_meal: {
-    ru: 'РџРѕСЃР»Рµ РµРґС‹', en: 'After meal',
+    ru: 'После еды', en: 'After meal',
     icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v20M21 2v6a3 3 0 0 1-3 3M3 2v7c0 1.66 1.34 3 3 3v8M6 2v7M9 2v7"/></svg>'
   },
   coffee: {
-    ru: 'РљРѕС„Рµ/Р§Р°Р№', en: 'Coffee/Tea',
+    ru: 'Кофе/Чай', en: 'Coffee/Tea',
     icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>'
   },
   boredom: {
-    ru: 'РЎРєСѓРєР°', en: 'Boredom',
+    ru: 'Скука', en: 'Boredom',
     icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v4M2 13a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5H2v-5zM6 18v3M18 18v3"/></svg>'
   },
   social: {
-    ru: 'РљРѕРјРїР°РЅРёСЏ', en: 'Social',
+    ru: 'Компания', en: 'Social',
     icon: '<svg class="trig-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
   }
 };
@@ -1943,7 +1943,7 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-const RU_DAYS = ['Р’СЃ', 'РџРЅ', 'Р’С‚', 'РЎСЂ', 'Р§С‚', 'РџС‚', 'РЎР±'];
+const RU_DAYS = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 const EN_DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
 let chartDaysData = [];
@@ -1964,8 +1964,8 @@ function updateChartInspector() {
   const isYesterday = item.d === yesterdayIso;
 
   let datePrefix = '';
-  if (isToday) datePrefix = (isEn ? 'Today, ' : 'РЎРµРіРѕРґРЅСЏ, ');
-  else if (isYesterday) datePrefix = (isEn ? 'Yesterday, ' : 'Р’С‡РµСЂР°, ');
+  if (isToday) datePrefix = (isEn ? 'Today, ' : 'Сегодня, ');
+  else if (isYesterday) datePrefix = (isEn ? 'Yesterday, ' : 'Вчера, ');
 
   const dateText = datePrefix + item.dateObj.toLocaleDateString(loc, {
     weekday: isToday || isYesterday ? undefined : 'short',
@@ -1975,24 +1975,24 @@ function updateChartInspector() {
   $('chart-inspect-date').textContent = dateText;
 
   const unitStr = state.activeKind === 'snus'
-    ? (isEn ? 'uses' : 'РёСЃРї.')
-    : (isEn ? 'cigs' : 'СЃРёРі.');
+    ? (isEn ? 'uses' : 'исп.')
+    : (isEn ? 'cigs' : 'сиг.');
 
   $('chart-inspect-val').innerHTML = `<b>${item.n}</b> <span style="font-size:12px;font-weight:600;color:var(--dim)">${unitStr}</span>`;
 
   const badge = $('chart-inspect-badge');
   if (item.t === null) {
     badge.className = 'chart-inspect-badge neutral';
-    badge.textContent = isEn ? 'No target' : 'Р‘РµР· С†РµР»Рё';
+    badge.textContent = isEn ? 'No target' : 'Без цели';
   } else if (item.n > item.t) {
     const over = item.n - item.t;
     badge.className = 'chart-inspect-badge over';
-    badge.textContent = isEn ? `+${over} over goal (${item.t})` : `+${over} СЃРІРµСЂС… С†РµР»Рё (${item.t})`;
+    badge.textContent = isEn ? `+${over} over goal (${item.t})` : `+${over} сверх цели (${item.t})`;
   } else {
     badge.className = 'chart-inspect-badge';
     badge.textContent = isEn
-      ? (item.n === 0 ? `0 / ${item.t} in goal` : `In goal В· target ${item.t}`)
-      : (item.n === 0 ? `0 РёР· ${item.t} РІ С†РµР»Рё` : `Р’ С†РµР»Рё В· РЅРѕСЂРјР° ${item.t}`);
+      ? (item.n === 0 ? `0 / ${item.t} in goal` : `In goal · target ${item.t}`)
+      : (item.n === 0 ? `0 из ${item.t} в цели` : `В цели · норма ${item.t}`);
   }
 }
 
@@ -2025,8 +2025,8 @@ function renderChart() {
   const avg14 = (total14 / 14).toFixed(1);
   const isEn = state.language === 'en';
   $('chart-summary').textContent = isEn
-    ? `Total: ${total14} В· Avg: ${avg14}`
-    : `Р’СЃРµРіРѕ: ${total14} В· РЎСЂ: ${avg14}`;
+    ? `Total: ${total14} · Avg: ${avg14}`
+    : `Всего: ${total14} · Ср: ${avg14}`;
 
   const max = Math.max(1, p().baseline, ...days.map(x => x.n));
   const bw = w / days.length;
@@ -2207,10 +2207,10 @@ $('health-toggle-btn').onclick = () => {
 // SOS 4-7-8 Breathing & Craving Surfer Mode
 let sosTimer = null, breathInterval = null, sosSecondsLeft = 180;
 const CRAVING_TIPS_RU = [
-  'В«РўСЏРіР° вЂ” СЌС‚Рѕ РєР°Рє РІРѕР»РЅР° РІ РѕРєРµР°РЅРµ: РѕРЅР° РЅР°СЂР°СЃС‚Р°РµС‚, РґРѕСЃС‚РёРіР°РµС‚ РїРёРєР° Рё РЅРµРёР·Р±РµР¶РЅРѕ СЃРїР°РґР°РµС‚ С‡РµСЂРµР· РїР°СЂСѓ РјРёРЅСѓС‚.В»',
-  'РЎРґРµР»Р°Р№С‚Рµ РіР»РѕС‚РѕРє С…РѕР»РѕРґРЅРѕР№ РІРѕРґС‹. Р­С‚Рѕ РјРіРЅРѕРІРµРЅРЅРѕ РїРµСЂРµРєР»СЋС‡Р°РµС‚ РїР°СЂР°СЃРёРјРїР°С‚РёС‡РµСЃРєСѓСЋ РЅРµСЂРІРЅСѓСЋ СЃРёСЃС‚РµРјСѓ.',
-  'Р“Р»СѓР±РѕРєРёР№ РјРµРґР»РµРЅРЅС‹Р№ РІС‹РґРѕС… СЃС‚РёРјСѓР»РёСЂСѓРµС‚ Р±Р»СѓР¶РґР°СЋС‰РёР№ РЅРµСЂРІ Рё СЃРЅРёР¶Р°РµС‚ СѓСЂРѕРІРµРЅСЊ РєРѕСЂС‚РёР·РѕР»Р°.',
-  'РљР°Р¶РґР°СЏ РїСЂРµРѕРґРѕР»РµРЅРЅР°СЏ С‚СЏРіР° Р±СѓРєРІР°Р»СЊРЅРѕ РїРµСЂРµСЃС‚СЂР°РёРІР°РµС‚ РЅРµР№СЂРѕРЅРЅС‹Рµ РїСѓС‚Рё РІ РІР°С€РµРј РјРѕР·РіРµ.'
+  '«Тяга — это как волна в океане: она нарастает, достигает пика и неизбежно спадает через пару минут.»',
+  'Сделайте глоток холодной воды. Это мгновенно переключает парасимпатическую нервную систему.',
+  'Глубокий медленный выдох стимулирует блуждающий нерв и снижает уровень кортизола.',
+  'Каждая преодоленная тяга буквально перестраивает нейронные пути в вашем мозге.'
 ];
 const CRAVING_TIPS_EN = [
   '"Cravings are like ocean waves: they rise, peak, and inevitably fade within a few minutes."',
@@ -2299,7 +2299,7 @@ $('sos-close-btn').onclick = closeSosModal;
 $('sos-success-btn').onclick = () => {
   haptic('success');
   closeSosModal();
-  setTimeout(() => alert(state.language === 'en' ? 'Awesome job riding out the urge! Keep going!' : 'РћС‚Р»РёС‡РЅР°СЏ РїРѕР±РµРґР° РЅР°Рґ С‚СЏРіРѕР№! РўР°Рє РґРµСЂР¶Р°С‚СЊ!'), 100);
+  setTimeout(() => alert(state.language === 'en' ? 'Awesome job riding out the urge! Keep going!' : 'Отличная победа над тягой! Так держать!'), 100);
 };
 
 // Settings Modal & Form
@@ -2497,102 +2497,102 @@ $('ob-submit').onclick = () => {
 const I18N = {
   ru: {
     title: 'TrackLess',
-    firstRun: 'РџРµСЂРІС‹Р№ Р·Р°РїСѓСЃРє',
-    basicTitle: 'Р‘Р°Р·РѕРІС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё',
-    basicDesc: 'Р’С‹Р±РµСЂРёС‚Рµ СЏР·С‹Рє, РІР°Р»СЋС‚Сѓ Рё С‡С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ.',
-    trackerDesc: 'Р—Р°РґР°Р№С‚Рµ РїР°СЂР°РјРµС‚СЂС‹ РїРѕС‚СЂРµР±Р»РµРЅРёСЏ Рё С†РµР»СЊ.',
-    next: 'Р”Р°Р»РµРµ',
-    back: 'РќР°Р·Р°Рґ',
-    today: 'РЎРµРіРѕРґРЅСЏ',
-    settingsTitle: 'РќР°СЃС‚СЂРѕР№РєРё',
-    settingsDescSnus: 'РќР°СЃС‚СЂРѕР№РєРё СЃРЅСЋСЃР°, РІРєР»СЋС‡Р°СЏ РїРѕРІС‚РѕСЂРЅРѕРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РїР°РєРµС‚РёРєР°.',
-    settingsDescCig: 'РќР°СЃС‚СЂРѕР№РєРё СЃРёРіР°СЂРµС‚ Рё СЃС‚РѕРёРјРѕСЃС‚Рё РїР°С‡РєРё.',
-    language: 'РЇР·С‹Рє',
-    currency: 'Р’Р°Р»СЋС‚Р°',
-    snus: 'РЎРЅСЋСЃ',
-    cigarettes: 'РЎРёРіР°СЂРµС‚С‹',
-    kindBasic: 'Р§С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ',
-    goal: 'Р¦РµР»СЊ',
-    reduce: 'РЎРЅРёР¶Р°С‚СЊ',
-    limit: 'Р›РёРјРёС‚',
-    track: 'РЎС‡РёС‚Р°С‚СЊ',
-    quitDate: 'Рљ РєР°РєРѕР№ РґР°С‚Рµ РІС‹Р№С‚Рё РЅР° РЅРѕР»СЊ?',
-    dailyLimit: 'Р”РЅРµРІРЅРѕР№ Р»РёРјРёС‚',
-    start: 'РќР°С‡Р°С‚СЊ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ',
-    last14: 'РџРѕСЃР»РµРґРЅРёРµ 14 РґРЅРµР№',
-    todayEntries: 'РЎРµРіРѕРґРЅСЏС€РЅРёРµ Р·Р°РїРёСЃРё',
-    save: 'РЎРѕС…СЂР°РЅРёС‚СЊ',
-    close: 'Р—Р°РєСЂС‹С‚СЊ',
-    export: 'Р­РєСЃРїРѕСЂС‚ РґР°РЅРЅС‹С…',
-    import: 'РРјРїРѕСЂС‚ РґР°РЅРЅС‹С…',
-    reset: 'РЎР±СЂРѕСЃРёС‚СЊ РІСЃС‘',
-    last: 'РџРѕСЃР»РµРґРЅСЏСЏ',
-    recordUse: 'Р—Р°РїРёСЃР°С‚СЊ',
-    recordCig: 'Р—Р°РїРёСЃР°С‚СЊ',
-    undo: 'РћС‚РјРµРЅРёС‚СЊ РїРѕСЃР»РµРґРЅСЋСЋ Р·Р°РїРёСЃСЊ',
-    avg7: 'РЎСЂРµРґРЅРµРµ Р·Р° 7 РґРЅРµР№',
-    goalDays: 'Р”РЅРµР№ РІ С†РµР»Рё',
-    saved: 'РЎСЌРєРѕРЅРѕРјР»РµРЅРѕ',
-    historyEmpty: 'Р—Р°РїРёСЃРµР№ Р·Р° СЃРµРіРѕРґРЅСЏ РїРѕРєР° РЅРµС‚.',
-    delete: 'РЈРґР°Р»РёС‚СЊ',
-    local: 'Р”Р°РЅРЅС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ РЅР° СЌС‚РѕРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ.<br>Р‘РµР· СЂРµРєР»Р°РјС‹ Рё Р°РєРєР°СѓРЅС‚Р°.',
-    mainFooter: 'Р”Р°РЅРЅС‹Рµ С…СЂР°РЅСЏС‚СЃСЏ С‚РѕР»СЊРєРѕ РЅР° СЌС‚РѕРј СѓСЃС‚СЂРѕР№СЃС‚РІРµ.<br>Р‘РµР· СЂРµРєР»Р°РјС‹, Р°РЅР°Р»РёС‚РёРєРё Рё С‚СЂРµРєРµСЂРѕРІ.',
-    snusHint: (eq, reuse) => `в‰€ ${eq.toFixed(1)} РїР°Рє. В· 1 РїР°Рє. в‰€ ${reuse} РёСЃРї.`,
-    cigHint: (packs) => `в‰€ ${packs.toFixed(2)} РїР°С‡РєРё`,
-    noRecords: 'Р—Р°РїРёСЃРµР№ РїРѕРєР° РЅРµС‚',
-    noGoal: 'Р±РµР· С†РµР»Рё',
-    todayUse: 'РЎРµРіРѕРґРЅСЏ',
-    todayCig: 'РЎРµРіРѕРґРЅСЏ',
-    baselineSnus: 'РЎРєРѕР»СЊРєРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёР№ РІ РґРµРЅСЊ СЃРµР№С‡Р°СЃ?',
-    priceTin: 'Р¦РµРЅР° Р±Р°РЅРєРё',
-    perTin: 'РџР°РєРµС‚РёРєРѕРІ РІ Р±Р°РЅРєРµ',
-    reuse: 'РЎСЂРµРґРЅРµРµ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёР№ РѕРґРЅРѕРіРѕ РїР°РєРµС‚РёРєР°',
-    baselineCig: 'РЎРёРіР°СЂРµС‚ РІ РґРµРЅСЊ СЃРµР№С‡Р°СЃ',
-    pricePack: 'Р¦РµРЅР° РїР°С‡РєРё',
-    perPack: 'РЎРёРіР°СЂРµС‚ РІ РїР°С‡РєРµ',
-    reuseInfo: 'РЎС‚РѕРёРјРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ = С†РµРЅР° Р±Р°РЅРєРё Г· (РїР°РєРµС‚РёРєРё Г— РїРѕРІС‚РѕСЂС‹).',
-    snusInfo: 'Р•СЃР»Рё РѕРґРёРЅ РїР°РєРµС‚РёРє РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РЅРµСЃРєРѕР»СЊРєРѕ СЂР°Р·, РєР°Р¶РґРѕРµ РЅР°Р¶Р°С‚РёРµ В«Р—Р°РїРёСЃР°С‚СЊВ» СЃС‡РёС‚Р°РµС‚СЃСЏ РѕС‚РґРµР»СЊРЅС‹Рј РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј.',
-    cigInfo: 'РЎС‚РѕРёРјРѕСЃС‚СЊ РѕРґРЅРѕР№ СЃРёРіР°СЂРµС‚С‹ = С†РµРЅР° РїР°С‡РєРё Г· РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРёРіР°СЂРµС‚.',
-    placeholderBaseline: 'РЅР°РїСЂРёРјРµСЂ, 12',
-    placeholderTinPrice: 'РЅР°РїСЂРёРјРµСЂ, 200',
-    placeholderPouches: 'РЅР°РїСЂРёРјРµСЂ, 20',
-    placeholderPackPrice: 'РЅР°РїСЂРёРјРµСЂ, 220',
-    placeholderLimit: 'РЅР°РїСЂРёРјРµСЂ, 6',
-    heroSinceSnus: 'РЎ РїРѕСЃР»РµРґРЅРµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРѕС€Р»Рѕ',
-    heroSinceCig: 'РЎ РїРѕСЃР»РµРґРЅРµР№ СЃРёРіР°СЂРµС‚С‹ РїСЂРѕС€Р»Рѕ',
-    cravingBtn: 'РўСЏРіР° SOS',
-    triggersTitle: 'РљРѕРЅС‚РµРєСЃС‚ (С‚СЂРёРіРіРµСЂ) РїРµСЂРµРґ Р·Р°РїРёСЃСЊСЋ:',
-    trig_habit: 'РџСЂРёРІС‹С‡РєР°',
-    trig_stress: 'РЎС‚СЂРµСЃСЃ',
-    trig_after_meal: 'РџРѕСЃР»Рµ РµРґС‹',
-    trig_coffee: 'РљРѕС„Рµ / Р§Р°Р№',
-    trig_boredom: 'РЎРєСѓРєР°',
-    trig_social: 'РљРѕРјРїР°РЅРёСЏ',
-    wishlistDefault: 'РљРѕРїРёР»РєР° РЅР° РјРµС‡С‚Сѓ',
-    wishlistLabel: 'Р¦РµР»СЊ СЌРєРѕРЅРѕРјРёРё (В«РљРѕРїРёР»РєР°В»)',
-    wishlistCostLabel: 'РЎС‚РѕРёРјРѕСЃС‚СЊ С†РµР»Рё',
-    wishlistTitlePlaceholder: 'РЅР°РїСЂРёРјРµСЂ, РќР°СѓС€РЅРёРєРё РёР»Рё РџСѓС‚РµС€РµСЃС‚РІРёРµ',
-    wishlistCostPlaceholder: 'РЅР°РїСЂРёРјРµСЂ, 15000',
-    goalPrefix: 'Р¦РµР»СЊ: ',
-    healthTitle: 'Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ Р·РґРѕСЂРѕРІСЊСЏ',
-    healthCurrentBadge: 'РўРµРєСѓС‰РёР№ СЌС‚Р°Рї',
-    healthAllStages: 'Р’СЃРµ СЌС‚Р°РїС‹',
-    healthHideStages: 'РЎРєСЂС‹С‚СЊ СЌС‚Р°РїС‹',
-    hourlyTitle: 'Р’СЂРµРјСЏ Р°РєС‚РёРІРЅРѕСЃС‚Рё (СЃРµРіРѕРґРЅСЏ)',
-    hlMorning: 'РЈС‚СЂРѕ<br>6вЂ“12',
-    hlDay: 'Р”РµРЅСЊ<br>12вЂ“18',
-    hlEve: 'Р’РµС‡РµСЂ<br>18вЂ“24',
-    hlNight: 'РќРѕС‡СЊ<br>00вЂ“6',
-    sosTitle: 'РЎРїСЂР°РІРёС‚СЊСЃСЏ СЃ С‚СЏРіРѕР№',
-    sosDesc: 'РћСЃС‚СЂР°СЏ С‚СЏРіР° РґР»РёС‚СЃСЏ РІСЃРµРіРѕ 3вЂ“5 РјРёРЅСѓС‚. РЎРґРµР»Р°Р№С‚Рµ РґС‹С…Р°С‚РµР»СЊРЅРѕРµ СѓРїСЂР°Р¶РЅРµРЅРёРµ Рё РїРµСЂРµР¶РґРёС‚Рµ РІРѕР»РЅСѓ.',
-    breathInhale: 'Р’РґРѕС…',
-    breathHold: 'Р—Р°РґРµСЂР¶РєР°',
-    breathExhale: 'Р’С‹РґРѕС…',
-    cravingTimerLabel: 'РўР°Р№РјРµСЂ РїСЂРµРѕРґРѕР»РµРЅРёСЏ С‚СЏРіРё:',
-    sosSuccessBtn: 'РўСЏРіР° РѕС‚СЃС‚СѓРїРёР»Р°!',
-    sosCloseBtn: 'Р’РµСЂРЅСѓС‚СЊСЃСЏ',
-    backupError: 'РќРµ СѓРґР°Р»РѕСЃСЊ РїСЂРѕС‡РёС‚Р°С‚СЊ С„Р°Р№Р».',
-    resetConfirm: 'РЈРґР°Р»РёС‚СЊ РІСЃРµ РґР°РЅРЅС‹Рµ Рё РЅР°С‡Р°С‚СЊ Р·Р°РЅРѕРІРѕ?'
+    firstRun: 'Первый запуск',
+    basicTitle: 'Базовые настройки',
+    basicDesc: 'Выберите язык, валюту и что отслеживать.',
+    trackerDesc: 'Задайте параметры потребления и цель.',
+    next: 'Далее',
+    back: 'Назад',
+    today: 'Сегодня',
+    settingsTitle: 'Настройки',
+    settingsDescSnus: 'Настройки снюса, включая повторное использование пакетика.',
+    settingsDescCig: 'Настройки сигарет и стоимости пачки.',
+    language: 'Язык',
+    currency: 'Валюта',
+    snus: 'Снюс',
+    cigarettes: 'Сигареты',
+    kindBasic: 'Что отслеживать',
+    goal: 'Цель',
+    reduce: 'Снижать',
+    limit: 'Лимит',
+    track: 'Считать',
+    quitDate: 'К какой дате выйти на ноль?',
+    dailyLimit: 'Дневной лимит',
+    start: 'Начать отслеживание',
+    last14: 'Последние 14 дней',
+    todayEntries: 'Сегодняшние записи',
+    save: 'Сохранить',
+    close: 'Закрыть',
+    export: 'Экспорт данных',
+    import: 'Импорт данных',
+    reset: 'Сбросить всё',
+    last: 'Последняя',
+    recordUse: 'Записать',
+    recordCig: 'Записать',
+    undo: 'Отменить последнюю запись',
+    avg7: 'Среднее за 7 дней',
+    goalDays: 'Дней в цели',
+    saved: 'Сэкономлено',
+    historyEmpty: 'Записей за сегодня пока нет.',
+    delete: 'Удалить',
+    local: 'Данные хранятся только на этом устройстве.<br>Без рекламы и аккаунта.',
+    mainFooter: 'Данные хранятся только на этом устройстве.<br>Без рекламы, аналитики и трекеров.',
+    snusHint: (eq, reuse) => `≈ ${eq.toFixed(1)} пак. · 1 пак. ≈ ${reuse} исп.`,
+    cigHint: (packs) => `≈ ${packs.toFixed(2)} пачки`,
+    noRecords: 'Записей пока нет',
+    noGoal: 'без цели',
+    todayUse: 'Сегодня',
+    todayCig: 'Сегодня',
+    baselineSnus: 'Сколько использований в день сейчас?',
+    priceTin: 'Цена банки',
+    perTin: 'Пакетиков в банке',
+    reuse: 'Среднее использований одного пакетика',
+    baselineCig: 'Сигарет в день сейчас',
+    pricePack: 'Цена пачки',
+    perPack: 'Сигарет в пачке',
+    reuseInfo: 'Стоимость одного использования = цена банки ÷ (пакетики × повторы).',
+    snusInfo: 'Если один пакетик используется несколько раз, каждое нажатие «Записать» считается отдельным использованием.',
+    cigInfo: 'Стоимость одной сигареты = цена пачки ÷ количество сигарет.',
+    placeholderBaseline: 'например, 12',
+    placeholderTinPrice: 'например, 200',
+    placeholderPouches: 'например, 20',
+    placeholderPackPrice: 'например, 220',
+    placeholderLimit: 'например, 6',
+    heroSinceSnus: 'С последнего использования прошло',
+    heroSinceCig: 'С последней сигареты прошло',
+    cravingBtn: 'Тяга SOS',
+    triggersTitle: 'Контекст (триггер) перед записью:',
+    trig_habit: 'Привычка',
+    trig_stress: 'Стресс',
+    trig_after_meal: 'После еды',
+    trig_coffee: 'Кофе / Чай',
+    trig_boredom: 'Скука',
+    trig_social: 'Компания',
+    wishlistDefault: 'Копилка на мечту',
+    wishlistLabel: 'Цель экономии («Копилка»)',
+    wishlistCostLabel: 'Стоимость цели',
+    wishlistTitlePlaceholder: 'например, Наушники или Путешествие',
+    wishlistCostPlaceholder: 'например, 15000',
+    goalPrefix: 'Цель: ',
+    healthTitle: 'Восстановление здоровья',
+    healthCurrentBadge: 'Текущий этап',
+    healthAllStages: 'Все этапы',
+    healthHideStages: 'Скрыть этапы',
+    hourlyTitle: 'Время активности (сегодня)',
+    hlMorning: 'Утро<br>6–12',
+    hlDay: 'День<br>12–18',
+    hlEve: 'Вечер<br>18–24',
+    hlNight: 'Ночь<br>00–6',
+    sosTitle: 'Справиться с тягой',
+    sosDesc: 'Острая тяга длится всего 3–5 минут. Сделайте дыхательное упражнение и переждите волну.',
+    breathInhale: 'Вдох',
+    breathHold: 'Задержка',
+    breathExhale: 'Выдох',
+    cravingTimerLabel: 'Таймер преодоления тяги:',
+    sosSuccessBtn: 'Тяга отступила!',
+    sosCloseBtn: 'Вернуться',
+    backupError: 'Не удалось прочитать файл.',
+    resetConfirm: 'Удалить все данные и начать заново?'
   },
   en: {
     title: 'TrackLess',
@@ -2636,8 +2636,8 @@ const I18N = {
     delete: 'Delete',
     local: 'Data is stored only on this device.<br>No ads or account.',
     mainFooter: 'Data is stored only on this device.<br>No ads, analytics or trackers.',
-    snusHint: (eq, reuse) => `в‰€ ${eq.toFixed(1)} pouches В· 1 pouch в‰€ ${reuse} uses`,
-    cigHint: (packs) => `в‰€ ${packs.toFixed(2)} packs`,
+    snusHint: (eq, reuse) => `≈ ${eq.toFixed(1)} pouches · 1 pouch ≈ ${reuse} uses`,
+    cigHint: (packs) => `≈ ${packs.toFixed(2)} packs`,
     noRecords: 'No entries yet',
     noGoal: 'no goal',
     todayUse: 'Today',
@@ -2649,9 +2649,9 @@ const I18N = {
     baselineCig: 'Current cigarettes per day',
     pricePack: 'Pack price',
     perPack: 'Cigarettes per pack',
-    reuseInfo: 'Cost per use = can price Г· (pouches per can Г— uses per pouch).',
+    reuseInfo: 'Cost per use = can price ÷ (pouches per can × uses per pouch).',
     snusInfo: 'If one pouch is reused several times, each tap on Log counts as one separate use.',
-    cigInfo: 'Cost per cigarette = pack price Г· cigarettes per pack.',
+    cigInfo: 'Cost per cigarette = pack price ÷ cigarettes per pack.',
     placeholderBaseline: 'e.g. 12',
     placeholderTinPrice: 'e.g. 200',
     placeholderPouches: 'e.g. 20',
@@ -2678,12 +2678,12 @@ const I18N = {
     healthAllStages: 'All stages',
     healthHideStages: 'Hide stages',
     hourlyTitle: 'Activity Time (Today)',
-    hlMorning: 'Morning<br>6вЂ“12',
-    hlDay: 'Day<br>12вЂ“18',
-    hlEve: 'Evening<br>18вЂ“24',
-    hlNight: 'Night<br>00вЂ“6',
+    hlMorning: 'Morning<br>6–12',
+    hlDay: 'Day<br>12–18',
+    hlEve: 'Evening<br>18–24',
+    hlNight: 'Night<br>00–6',
     sosTitle: 'Ride out the craving',
-    sosDesc: 'Peak cravings last only 3вЂ“5 minutes. Practice the 4-7-8 breath and ride the wave.',
+    sosDesc: 'Peak cravings last only 3–5 minutes. Practice the 4-7-8 breath and ride the wave.',
     breathInhale: 'Inhale',
     breathHold: 'Hold',
     breathExhale: 'Exhale',
@@ -2730,7 +2730,7 @@ function updateChoiceState() {
 function applyLanguage() {
   const isEn = state.language === 'en';
   document.documentElement.lang = isEn ? 'en' : 'ru';
-  document.title = isEn ? 'TrackLess вЂ” tracker' : 'TrackLess вЂ” С‚СЂРµРєРµСЂ';
+  document.title = isEn ? 'TrackLess — tracker' : 'TrackLess — трекер';
 
   $('ob-first-run').textContent = tr('firstRun');
   $('ob-app-title').textContent = tr('title');
@@ -2778,19 +2778,19 @@ function applyLanguage() {
   $('s-wishlist-cost').placeholder = tr('wishlistCostPlaceholder');
 
   $('s-baseline-label').textContent = tr('baselineSnus');
-  $('s-price-label').textContent = tr('priceTin') + ' В· ' + (CURRENCIES[state.currency] || 'в‚Ѕ');
+  $('s-price-label').textContent = tr('priceTin') + ' · ' + (CURRENCIES[state.currency] || '₽');
   $('s-per-pack-label').textContent = tr('perTin');
   $('s-reuse-label').textContent = tr('reuse');
   $('s-cig-baseline-label').textContent = tr('baselineCig');
-  $('s-cig-price-label').textContent = tr('pricePack') + ' В· ' + (CURRENCIES[state.currency] || 'в‚Ѕ');
+  $('s-cig-price-label').textContent = tr('pricePack') + ' · ' + (CURRENCIES[state.currency] || '₽');
   $('s-cig-pack-size-label').textContent = tr('perPack');
 
-  $('ob-price-label').textContent = tr('priceTin') + ' В· ' + (CURRENCIES[state.currency] || 'в‚Ѕ');
+  $('ob-price-label').textContent = tr('priceTin') + ' · ' + (CURRENCIES[state.currency] || '₽');
   $('ob-limit-label').textContent = tr('dailyLimit');
   $('s-limit-label').textContent = tr('dailyLimit');
   $('ob-per-pack-label').textContent = tr('perTin');
   $('ob-reuse-label').textContent = tr('reuse');
-  $('ob-cig-price-label').textContent = tr('pricePack') + ' В· ' + (CURRENCIES[state.currency] || 'в‚Ѕ');
+  $('ob-cig-price-label').textContent = tr('pricePack') + ' · ' + (CURRENCIES[state.currency] || '₽');
   $('ob-cig-pack-size-label').textContent = tr('perPack');
 
   $('s-snus-info').textContent = tr('reuseInfo');

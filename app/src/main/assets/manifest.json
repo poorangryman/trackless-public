@@ -1,7 +1,7 @@
-﻿{
-  "name":"TrackLess вЂ” С‚СЂРµРєРµСЂ СЃРЅСЋСЃР° Рё СЃРёРіР°СЂРµС‚",
+{
+  "name":"TrackLess — трекер снюса и сигарет",
   "short_name":"TrackLess",
-  "description":"Р›РёС‡РЅС‹Р№ Р»РѕРєР°Р»СЊРЅС‹Р№ С‚СЂРµРєРµСЂ СЃРЅСЋСЃР° Рё СЃРёРіР°СЂРµС‚.",
+  "description":"Личный локальный трекер снюса и сигарет.",
   "start_url":"./index.html",
   "scope":"./",
   "display":"standalone",
