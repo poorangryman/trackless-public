@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.TracklessState
 import ru.otvykaniye.tracker.ui.theme.*
+import java.util.Calendar
 
 @Composable
 fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.ui.graphics.Color) {
@@ -35,9 +36,23 @@ fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.u
 fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
     val profile = state.profiles[state.activeKind] ?: return
     val lang = state.language
-    
+
+    val startOfToday = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.timeInMillis
+
+    val endOfToday = Calendar.getInstance().apply {
+        timeInMillis = startOfToday
+        add(Calendar.DAY_OF_YEAR, 1)
+    }.timeInMillis
+
+    val todayEntries = profile.entries.count { it.ts in startOfToday until endOfToday }
+
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        
+
         // Wishlist
         if (profile.wishlistTitle.isNotEmpty() && profile.wishlistCost > 0) {
             GlassCard(modifier = Modifier.fillMaxWidth()) {
@@ -46,10 +61,17 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                     Spacer(Modifier.height(12.dp))
                     Text(profile.wishlistTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     Spacer(Modifier.height(4.dp))
-                    
-                    val saved = (profile.baseline * profile.price) - (profile.entries.size * (profile.price / profile.perPack))
+
+                    // Convert pack price to a single-piece price before applying
+                    // consumption counts. Both baseline and entries are in pieces.
+                    val pricePerPiece = if (profile.perPack > 0) {
+                        profile.price / profile.perPack
+                    } else {
+                        0.0
+                    }
+                    val saved = (profile.baseline * pricePerPiece) - (profile.entries.size * pricePerPiece)
                     val progress = (saved.coerceAtLeast(0.0) / profile.wishlistCost).toFloat().coerceIn(0f, 1f)
-                    
+
                     Text("${saved.coerceAtLeast(0.0).toInt()} / ${profile.wishlistCost.toInt()} ${state.currency}", color = TextDim, fontSize = 14.sp)
                     Spacer(Modifier.height(12.dp))
                     LinearProgressIndicator(
@@ -67,7 +89,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
             Column(Modifier.padding(20.dp)) {
                 SectionHeader(Strings.get(lang, "health"), Icons.Rounded.Favorite, Emerald)
                 Spacer(Modifier.height(12.dp))
-                
+
                 val hours = timeSinceLast / (1000 * 60 * 60)
                 val stageIdx = when {
                     hours < 1 -> 0
@@ -76,21 +98,21 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                     hours < 72 -> 3
                     else -> 4
                 }
-                
+
                 val currentTitle = Strings.get(lang, "stage_$stageIdx")
                 val currentDesc = Strings.get(lang, "stage_${stageIdx}_desc")
-                
+
                 Text(currentTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 Spacer(Modifier.height(4.dp))
                 Text(currentDesc, color = TextDim, fontSize = 14.sp, lineHeight = 20.sp)
-                
+
                 if (stageIdx < 4) {
                     val nextTitle = Strings.get(lang, "stage_${stageIdx + 1}")
                     val maxHours = when(stageIdx) { 0 -> 1; 1 -> 12; 2 -> 24; 3 -> 72; else -> 72 }.toFloat()
                     val prevHours = when(stageIdx) { 0 -> 0; 1 -> 1; 2 -> 12; 3 -> 24; else -> 24 }.toFloat()
-                    
+
                     val progress = ((hours - prevHours) / (maxHours - prevHours)).coerceIn(0f, 1f)
-                    
+
                     Spacer(Modifier.height(16.dp))
                     Text(Strings.get(lang, "next_stage").format(nextTitle), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     Spacer(Modifier.height(8.dp))
@@ -113,8 +135,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                     Column {
                         Text(Strings.get(lang, "today"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
                         Spacer(Modifier.height(4.dp))
-                        val todayEntries = profile.entries.filter { it.ts > System.currentTimeMillis() - 86400000 }
-                        Text("${todayEntries.size}", color = TextPrimary, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Text("$todayEntries", color = TextPrimary, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(Strings.get(lang, "limit"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
@@ -124,7 +145,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                 }
             }
         }
-        
+
         // History List
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
@@ -135,7 +156,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                 } else {
                     profile.entries.takeLast(5).reversed().forEach { entry ->
                         Row(
-                            Modifier.fillMaxWidth().padding(vertical = 8.dp), 
+                            Modifier.fillMaxWidth().padding(vertical = 8.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
