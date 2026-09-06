@@ -1,5 +1,5 @@
 package ru.otvykaniye.tracker.ui.components
 
-import ru.otvykaniye.tracker.ui.theme.Strings
-
-typealias UiStrings = Strings
+object Strings {
+    fun get(lang: String, key: String): String = ru.otvykaniye.tracker.ui.theme.Strings.get(lang, key)
+}
