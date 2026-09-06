@@ -53,7 +53,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                     Text("${saved.coerceAtLeast(0.0).toInt()} / ${profile.wishlistCost.toInt()} ${state.currency}", color = TextDim, fontSize = 14.sp)
                     Spacer(Modifier.height(12.dp))
                     LinearProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         modifier = Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(5.dp)),
                         color = Amber,
                         trackColor = BgDeep
@@ -95,7 +95,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                     Text(Strings.get(lang, "next_stage").format(nextTitle), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     Spacer(Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
                         color = Emerald.copy(alpha = 0.5f),
                         trackColor = BgDeep

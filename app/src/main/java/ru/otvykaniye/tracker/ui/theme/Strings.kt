@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker.ui.theme
+package ru.otvykaniye.tracker.ui.theme
 
 object Strings {
     val RU = mapOf(

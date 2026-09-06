@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker.ui.screens
+package ru.otvykaniye.tracker.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
