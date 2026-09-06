@@ -15,4 +15,8 @@ class TracklessRepository(private val context: Context) {
         val json = state.toJson().toString()
         AppDataStore.saveStateSuspend(context, json)
     }
+
+    suspend fun recordUse(trigger: String): Boolean {
+        return AppDataStore.recordUse(context, trigger)
+    }
 }
