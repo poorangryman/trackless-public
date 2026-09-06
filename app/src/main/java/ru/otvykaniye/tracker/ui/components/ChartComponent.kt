@@ -1,11 +1,18 @@
 ﻿package ru.otvykaniye.tracker.ui.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -15,10 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.ProfileState
-import ru.otvykaniye.tracker.ui.theme.BgCard
-import ru.otvykaniye.tracker.ui.theme.Emerald
-import ru.otvykaniye.tracker.ui.theme.TextDim
-import ru.otvykaniye.tracker.ui.theme.TextPrimary
+import ru.otvykaniye.tracker.ui.theme.*
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -28,7 +32,6 @@ fun ChartComponent(profile: ProfileState) {
     val entries = profile.entries
     val dailyLimit = profile.dailyLimit
 
-    // Prepare data for the last 14 days
     val calendar = Calendar.getInstance()
     calendar.set(Calendar.HOUR_OF_DAY, 0)
     calendar.set(Calendar.MINUTE, 0)
@@ -48,24 +51,37 @@ fun ChartComponent(profile: ProfileState) {
     var selectedDay by remember { mutableStateOf<DayData?>(null) }
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp)) {
-            Text("📈 График за 14 дней", color = Emerald, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Spacer(Modifier.height(8.dp))
+        Column(Modifier.padding(20.dp)) {
+            SectionHeader("ГРАФИК 14 ДНЕЙ", Icons.Rounded.BarChart, Emerald)
+            Spacer(Modifier.height(16.dp))
             
-            if (selectedDay != null) {
-                val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
-                val dateStr = sdf.format(selectedDay!!.ts)
-                Text("$dateStr: ${selectedDay!!.count} шт", color = TextPrimary, fontWeight = FontWeight.Bold)
-            } else {
-                Text("Нажмите на столбец", color = TextDim, fontSize = 12.sp)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(BgDeep)
+                    .padding(horizontal = 16.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                if (selectedDay != null) {
+                    val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
+                    val dateStr = sdf.format(selectedDay!!.ts)
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(dateStr, color = TextPrimary, fontWeight = FontWeight.Medium)
+                        Text("${selectedDay!!.count} шт", color = if (selectedDay!!.count > dailyLimit) Coral else Emerald, fontWeight = FontWeight.Bold)
+                    }
+                } else {
+                    Text("Нажмите на столбец", color = TextDim, fontSize = 13.sp)
+                }
             }
             
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
 
             Canvas(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    .height(160.dp)
                     .pointerInput(days) {
                         detectTapGestures { offset ->
                             val canvasWidth = size.width
@@ -77,16 +93,17 @@ fun ChartComponent(profile: ProfileState) {
             ) {
                 val canvasWidth = size.width
                 val canvasHeight = size.height
-                val barWidth = (canvasWidth / 14) * 0.7f
-                val spacing = (canvasWidth / 14) * 0.3f
+                val barWidth = (canvasWidth / 14) * 0.65f
+                val spacing = (canvasWidth / 14) * 0.35f
 
                 // Draw limit line
                 val limitY = canvasHeight - (dailyLimit.toFloat() / maxCount) * canvasHeight
                 drawLine(
-                    color = Color.Red.copy(alpha = 0.5f),
+                    color = Coral.copy(alpha = 0.4f),
                     start = Offset(0f, limitY),
                     end = Offset(canvasWidth, limitY),
-                    strokeWidth = 2f
+                    strokeWidth = 2f,
+                    pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
                 )
 
                 days.forEachIndexed { index, day ->
@@ -94,10 +111,11 @@ fun ChartComponent(profile: ProfileState) {
                     val barHeight = (day.count.toFloat() / maxCount) * canvasHeight
                     val y = canvasHeight - barHeight
 
-                    val color = if (day.count > dailyLimit) Color(0xFFFB7185) else Emerald
+                    val color = if (day.count > dailyLimit) Coral else Emerald
+                    val alpha = if (selectedDay == day) 1f else 0.5f
 
                     drawRoundRect(
-                        color = color,
+                        color = color.copy(alpha = alpha),
                         topLeft = Offset(x, y),
                         size = Size(barWidth, barHeight),
                         cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx())
@@ -109,3 +127,48 @@ fun ChartComponent(profile: ProfileState) {
 }
 
 data class DayData(val ts: Long, val count: Int)
+
+@Composable
+fun HourlyStats(profile: ProfileState) {
+    val entries = profile.entries
+
+    var morning = 0
+    var day = 0
+    var eve = 0
+    var night = 0
+
+    val calendar = Calendar.getInstance()
+    entries.forEach { entry ->
+        calendar.timeInMillis = entry.ts
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        when (hour) {
+            in 6..11 -> morning++
+            in 12..17 -> day++
+            in 18..23 -> eve++
+            else -> night++
+        }
+    }
+
+    GlassCard(modifier = Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(20.dp)) {
+            SectionHeader("ВРЕМЯ УПОТРЕБЛЕНИЯ", Icons.Rounded.AccessTime, Cyan)
+            Spacer(Modifier.height(24.dp))
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                HourlyBlock("Утро", "6-12", morning)
+                HourlyBlock("День", "12-18", day)
+                HourlyBlock("Вечер", "18-24", eve)
+                HourlyBlock("Ночь", "0-6", night)
+            }
+        }
+    }
+}
+
+@Composable
+fun HourlyBlock(title: String, time: String, count: Int) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(title, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+        Text(time, color = TextDim, fontSize = 11.sp)
+        Spacer(Modifier.height(12.dp))
+        Text(count.toString(), color = Cyan, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
+    }
+}
