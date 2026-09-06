@@ -27,6 +27,7 @@
     
     <string name="chart_14_days">14-DAY CHART</string>
     <string name="tap_bar">Tap a bar</string>
+    <string name="pcs">pcs</string>
     <string name="pieces">%d pcs</string>
     
     <string name="time_of_use">TIME OF USE</string>
@@ -40,6 +41,7 @@
     <string name="tracker_limits">TRACKER &amp; LIMITS</string>
     <string name="daily_limit_pcs">Daily limit (pcs)</string>
     <string name="nicotine_calculation">Nicotine calculation format</string>
+    <string name="nic_format">Format on packaging</string>
     <string name="nic_per_pouch">Per pouch</string>
     <string name="nic_per_pack">Per pack</string>
     <string name="nic_per_gram">Per gram</string>
@@ -70,4 +72,8 @@
     <string name="widget_wide_description">TrackLess - timer, count and quick logging</string>
     <string name="widget_preview_snus">Snus</string>
     <string name="widget_preview_no_entries">No data</string>
+    <string name="widget_add_btn">+</string>
+    <string name="widget_time_passed">Time passed</string>
+    <string name="widget_loading">Loading...</string>
+    <string name="widget_today">Today:</string>
 </resources>
