@@ -1,49 +1,74 @@
 # AGENTS Guidelines for This Repository
 
-This repository contains an Android application project. When working on the project interactively with an AI coding agent, please follow the guidelines below to ensure architectural consistency, maximum performance, and a smooth development experience.
+This repository contains the active TrackLess Android application. When working on the project interactively with an AI coding agent, follow the guidelines below to preserve the current architecture and minimize regression risk.
 
 ## 1. Project Specifications
-- **Minimum SDK:** 24 (or defined by project)
-- **Target SDK:** 34
-- **Language:** Kotlin (1.9+)
-- **Build System:** Gradle (Kotlin DSL preferred)
+- **Minimum SDK:** 23
+- **Target SDK:** 35
+- **Compile SDK:** 35
+- **Language:** Kotlin
+- **Build System:** Gradle Groovy DSL (`build.gradle`)
+- **UI:** Jetpack Compose
+- **Widgets:** Android Glance AppWidgets
+- **Local persistence:** Jetpack DataStore Preferences
+- **Application ID:** `ru.otvykaniye.tracker`
+
+The live repository is authoritative if this document and the source disagree.
 
 ## 2. Architecture & Design Patterns
-We follow the official Android Architecture Guidelines:
-- **Presentation Layer:** StateFlow/SharedFlow in ViewModels. UI defined in Jetpack Compose (or XML if legacy). Unidirectional Data Flow (UDF).
-- **Domain Layer:** Optional UseCases for complex business logic.
-- **Data Layer:** Repository pattern to abstract data sources (Room for local, Retrofit for remote).
-- **Dependency Injection:** Hilt/Dagger (preferred) or Koin.
+The active application uses a small Compose + ViewModel + Repository architecture:
+- **Presentation Layer:** `TracklessViewModel` exposes `StateFlow<TracklessState>` to Compose UI.
+- **UI Layer:** Jetpack Compose under `ui/`.
+- **Data Layer:** `TracklessRepository` backed by DataStore Preferences.
+- **State model:** `TracklessState`, `ProfileState`, and `ConsumptionEntry` in `Models.kt`.
+- **Widgets:** Glance widgets share the persisted application state.
+
+Do not introduce Room, Retrofit, Hilt/Dagger, or another large architectural dependency unless the task explicitly requires it. Prefer the existing lightweight architecture.
 
 ## 3. Asynchronous Programming
-- **Concurrency:** Kotlin Coroutines exclusively. Avoid RxJava for new code (migrate if possible).
-- **Dispatchers:** Inject Dispatchers (don't hardcode `Dispatchers.IO`) to allow testing.
+- Use Kotlin Coroutines and Flow.
+- Do not use `runBlocking` on application/UI initialization paths.
+- Serialize consecutive state mutations so rapid user actions cannot overwrite newer state with an older snapshot.
+- Keep slow widget refresh work outside the state mutation critical section.
+- Avoid blocking the main thread for DataStore reads or writes.
 
 ## 4. UI Framework
-- **Jetpack Compose:** Default choice for all new features. Follow Compose best practices (state hoisting, modifiers, no side-effects in composables).
-- **Navigation:** Jetpack Navigation Compose.
+- Jetpack Compose is the active UI framework.
+- Follow unidirectional data flow: UI events -> ViewModel -> state -> UI.
+- Keep composables free of blocking work and uncontrolled side effects.
+- Reuse the existing localization and theme infrastructure rather than adding parallel systems.
 
 ## 5. Testing Philosophy
-- **Unit Tests:** JUnit4/JUnit5, MockK for mocking, Turbine for Flow testing. 
-- **UI Tests:** Compose Test Rule for UI components, Espresso for legacy XML.
-- Prefer testing ViewModel state emission over testing implementation details.
+- Prefer unit tests for pure calculations and ViewModel state transitions.
+- Test persistence behavior with rapid consecutive updates where practical.
+- Test calendar-day boundaries explicitly, including midnight and timezone/DST transitions.
+- When widgets or import/export are changed, verify those paths separately.
 
-## 6. External Documentation
-- When asked to implement a functionality that you are not sure of, refer to the official [Android Developer Documentation](https://developer.android.com) or [Kotlin Documentation](https://kotlinlang.org) for additional context and best practices.
+## 6. Data & Compatibility
+- Preserve existing JSON state fields unless a migration is intentionally implemented.
+- Import/export must preserve existing user data.
+- Do not silently discard unknown or future-compatible state fields.
+- Keep source files UTF-8 without BOM.
 
-## 7. Useful Agent Skills Recap
+## 7. Release & CI
+- `VERSION.txt` is the source for the release version name and generated versionCode.
+- Keep `VERSION.txt`, `app/build.gradle`, and `README.md` consistent when making a release version change.
+- Never commit keystores, passwords, tokens, or other secrets.
+- GitHub Actions is responsible for release APK builds and GitHub Releases from `main`.
+- Release/build workflow runs must be checked after build-related changes.
 
-| Skill Folder          | Purpose                                            |
-| --------------------- | -------------------------------------------------- |
-| `architecture/`       | Clean architecture, ViewModels, and Data Layer.    |
-| `ui/`                 | Jetpack Compose best practices, Coil, Accessibility. |
-| `performance/`        | Auditing Compose and Gradle build performance.     |
-| `migration/`          | XML to Compose, RxJava to Coroutines.              |
-| `testing_and_automation/` | Unit/UI Testing setup, Emulator automation scripts. |
-| `concurrency_and_networking/` | Coroutines fixes, Retrofit networking.             |
+## 8. External Documentation
+When implementing behavior that depends on Android APIs or platform-specific details, prefer official Android and Kotlin documentation.
 
----
+## 9. Useful Agent Skills Recap
 
-Following these practices ensures that the agent-assisted development workflow stays reliable and consistent. When in doubt, always refer to the specific agent skills provided in `.github/skills/` for deeper task-specific context!
+| Skill Folder | Purpose |
+| --- | --- |
+| `architecture/` | ViewModels, state, repositories, and data-layer design. |
+| `ui/` | Jetpack Compose practices, accessibility, and UI structure. |
+| `performance/` | Compose and Gradle performance auditing. |
+| `migration/` | Architecture and framework migrations. |
+| `testing_and_automation/` | Unit/UI testing and emulator automation. |
+| `concurrency_and_networking/` | Coroutine concurrency and networking fixes. |
 
-*Note to developers: Update this file whenever the project makes architectural shifts to ensure AI agents stay aligned with your conventions.*
+When a task is specialized, inspect the corresponding skill before making changes.
