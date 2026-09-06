@@ -30,9 +30,8 @@ import ru.otvykaniye.tracker.ui.theme.*
 fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
     val state by viewModel.state.collectAsState()
     val activeProfile = state.profiles[state.activeKind] ?: return
-    val lang = state.language
-    
-    var language by remember { mutableStateOf(lang) }
+
+    var language by remember { mutableStateOf(state.language) }
     var dailyLimit by remember { mutableStateOf(activeProfile.dailyLimit.toString()) }
     var wishlistTitle by remember { mutableStateOf(activeProfile.wishlistTitle) }
     var wishlistCost by remember { mutableStateOf(activeProfile.wishlistCost.toString()) }
@@ -51,7 +50,7 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
             containerColor = BgDeep,
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(Strings.get(lang, "settings"), color = TextPrimary, fontWeight = FontWeight.Bold) },
+                    title = { Text(Strings.get(language, "settings"), color = TextPrimary, fontWeight = FontWeight.Bold) },
                     navigationIcon = {
                         IconButton(onClick = onDismiss) {
                             Icon(Icons.Rounded.Close, contentDescription = "Close", tint = TextPrimary)
@@ -75,7 +74,7 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                             viewModel.saveSettings(state.copy(language = language, profiles = newProfiles))
                             onDismiss()
                         }) {
-                            Text(Strings.get(lang, "save"), color = Emerald, fontWeight = FontWeight.Bold)
+                            Text(Strings.get(language, "save"), color = Emerald, fontWeight = FontWeight.Bold)
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = BgCard)
@@ -90,7 +89,6 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                // Language
                 Row(
                     modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(BgCard).padding(4.dp),
                     horizontalArrangement = Arrangement.Center
@@ -103,19 +101,18 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     }
                 }
 
-                SettingsGroup(Strings.get(lang, "tracker_limits")) {
-                    SettingsField(Strings.get(lang, "daily_limit_pcs"), dailyLimit) { dailyLimit = it }
+                SettingsGroup(Strings.get(language, "tracker_limits")) {
+                    SettingsField(Strings.get(language, "daily_limit_pcs"), dailyLimit) { dailyLimit = it }
                 }
-                
+
                 if (state.activeKind == "snus") {
-                    SettingsGroup(Strings.get(lang, "nicotine_calculation")) {
-                        // Nicotine Format Selector
+                    SettingsGroup(Strings.get(language, "nicotine_calculation")) {
                         Row(
                             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(Strings.get(lang, "nic_format"), color = TextPrimary, fontSize = 16.sp)
+                            Text(Strings.get(language, "nic_format"), color = TextPrimary, fontSize = 16.sp)
                             Box(modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(BgDeep).clickable {
                                 nicotineFormat = when(nicotineFormat) {
                                     "per_pouch" -> "per_pack"
@@ -125,34 +122,34 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                             }.padding(horizontal = 12.dp, vertical = 8.dp)) {
                                 Text(
                                     when(nicotineFormat) {
-                                        "per_pack" -> Strings.get(lang, "nic_per_pack")
-                                        "per_gram" -> Strings.get(lang, "nic_per_gram")
-                                        else -> Strings.get(lang, "nic_per_pouch")
+                                        "per_pack" -> Strings.get(language, "nic_per_pack")
+                                        "per_gram" -> Strings.get(language, "nic_per_gram")
+                                        else -> Strings.get(language, "nic_per_pouch")
                                     },
                                     color = Emerald, fontWeight = FontWeight.Bold
                                 )
                             }
                         }
                         HorizontalDivider(color = BgDeep, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp))
-                        SettingsField(Strings.get(lang, "nicotine_amount"), nicotineDeclaredAmount, isDecimal = true) { nicotineDeclaredAmount = it }
-                        
+                        SettingsField(Strings.get(language, "nicotine_amount"), nicotineDeclaredAmount, isDecimal = true) { nicotineDeclaredAmount = it }
+
                         if (nicotineFormat == "per_gram") {
-                            SettingsField(Strings.get(lang, "pouch_weight"), pouchWeight, isDecimal = true) { pouchWeight = it }
+                            SettingsField(Strings.get(language, "pouch_weight"), pouchWeight, isDecimal = true) { pouchWeight = it }
                         }
                     }
                 }
 
-                SettingsGroup(Strings.get(lang, "wishlist")) {
-                    SettingsField(Strings.get(lang, "wishlist_title"), wishlistTitle, isText = true) { wishlistTitle = it }
-                    SettingsField(Strings.get(lang, "wishlist_cost"), wishlistCost) { wishlistCost = it }
+                SettingsGroup(Strings.get(language, "wishlist")) {
+                    SettingsField(Strings.get(language, "wishlist_title"), wishlistTitle, isText = true) { wishlistTitle = it }
+                    SettingsField(Strings.get(language, "wishlist_cost"), wishlistCost) { wishlistCost = it }
                 }
 
-                SettingsGroup(Strings.get(lang, "savings")) {
-                    SettingsField(Strings.get(lang, "baseline_per_day"), baseline) { baseline = it }
-                    SettingsField(Strings.get(lang, "price_per_pack"), price, isDecimal = true) { price = it }
-                    SettingsField(Strings.get(lang, "pcs_per_pack"), perPack) { perPack = it }
+                SettingsGroup(Strings.get(language, "savings")) {
+                    SettingsField(Strings.get(language, "baseline_per_day"), baseline) { baseline = it }
+                    SettingsField(Strings.get(language, "price_per_pack"), price, isDecimal = true) { price = it }
+                    SettingsField(Strings.get(language, "pcs_per_pack"), perPack) { perPack = it }
                 }
-                
+
                 Spacer(Modifier.height(32.dp))
             }
         }
@@ -190,8 +187,8 @@ fun SettingsField(label: String, value: String, isDecimal: Boolean = false, isTe
                 value = value,
                 onValueChange = onValueChange,
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = Emerald, 
-                    fontSize = 16.sp, 
+                    color = Emerald,
+                    fontSize = 16.sp,
                     textAlign = TextAlign.End,
                     fontWeight = FontWeight.Bold
                 ),
