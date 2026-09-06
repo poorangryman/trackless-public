@@ -5,6 +5,10 @@ on:
   push:
     branches: [main, feature/compose-ui-rewrite]
 
+concurrency:
+  group: trackless-release-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -69,12 +73,12 @@ jobs:
           # Check if APK is signed
           if command -v apksigner &>/dev/null; then
             if apksigner verify "$apk" 2>/dev/null; then
-              echo "✅ APK is properly signed (apksigner)"
+              echo "APK is properly signed (apksigner)"
             else
               echo "::warning::APK signature verification failed"
             fi
           elif jarsigner -verify -silent "$apk" 2>/dev/null; then
-            echo "✅ APK is signed (jarsigner)"
+            echo "APK is signed (jarsigner)"
           else
             echo "::warning::APK may not be signed. Users may not be able to install it."
           fi
