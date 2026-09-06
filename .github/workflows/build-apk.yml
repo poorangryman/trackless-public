@@ -60,7 +60,7 @@ jobs:
         run: |
           set -euo pipefail
           RELEASE_DIR="app/build/outputs/apk/release"
-          apk="$(find "$RELEASE_DIR" -maxdepth 1 -type f -name '*.apk' | head -n 1)"
+          apk="$(find "$RELEASE_DIR" -maxdepth 1 -type f -name '*.apk' -print -quit)"
           if [ -z "$apk" ]; then
             echo "::error::No release APK was produced."
             exit 1
@@ -69,12 +69,12 @@ jobs:
           # Check if APK is signed
           if command -v apksigner &>/dev/null; then
             if apksigner verify "$apk" 2>/dev/null; then
-              echo "тЬЕ APK is properly signed (apksigner)"
+              echo "✅ APK is properly signed (apksigner)"
             else
               echo "::warning::APK signature verification failed"
             fi
           elif jarsigner -verify -silent "$apk" 2>/dev/null; then
-            echo "тЬЕ APK is signed (jarsigner)"
+            echo "✅ APK is signed (jarsigner)"
           else
             echo "::warning::APK may not be signed. Users may not be able to install it."
           fi
@@ -88,8 +88,10 @@ jobs:
           APK_NAME="TrackLess-v${VERSION}.apk"
           RELEASE_DIR="app/build/outputs/apk/release"
 
-          apk="$(find "$RELEASE_DIR" -maxdepth 1 -type f -name '*.apk' | head -n 1)"
-          cp "$apk" "$RELEASE_DIR/$APK_NAME"
+          apk="$(find "$RELEASE_DIR" -maxdepth 1 -type f -name '*.apk' -print -quit)"
+          if [ "$apk" != "$RELEASE_DIR/$APK_NAME" ]; then
+            cp "$apk" "$RELEASE_DIR/$APK_NAME"
+          fi
           echo "apk_path=$RELEASE_DIR/$APK_NAME" >> "$GITHUB_OUTPUT"
           echo "apk_name=$APK_NAME" >> "$GITHUB_OUTPUT"
 
