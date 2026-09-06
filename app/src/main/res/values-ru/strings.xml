@@ -11,63 +11,58 @@
     <string name="today">Сегодня</string>
     <string name="limit">Лимит</string>
     <string name="no_entries">Пока нет записей</string>
-    <string name="times">%d раз</string>
-    
-    <string name="stage_0">Начало пути</string>
-    <string name="stage_0_desc">Пульс и давление приходят в норму. Кровообращение восстанавливается.</string>
+    <string name="stage_0">Начальный этап</string>
+    <string name="stage_0_desc">Давление и пульс приходят в норму.</string>
     <string name="stage_1">Очищение крови</string>
-    <string name="stage_1_desc">Уровень угарного газа падает до нормы. Кислород повышается.</string>
-    <string name="stage_2">Снижение риска</string>
-    <string name="stage_2_desc">Риск сердечного приступа начинает снижаться. Организм выводит остатки.</string>
-    <string name="stage_3">Никотин выведен</string>
-    <string name="stage_3_desc">Никотин полностью покинул тело. Обоняние и вкус улучшаются.</string>
+    <string name="stage_1_desc">Уровень угарного газа падает до нормы.</string>
+    <string name="stage_2">Снижение рисков</string>
+    <string name="stage_2_desc">Риск инфаркта начинает снижаться.</string>
+    <string name="stage_3">Вывод никотина</string>
+    <string name="stage_3_desc">Никотин полностью выведен из организма.</string>
     <string name="stage_4">Глубокое восстановление</string>
-    <string name="stage_4_desc">Функция легких улучшается. Симптомы отмены угасают.</string>
+    <string name="stage_4_desc">Функция легких значительно улучшается.</string>
     <string name="next_stage">Далее: %s</string>
-    
     <string name="chart_14_days">ГРАФИК 14 ДНЕЙ</string>
-    <string name="tap_bar">Нажмите на столбец</string>
+    <string name="tap_bar">Нажми на столбик</string>
+    <string name="pcs">шт</string>
     <string name="pieces">%d шт</string>
-    
     <string name="time_of_use">ВРЕМЯ УПОТРЕБЛЕНИЯ</string>
     <string name="morning">Утро</string>
     <string name="day">День</string>
     <string name="evening">Вечер</string>
     <string name="night">Ночь</string>
-    
     <string name="settings">Настройки</string>
     <string name="save">Сохранить</string>
     <string name="tracker_limits">ТРЕКЕР И ЛИМИТЫ</string>
     <string name="daily_limit_pcs">Дневной лимит (шт)</string>
-    <string name="nicotine_calculation">Формат никотина</string>
-    <string name="nic_per_pouch">На пак</string>
-    <string name="nic_per_pack">На пачку</string>
-    <string name="nic_per_gram">На грамм</string>
-    <string name="nicotine_amount">Количество никотина</string>
-    <string name="pouch_weight">Вес одного пака (г)</string>
-    
-    <string name="wishlist">ЦЕЛЬ (ВИШЛИСТ)</string>
+    <string name="nicotine_calculation">НИКОТИН</string>
+    <string name="nic_format">Формат на упаковке</string>
+    <string name="nic_per_pouch">В 1 шт</string>
+    <string name="nic_per_pack">В целой пачке</string>
+    <string name="nic_per_gram">На 1 грамм</string>
+    <string name="nicotine_amount">Заявленный никотин (мг)</string>
+    <string name="pouch_weight">Вес 1 шт (г)</string>
+    <string name="wishlist">ЦЕЛЬ (ЖЕЛАННОЕ)</string>
     <string name="wishlist_title">Название цели</string>
     <string name="wishlist_cost">Стоимость</string>
-    
-    <string name="savings">РАСЧЕТ ЭКОНОМИИ</string>
-    <string name="baseline_per_day">До отказа (в день)</string>
+    <string name="savings">СЭКОНОМЛЕНО</string>
+    <string name="baseline_per_day">Штук в день до (в среднем)</string>
     <string name="price_per_pack">Цена за пачку</string>
     <string name="pcs_per_pack">Штук в пачке</string>
-    
     <string name="sos_title">Справиться с тягой</string>
     <string name="sos_desc">Острая тяга длится 3-5 минут. Дышите.</string>
     <string name="sos_inhale">ВДОХ</string>
     <string name="sos_hold">ЗАДЕРЖКА</string>
     <string name="sos_exhale">ВЫДОХ</string>
-    <string name="sos_remains">Осталось переждать: %s</string>
-    <string name="sos_success">Тяга отступила!</string>
+    <string name="sos_remains">Осталось переждать:</string>
+    <string name="sos_success">Тяга преодолена!</string>
     <string name="snus">Снюс</string>
     <string name="cigarettes">Сигареты</string>
-    <string name="widget_small_name">TrackLess 1x1</string>
-    <string name="widget_wide_name">TrackLess 2x1</string>
-    <string name="widget_small_description">Таймер и быстрая запись</string>
-    <string name="widget_wide_description">Таймер, счетчик и запись</string>
-    <string name="widget_preview_snus">Снюс</string>
-    <string name="widget_preview_no_entries">Нет данных</string>
+    
+    <string name="widget_small_name">Быстрый трекер</string>
+    <string name="widget_wide_name">Трекер + Статус</string>
+    <string name="widget_add_btn">+</string>
+    <string name="widget_time_passed">Прошло</string>
+    <string name="widget_loading">Загрузка...</string>
+    <string name="widget_today">Сегодня:</string>
 </resources>
