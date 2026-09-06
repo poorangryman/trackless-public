@@ -1,8 +1,11 @@
 ﻿package ru.otvykaniye.tracker.ui.screens
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -10,12 +13,31 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.TracklessViewModel
 import ru.otvykaniye.tracker.ui.components.*
 import ru.otvykaniye.tracker.ui.theme.*
+
+@Composable
+fun AmbientBackground() {
+    val gradient = Brush.radialGradient(
+        colors = listOf(
+            Emerald.copy(alpha = 0.15f),
+            Color.Transparent,
+            Amber.copy(alpha = 0.08f),
+            Cyan.copy(alpha = 0.05f)
+        ),
+        radius = 1500f
+    )
+    Box(modifier = Modifier.fillMaxSize().background(BgDeep))
+    Box(modifier = Modifier.fillMaxSize().background(gradient))
+}
 
 @Composable
 fun MainScreen(viewModel: TracklessViewModel) {
@@ -31,40 +53,80 @@ fun MainScreen(viewModel: TracklessViewModel) {
         BackHandler { showSettings = false }
     }
 
-    Scaffold(
-        containerColor = BgDeep,
-        topBar = {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text("TrackLess", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
-                IconButton(onClick = { showSettings = true }) {
-                    Icon(Icons.Default.Settings, contentDescription = "Настройки", tint = TextDim)
+    Box(modifier = Modifier.fillMaxSize()) {
+        AmbientBackground()
+
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text("TRACKER", color = TextDim, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp)
+                        Text(
+                            text = "TrackLess",
+                            style = TextStyle(
+                                fontSize = 26.sp,
+                                fontWeight = FontWeight.ExtraBold,
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(Color.White, Color(0xFFB6D8CA))
+                                )
+                            )
+                        )
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        // Kind Pill
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(13.dp))
+                                .background(BgCard.copy(alpha = 0.8f))
+                                .clickable { 
+                                    viewModel.setKind(if (state.activeKind == "snus") "cigarette" else "snus")
+                                }
+                                .padding(horizontal = 12.dp, vertical = 8.dp)
+                        ) {
+                            Text(
+                                text = if (state.activeKind == "snus") "Снюс" else "Сигареты",
+                                color = Emerald,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                        }
+
+                        IconButton(onClick = { showSettings = true }) {
+                            Icon(Icons.Default.Settings, contentDescription = "Настройки", tint = TextPrimary)
+                        }
+                    }
                 }
             }
-        }
-    ) { padding ->
-        Column(
-            modifier = Modifier.fillMaxSize().padding(padding).verticalScroll(scrollState).padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            HeroCard(
-                timeSinceLast = timeSinceLast,
-                onRecord = { viewModel.recordUse("habit") },
-                onSos = { showSos = true }
-            )
-            
-            StatsGrid(state, timeSinceLast)
-            
-            val profile = state.profiles[state.activeKind]
-            if (profile != null) {
-                ChartComponent(profile)
-                HourlyStats(profile)
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                HeroCard(
+                    timeSinceLast = timeSinceLast,
+                    onRecord = { viewModel.recordUse("habit") },
+                    onSos = { showSos = true }
+                )
+                
+                StatsGrid(state, timeSinceLast)
+                
+                val profile = state.profiles[state.activeKind]
+                if (profile != null) {
+                    ChartComponent(profile)
+                    HourlyStats(profile)
+                }
+                
+                Spacer(modifier = Modifier.height(32.dp))
             }
-            
-            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 
@@ -80,18 +142,29 @@ fun MainScreen(viewModel: TracklessViewModel) {
 @Composable
 fun HeroCard(timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-        Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("С последнего использования прошло", color = TextDim, fontSize = 14.sp)
-            Spacer(Modifier.height(8.dp))
+        Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("С последнего использования прошло", color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+            Spacer(Modifier.height(12.dp))
             val timeStr = formatTime(timeSinceLast)
-            Text(timeStr, color = TextPrimary, fontSize = 36.sp, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.height(24.dp))
+            Text(timeStr, color = TextPrimary, fontSize = 42.sp, fontWeight = FontWeight.ExtraBold)
+            Spacer(Modifier.height(28.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Button(onClick = onRecord, modifier = Modifier.weight(1f).height(50.dp), colors = ButtonDefaults.buttonColors(containerColor = Emerald)) {
-                    Text("Записать", color = BgDeep, fontWeight = FontWeight.Bold)
+                Button(
+                    onClick = onRecord, 
+                    modifier = Modifier.weight(1f).height(52.dp), 
+                    shape = RoundedCornerShape(14.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Emerald)
+                ) {
+                    Text("Записать", color = BgDeep, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
-                OutlinedButton(onClick = onSos, modifier = Modifier.weight(1f).height(50.dp), colors = ButtonDefaults.outlinedButtonColors(contentColor = Amber)) {
-                    Text("Тяга SOS", fontWeight = FontWeight.Bold)
+                OutlinedButton(
+                    onClick = onSos, 
+                    modifier = Modifier.weight(1f).height(52.dp),
+                    shape = RoundedCornerShape(14.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Amber),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Amber.copy(alpha = 0.5f))
+                ) {
+                    Text("Тяга SOS", fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
             }
         }
