@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker.ui.screens
+package ru.otvykaniye.tracker.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -72,7 +72,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                 onRecord = { viewModel.recordUse("habit") },
                 onSos = { showSos = true }
             )
-            StatsGrid()
+            StatsGridWrapper(state, timeSinceLast)
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
@@ -131,8 +131,8 @@ fun HeroCard(
 }
 
 @Composable
-fun StatsGrid() {
-    // Placeholder for stats grid
+fun StatsGridWrapper(state: ru.otvykaniye.tracker.TracklessState, timeSinceLast: Long) {
+    ru.otvykaniye.tracker.ui.components.StatsGrid(state, timeSinceLast)
 }
 
 @Composable
