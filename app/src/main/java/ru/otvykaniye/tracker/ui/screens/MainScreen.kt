@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker.ui.screens
+package ru.otvykaniye.tracker.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -20,6 +20,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.otvykaniye.tracker.TracklessState
 import ru.otvykaniye.tracker.TracklessViewModel
 import ru.otvykaniye.tracker.ui.components.*
 import ru.otvykaniye.tracker.ui.theme.*
@@ -89,7 +90,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                                 .padding(horizontal = 12.dp, vertical = 8.dp)
                         ) {
                             Text(
-                                text = if (state.activeKind == "snus") "Снюс" else "Сигареты",
+                                text = if (state.activeKind == "snus") Strings.get(state.language, "snus") else Strings.get(state.language, "cigarettes"),
                                 color = Emerald,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 13.sp
@@ -97,7 +98,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                         }
 
                         IconButton(onClick = { showSettings = true }) {
-                            Icon(Icons.Default.Settings, contentDescription = "Настройки", tint = TextPrimary)
+                            Icon(Icons.Default.Settings, contentDescription = "Settings", tint = TextPrimary)
                         }
                     }
                 }
@@ -112,6 +113,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 HeroCard(
+                    state = state,
                     timeSinceLast = timeSinceLast,
                     onRecord = { viewModel.recordUse("habit") },
                     onSos = { showSos = true }
@@ -121,8 +123,8 @@ fun MainScreen(viewModel: TracklessViewModel) {
                 
                 val profile = state.profiles[state.activeKind]
                 if (profile != null) {
-                    ChartComponent(profile)
-                    HourlyStats(profile)
+                    ChartComponent(state)
+                    HourlyStats(state)
                 }
                 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -131,7 +133,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
     }
 
     if (showSos) {
-        SosDialog(onDismiss = { showSos = false })
+        SosDialog(state, onDismiss = { showSos = false })
     }
     
     if (showSettings) {
@@ -140,10 +142,11 @@ fun MainScreen(viewModel: TracklessViewModel) {
 }
 
 @Composable
-fun HeroCard(timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
+fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
+    val lang = state.language
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("С последнего использования прошло", color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+            Text(Strings.get(lang, "time_passed"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
             Spacer(Modifier.height(12.dp))
             val timeStr = formatTime(timeSinceLast)
             Text(timeStr, color = TextPrimary, fontSize = 42.sp, fontWeight = FontWeight.ExtraBold)
@@ -155,7 +158,7 @@ fun HeroCard(timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Emerald)
                 ) {
-                    Text("Записать", color = BgDeep, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    Text(Strings.get(lang, "record"), color = BgDeep, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
                 OutlinedButton(
                     onClick = onSos, 
@@ -164,7 +167,7 @@ fun HeroCard(timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = Amber),
                     border = androidx.compose.foundation.BorderStroke(1.dp, Amber.copy(alpha = 0.5f))
                 ) {
-                    Text("Тяга SOS", fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    Text(Strings.get(lang, "craving_sos"), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
             }
         }

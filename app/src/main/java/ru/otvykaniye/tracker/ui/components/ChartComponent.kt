@@ -20,16 +20,18 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.otvykaniye.tracker.ProfileState
+import ru.otvykaniye.tracker.TracklessState
 import ru.otvykaniye.tracker.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 @Composable
-fun ChartComponent(profile: ProfileState) {
+fun ChartComponent(state: TracklessState) {
+    val profile = state.profiles[state.activeKind] ?: return
     val entries = profile.entries
     val dailyLimit = profile.dailyLimit
+    val lang = state.language
 
     val calendar = Calendar.getInstance()
     calendar.set(Calendar.HOUR_OF_DAY, 0)
@@ -51,7 +53,7 @@ fun ChartComponent(profile: ProfileState) {
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(20.dp)) {
-            SectionHeader("ГРАФИК 14 ДНЕЙ", Icons.Rounded.BarChart, Emerald)
+            SectionHeader(Strings.get(lang, "chart_14_days"), Icons.Rounded.BarChart, Emerald)
             Spacer(Modifier.height(16.dp))
             
             Box(
@@ -68,10 +70,10 @@ fun ChartComponent(profile: ProfileState) {
                     val dateStr = sdf.format(selectedDay!!.ts)
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(dateStr, color = TextPrimary, fontWeight = FontWeight.Medium)
-                        Text("${selectedDay!!.count} шт", color = if (selectedDay!!.count > dailyLimit) Coral else Emerald, fontWeight = FontWeight.Bold)
+                        Text("${selectedDay!!.count} ${Strings.get(lang, "pcs")}", color = if (selectedDay!!.count > dailyLimit) Coral else Emerald, fontWeight = FontWeight.Bold)
                     }
                 } else {
-                    Text("Нажмите на столбец", color = TextDim, fontSize = 13.sp)
+                    Text(Strings.get(lang, "tap_bar"), color = TextDim, fontSize = 13.sp)
                 }
             }
             
@@ -128,8 +130,10 @@ fun ChartComponent(profile: ProfileState) {
 data class DayData(val ts: Long, val count: Int)
 
 @Composable
-fun HourlyStats(profile: ProfileState) {
+fun HourlyStats(state: TracklessState) {
+    val profile = state.profiles[state.activeKind] ?: return
     val entries = profile.entries
+    val lang = state.language
 
     var morning = 0
     var day = 0
@@ -150,13 +154,13 @@ fun HourlyStats(profile: ProfileState) {
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(20.dp)) {
-            SectionHeader("ВРЕМЯ УПОТРЕБЛЕНИЯ", Icons.Rounded.AccessTime, Cyan)
+            SectionHeader(Strings.get(lang, "time_of_use"), Icons.Rounded.AccessTime, Cyan)
             Spacer(Modifier.height(24.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                HourlyBlock("Утро", "6-12", morning)
-                HourlyBlock("День", "12-18", day)
-                HourlyBlock("Вечер", "18-24", eve)
-                HourlyBlock("Ночь", "0-6", night)
+                HourlyBlock(Strings.get(lang, "morning"), "6-12", morning)
+                HourlyBlock(Strings.get(lang, "day"), "12-18", day)
+                HourlyBlock(Strings.get(lang, "evening"), "18-24", eve)
+                HourlyBlock(Strings.get(lang, "night"), "0-6", night)
             }
         }
     }

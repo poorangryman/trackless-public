@@ -1,9 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TrackLess</string>
-    <string name="widget_small_name">TrackLess — 1×1</string>
-    <string name="widget_wide_name">TrackLess — 2×1</string>
-    <string name="widget_small_description">TrackLess — timer and quick logging</string>
-    <string name="widget_wide_description">TrackLess — timer, count and quick logging</string>
-    <string name="widget_preview_snus">🟢 Снюс</string>
-    <string name="widget_preview_no_entries">Нет записей</string>
+    <string name="time_passed">Time since last use</string>
+    <string name="record">Record</string>
+    <string name="craving_sos">Craving SOS</string>
+    <string name="target">TARGET</string>
+    <string name="health">HEALTH</string>
+    <string name="stats">STATISTICS</string>
+    <string name="history">HISTORY</string>
+    <string name="today">Today</string>
+    <string name="limit">Limit</string>
+    <string name="no_entries">No entries yet</string>
+    <string name="times">%d times</string>
+    
+    <string name="stage_0">Initial phase</string>
+    <string name="stage_0_desc">Blood pressure and heart rate are returning to normal. Circulation begins to improve.</string>
+    <string name="stage_1">Blood clearing</string>
+    <string name="stage_1_desc">Carbon monoxide levels in blood drop to normal. Oxygen increases.</string>
+    <string name="stage_2">Risk reduction</string>
+    <string name="stage_2_desc">Risk of heart attack begins to decrease. Nicotine is being flushed out.</string>
+    <string name="stage_3">Nicotine cleared</string>
+    <string name="stage_3_desc">Nicotine is completely out of your body. Taste and smell improve.</string>
+    <string name="stage_4">Deep recovery</string>
+    <string name="stage_4_desc">Lung function improves. Withdrawal symptoms fade.</string>
+    <string name="next_stage">Next: %s</string>
+    
+    <string name="chart_14_days">14-DAY CHART</string>
+    <string name="tap_bar">Tap a bar</string>
+    <string name="pieces">%d pcs</string>
+    
+    <string name="time_of_use">TIME OF USE</string>
+    <string name="morning">Morning</string>
+    <string name="day">Day</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
+    
+    <string name="settings">Settings</string>
+    <string name="save">Save</string>
+    <string name="tracker_limits">TRACKER &amp; LIMITS</string>
+    <string name="daily_limit_pcs">Daily limit (pcs)</string>
+    <string name="nicotine_calculation">Nicotine calculation format</string>
+    <string name="nic_per_pouch">Per pouch</string>
+    <string name="nic_per_pack">Per pack</string>
+    <string name="nic_per_gram">Per gram</string>
+    <string name="nicotine_amount">Nicotine amount</string>
+    <string name="pouch_weight">Pouch weight (g)</string>
+    
+    <string name="wishlist">WISHLIST</string>
+    <string name="wishlist_title">Target name</string>
+    <string name="wishlist_cost">Target cost</string>
+    
+    <string name="savings">SAVINGS</string>
+    <string name="baseline_per_day">Used per day before</string>
+    <string name="price_per_pack">Price per pack</string>
+    <string name="pcs_per_pack">Pieces in pack</string>
+    
+    <string name="sos_title">Overcome craving</string>
+    <string name="sos_desc">Acute cravings last 3-5 minutes. Breathe.</string>
+    <string name="sos_inhale">INHALE</string>
+    <string name="sos_hold">HOLD</string>
+    <string name="sos_exhale">EXHALE</string>
+    <string name="sos_remains">Time remaining: %s</string>
+    <string name="sos_success">Craving is gone!</string>
+    <string name="snus">Snus</string>
+    <string name="cigarettes">Cigarettes</string>
 </resources>

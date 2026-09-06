@@ -13,26 +13,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+import ru.otvykaniye.tracker.TracklessState
 import ru.otvykaniye.tracker.ui.theme.*
 
 @Composable
-fun SosDialog(onDismiss: () -> Unit) {
-    var phase by remember { mutableStateOf("ВДОХ") }
+fun SosDialog(state: TracklessState, onDismiss: () -> Unit) {
+    val lang = state.language
+    val inhaleStr = Strings.get(lang, "sos_inhale")
+    val holdStr = Strings.get(lang, "sos_hold")
+    val exhaleStr = Strings.get(lang, "sos_exhale")
+    
+    var phase by remember { mutableStateOf(inhaleStr) }
     var seconds by remember { mutableStateOf(4) }
     var totalTime by remember { mutableStateOf(180) }
 
     LaunchedEffect(Unit) {
         // 4-7-8 Breathing logic
         while (totalTime > 0) {
-            phase = "ВДОХ"
+            phase = inhaleStr
             seconds = 4
             while (seconds > 0) { delay(1000); seconds--; totalTime-- }
             
-            phase = "ЗАДЕРЖКА"
+            phase = holdStr
             seconds = 7
             while (seconds > 0) { delay(1000); seconds--; totalTime-- }
             
-            phase = "ВЫДОХ"
+            phase = exhaleStr
             seconds = 8
             while (seconds > 0) { delay(1000); seconds--; totalTime-- }
         }
@@ -40,10 +46,10 @@ fun SosDialog(onDismiss: () -> Unit) {
 
     val infiniteTransition = rememberInfiniteTransition(label = "")
     val scale by infiniteTransition.animateFloat(
-        initialValue = if (phase == "ВДОХ") 0.5f else 1f,
-        targetValue = if (phase == "ВДОХ") 1f else if (phase == "ВЫДОХ") 0.5f else 1f,
+        initialValue = if (phase == inhaleStr) 0.5f else 1f,
+        targetValue = if (phase == inhaleStr) 1f else if (phase == exhaleStr) 0.5f else 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(if (phase == "ВДОХ") 4000 else if (phase == "ВЫДОХ") 8000 else 100, easing = LinearEasing),
+            animation = tween(if (phase == inhaleStr) 4000 else if (phase == exhaleStr) 8000 else 100, easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         ),
         label = ""
@@ -52,10 +58,10 @@ fun SosDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = BgCard,
-        title = { Text("Справиться с тягой", color = Amber) },
+        title = { Text(Strings.get(lang, "sos_title"), color = Amber) },
         text = {
             Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
-                Text("Острая тяга длится 3-5 минут. Дышите.", color = Color.LightGray)
+                Text(Strings.get(lang, "sos_desc"), color = Color.LightGray)
                 Spacer(Modifier.height(32.dp))
                 
                 Box(contentAlignment = Alignment.Center, modifier = Modifier.size(150.dp)) {
@@ -71,12 +77,12 @@ fun SosDialog(onDismiss: () -> Unit) {
                 Spacer(Modifier.height(32.dp))
                 val m = totalTime / 60
                 val s = totalTime % 60
-                Text("Осталось переждать: ${String.format("%02d:%02d", m, s)}", color = Color.Gray)
+                Text("${Strings.get(lang, "sos_remains")} ${String.format("%02d:%02d", m, s)}", color = Color.Gray)
             }
         },
         confirmButton = {
             Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = Emerald)) {
-                Text("Тяга отступила!", color = BgDeep, fontWeight = FontWeight.Bold)
+                Text(Strings.get(lang, "sos_success"), color = BgDeep, fontWeight = FontWeight.Bold)
             }
         }
     )

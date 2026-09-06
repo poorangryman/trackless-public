@@ -1,6 +1,7 @@
 package ru.otvykaniye.tracker.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,11 +30,15 @@ import ru.otvykaniye.tracker.ui.theme.*
 fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
     val state by viewModel.state.collectAsState()
     val activeProfile = state.profiles[state.activeKind] ?: return
+    val lang = state.language
     
+    var language by remember { mutableStateOf(lang) }
     var dailyLimit by remember { mutableStateOf(activeProfile.dailyLimit.toString()) }
     var wishlistTitle by remember { mutableStateOf(activeProfile.wishlistTitle) }
     var wishlistCost by remember { mutableStateOf(activeProfile.wishlistCost.toString()) }
-    var nicotinePerPouch by remember { mutableStateOf(activeProfile.nicotinePerPouch.toString()) }
+    var nicotineFormat by remember { mutableStateOf(activeProfile.nicotineFormat) }
+    var nicotineDeclaredAmount by remember { mutableStateOf(activeProfile.nicotineDeclaredAmount.toString()) }
+    var pouchWeight by remember { mutableStateOf(activeProfile.pouchWeight.toString()) }
     var baseline by remember { mutableStateOf(activeProfile.baseline.toString()) }
     var price by remember { mutableStateOf(activeProfile.price.toString()) }
     var perPack by remember { mutableStateOf(activeProfile.perPack.toString()) }
@@ -46,10 +51,10 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
             containerColor = BgDeep,
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text("Настройки", color = TextPrimary, fontWeight = FontWeight.Bold) },
+                    title = { Text(Strings.get(lang, "settings"), color = TextPrimary, fontWeight = FontWeight.Bold) },
                     navigationIcon = {
                         IconButton(onClick = onDismiss) {
-                            Icon(Icons.Rounded.Close, contentDescription = "Закрыть", tint = TextPrimary)
+                            Icon(Icons.Rounded.Close, contentDescription = "Close", tint = TextPrimary)
                         }
                     },
                     actions = {
@@ -58,17 +63,19 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                                 dailyLimit = dailyLimit.toIntOrNull() ?: activeProfile.dailyLimit,
                                 wishlistTitle = wishlistTitle,
                                 wishlistCost = wishlistCost.toDoubleOrNull() ?: activeProfile.wishlistCost,
-                                nicotinePerPouch = nicotinePerPouch.toDoubleOrNull() ?: activeProfile.nicotinePerPouch,
+                                nicotineFormat = nicotineFormat,
+                                nicotineDeclaredAmount = nicotineDeclaredAmount.toDoubleOrNull() ?: activeProfile.nicotineDeclaredAmount,
+                                pouchWeight = pouchWeight.toDoubleOrNull() ?: activeProfile.pouchWeight,
                                 baseline = baseline.toIntOrNull() ?: activeProfile.baseline,
                                 price = price.toDoubleOrNull() ?: activeProfile.price,
                                 perPack = perPack.toIntOrNull() ?: activeProfile.perPack
                             )
                             val newProfiles = state.profiles.toMutableMap()
                             newProfiles[state.activeKind] = updatedProfile
-                            viewModel.saveSettings(state.copy(profiles = newProfiles))
+                            viewModel.saveSettings(state.copy(language = language, profiles = newProfiles))
                             onDismiss()
                         }) {
-                            Text("Сохранить", color = Emerald, fontWeight = FontWeight.Bold)
+                            Text(Strings.get(lang, "save"), color = Emerald, fontWeight = FontWeight.Bold)
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = BgCard)
@@ -83,22 +90,67 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                SettingsGroup("ТРЕКЕР И ЛИМИТЫ") {
-                    SettingsField("Дневной лимит (шт)", dailyLimit) { dailyLimit = it }
-                    if (state.activeKind == "snus") {
-                        SettingsField("Никотин (мг/пак)", nicotinePerPouch, isDecimal = true) { nicotinePerPouch = it }
+                // Language
+                Row(
+                    modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(BgCard).padding(4.dp),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Box(modifier = Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(if (language == "ru") BgDeep else Color.Transparent).clickable { language = "ru" }.padding(12.dp), contentAlignment = Alignment.Center) {
+                        Text("Русский", color = if (language == "ru") Emerald else TextDim, fontWeight = FontWeight.Bold)
+                    }
+                    Box(modifier = Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(if (language == "en") BgDeep else Color.Transparent).clickable { language = "en" }.padding(12.dp), contentAlignment = Alignment.Center) {
+                        Text("English", color = if (language == "en") Emerald else TextDim, fontWeight = FontWeight.Bold)
                     }
                 }
 
-                SettingsGroup("ЦЕЛЬ (ВИШЛИСТ)") {
-                    SettingsField("Название цели", wishlistTitle, isText = true) { wishlistTitle = it }
-                    SettingsField("Стоимость", wishlistCost) { wishlistCost = it }
+                SettingsGroup(Strings.get(lang, "tracker_limits")) {
+                    SettingsField(Strings.get(lang, "daily_limit_pcs"), dailyLimit) { dailyLimit = it }
+                }
+                
+                if (state.activeKind == "snus") {
+                    SettingsGroup(Strings.get(lang, "nicotine_calculation")) {
+                        // Nicotine Format Selector
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(Strings.get(lang, "nic_format"), color = TextPrimary, fontSize = 16.sp)
+                            Box(modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(BgDeep).clickable {
+                                nicotineFormat = when(nicotineFormat) {
+                                    "per_pouch" -> "per_pack"
+                                    "per_pack" -> "per_gram"
+                                    else -> "per_pouch"
+                                }
+                            }.padding(horizontal = 12.dp, vertical = 8.dp)) {
+                                Text(
+                                    when(nicotineFormat) {
+                                        "per_pack" -> Strings.get(lang, "nic_per_pack")
+                                        "per_gram" -> Strings.get(lang, "nic_per_gram")
+                                        else -> Strings.get(lang, "nic_per_pouch")
+                                    },
+                                    color = Emerald, fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                        HorizontalDivider(color = BgDeep, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp))
+                        SettingsField(Strings.get(lang, "nicotine_amount"), nicotineDeclaredAmount, isDecimal = true) { nicotineDeclaredAmount = it }
+                        
+                        if (nicotineFormat == "per_gram") {
+                            SettingsField(Strings.get(lang, "pouch_weight"), pouchWeight, isDecimal = true) { pouchWeight = it }
+                        }
+                    }
                 }
 
-                SettingsGroup("РАСЧЕТ ЭКОНОМИИ") {
-                    SettingsField("До отказа (в день)", baseline) { baseline = it }
-                    SettingsField("Цена за пачку", price, isDecimal = true) { price = it }
-                    SettingsField("Штук в пачке", perPack) { perPack = it }
+                SettingsGroup(Strings.get(lang, "wishlist")) {
+                    SettingsField(Strings.get(lang, "wishlist_title"), wishlistTitle, isText = true) { wishlistTitle = it }
+                    SettingsField(Strings.get(lang, "wishlist_cost"), wishlistCost) { wishlistCost = it }
+                }
+
+                SettingsGroup(Strings.get(lang, "savings")) {
+                    SettingsField(Strings.get(lang, "baseline_per_day"), baseline) { baseline = it }
+                    SettingsField(Strings.get(lang, "price_per_pack"), price, isDecimal = true) { price = it }
+                    SettingsField(Strings.get(lang, "pcs_per_pack"), perPack) { perPack = it }
                 }
                 
                 Spacer(Modifier.height(32.dp))

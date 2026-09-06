@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker
+﻿package ru.otvykaniye.tracker
 
 import org.json.JSONArray
 import org.json.JSONObject
@@ -33,7 +33,10 @@ data class ProfileState(
     val perPack: Int = 20,
     val reuse: Double = 1.0,     // For snus
     val packSize: Int = 20,      // For cigarettes
-    val nicotinePerPouch: Double = 0.0, // For nicotine tracking
+    val nicotinePerPouch: Double = 0.0, // Calculated value
+    val nicotineFormat: String = "per_pouch",
+    val nicotineDeclaredAmount: Double = 0.0,
+    val pouchWeight: Double = 0.5,
     val mode: String = "reduce", // reduce, limit, track
     val quitDate: String? = null,
     val dailyLimit: Int = 6,
@@ -50,6 +53,9 @@ data class ProfileState(
             put("reuse", reuse)
             put("packSize", packSize)
             put("nicotinePerPouch", nicotinePerPouch)
+            put("nicotineFormat", nicotineFormat)
+            put("nicotineDeclaredAmount", nicotineDeclaredAmount)
+            put("pouchWeight", pouchWeight)
             put("mode", mode)
             put("quitDate", quitDate ?: JSONObject.NULL)
             put("dailyLimit", dailyLimit)
@@ -82,6 +88,9 @@ data class ProfileState(
                 reuse = json.optDouble("reuse", 1.0),
                 packSize = json.optInt("packSize", 20),
                 nicotinePerPouch = json.optDouble("nicotinePerPouch", 0.0),
+                nicotineFormat = json.optString("nicotineFormat", "per_pouch"),
+                nicotineDeclaredAmount = json.optDouble("nicotineDeclaredAmount", 0.0),
+                pouchWeight = json.optDouble("pouchWeight", 0.5),
                 mode = json.optString("mode", "reduce"),
                 quitDate = if (json.isNull("quitDate")) null else json.optString("quitDate"),
                 dailyLimit = json.optInt("dailyLimit", 6),
@@ -164,4 +173,3 @@ data class TracklessState(
         }
     }
 }
-

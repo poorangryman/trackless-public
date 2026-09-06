@@ -34,6 +34,7 @@ fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.u
 @Composable
 fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
     val profile = state.profiles[state.activeKind] ?: return
+    val lang = state.language
     
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         
@@ -41,7 +42,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
         if (profile.wishlistTitle.isNotEmpty() && profile.wishlistCost > 0) {
             GlassCard(modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(20.dp)) {
-                    SectionHeader("ЦЕЛЬ", Icons.Rounded.Star, Amber)
+                    SectionHeader(Strings.get(lang, "target"), Icons.Rounded.Star, Amber)
                     Spacer(Modifier.height(12.dp))
                     Text(profile.wishlistTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     Spacer(Modifier.height(4.dp))
@@ -64,35 +65,59 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
         // Health
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
-                SectionHeader("ЗДОРОВЬЕ", Icons.Rounded.Favorite, Emerald)
+                SectionHeader(Strings.get(lang, "health"), Icons.Rounded.Favorite, Emerald)
                 Spacer(Modifier.height(12.dp))
                 
                 val hours = timeSinceLast / (1000 * 60 * 60)
-                val stageTitle = when {
-                    hours < 1 -> "Начало пути"
-                    hours < 12 -> "Очищение крови"
-                    hours < 24 -> "Снижение риска"
-                    hours < 72 -> "Никотин выведен"
-                    else -> "Глубокое восстановление"
+                val stageIdx = when {
+                    hours < 1 -> 0
+                    hours < 12 -> 1
+                    hours < 24 -> 2
+                    hours < 72 -> 3
+                    else -> 4
                 }
-                Text(stageTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                
+                val currentTitle = Strings.get(lang, "stage_$stageIdx")
+                val currentDesc = Strings.get(lang, "stage_${stageIdx}_desc")
+                
+                Text(currentTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Spacer(Modifier.height(4.dp))
+                Text(currentDesc, color = TextDim, fontSize = 14.sp, lineHeight = 20.sp)
+                
+                if (stageIdx < 4) {
+                    val nextTitle = Strings.get(lang, "stage_${stageIdx + 1}")
+                    val maxHours = when(stageIdx) { 0 -> 1; 1 -> 12; 2 -> 24; 3 -> 72; else -> 72 }.toFloat()
+                    val prevHours = when(stageIdx) { 0 -> 0; 1 -> 1; 2 -> 12; 3 -> 24; else -> 24 }.toFloat()
+                    
+                    val progress = ((hours - prevHours) / (maxHours - prevHours)).coerceIn(0f, 1f)
+                    
+                    Spacer(Modifier.height(16.dp))
+                    Text(Strings.get(lang, "next_stage").format(nextTitle), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(8.dp))
+                    LinearProgressIndicator(
+                        progress = progress,
+                        modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
+                        color = Emerald.copy(alpha = 0.5f),
+                        trackColor = BgDeep
+                    )
+                }
             }
         }
 
         // Stats summary
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
-                SectionHeader("СТАТИСТИКА", Icons.Rounded.Timeline, Cyan)
+                SectionHeader(Strings.get(lang, "stats"), Icons.Rounded.Timeline, Cyan)
                 Spacer(Modifier.height(16.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        Text("Сегодня", color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                        Text(Strings.get(lang, "today"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
                         Spacer(Modifier.height(4.dp))
                         val todayEntries = profile.entries.filter { it.ts > System.currentTimeMillis() - 86400000 }
-                        Text("${todayEntries.size} раз", color = TextPrimary, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                        Text("${todayEntries.size}", color = TextPrimary, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("Лимит", color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                        Text(Strings.get(lang, "limit"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
                         Spacer(Modifier.height(4.dp))
                         Text("${profile.dailyLimit}", color = TextPrimary, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                     }
@@ -103,10 +128,10 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
         // History List
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
-                SectionHeader("ИСТОРИЯ", Icons.Rounded.History, TextPrimary)
+                SectionHeader(Strings.get(lang, "history"), Icons.Rounded.History, TextPrimary)
                 Spacer(Modifier.height(16.dp))
                 if (profile.entries.isEmpty()) {
-                    Text("Пока нет записей", color = TextDim)
+                    Text(Strings.get(lang, "no_entries"), color = TextDim)
                 } else {
                     profile.entries.takeLast(5).reversed().forEach { entry ->
                         Row(
