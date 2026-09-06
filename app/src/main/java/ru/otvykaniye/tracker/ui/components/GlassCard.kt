@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker.ui.components
+﻿package ru.otvykaniye.tracker.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -28,7 +28,7 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
                 Text("Базовые настройки", fontSize = 20.sp, color = TextPrimary)
                 Spacer(Modifier.height(24.dp))
                 
-                Text("Что отслеживать:", color = TextDim)
+                Text("Я хочу бросать:", color = TextDim)
                 Spacer(Modifier.height(8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     ChoiceButton("Снюс", activeKind == "snus", Modifier.weight(1f)) { activeKind = "snus" }
@@ -46,11 +46,16 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
             }
         } else {
             Column(Modifier.align(Alignment.Center).fillMaxWidth()) {
-                Text("Настройка трекера", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                Text("Финальный шаг", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                 Spacer(Modifier.height(24.dp))
-                // Just a simplified onboarding for now to get it compiling and working.
+                
+                Text("Все эти настройки можно будет изменить позже в приложении.", color = TextDim, fontSize = 14.sp)
+                
+                Spacer(Modifier.height(32.dp))
                 Button(
-                    onClick = { onComplete(state.copy(activeKind = activeKind, onboarded = true)) },
+                    onClick = { 
+                        onComplete(state.copy(onboarded = true, activeKind = activeKind)) 
+                    },
                     modifier = Modifier.fillMaxWidth().height(50.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Emerald)
                 ) {
@@ -65,9 +70,9 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
 fun ChoiceButton(text: String, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
     Box(
         modifier = modifier
-            .height(50.dp)
-            .background(if (selected) BgCard else BgDeep, RoundedCornerShape(12.dp))
-            .clickable(onClick = onClick),
+            .height(60.dp)
+            .background(if (selected) Emerald.copy(alpha = 0.2f) else BgCard, RoundedCornerShape(12.dp))
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
         Text(text, color = if (selected) Emerald else TextDim, fontWeight = FontWeight.Bold)
