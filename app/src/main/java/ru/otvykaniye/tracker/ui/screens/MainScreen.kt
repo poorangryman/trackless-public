@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker.ui.screens
+п»їpackage ru.otvykaniye.tracker.ui.screens
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -52,7 +52,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                 IconButton(onClick = { showSettings = true }) {
                     Icon(
                         imageVector = Icons.Default.Settings,
-                        contentDescription = "Настройки",
+                        contentDescription = "РќР°СЃС‚СЂРѕР№РєРё",
                         tint = TextDim
                     )
                 }
@@ -102,7 +102,7 @@ fun HeroCard(
             modifier = Modifier.padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("С последнего использования прошло", color = TextDim, fontSize = 14.sp)
+            Text("РЎ РїРѕСЃР»РµРґРЅРµРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РїСЂРѕС€Р»Рѕ", color = TextDim, fontSize = 14.sp)
             Spacer(Modifier.height(8.dp))
             val timeStr = formatTime(timeSinceLast)
             Text(timeStr, color = TextPrimary, fontSize = 36.sp, fontWeight = FontWeight.Bold)
@@ -116,14 +116,14 @@ fun HeroCard(
                     modifier = Modifier.weight(1f).height(50.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Emerald)
                 ) {
-                    Text("Записать", color = BgDeep, fontWeight = FontWeight.Bold)
+                    Text("Р—Р°РїРёСЃР°С‚СЊ", color = BgDeep, fontWeight = FontWeight.Bold)
                 }
                 OutlinedButton(
                     onClick = onSos,
                     modifier = Modifier.weight(1f).height(50.dp),
                     colors = ButtonDefaults.outlinedButtonColors(contentColor = Amber)
                 ) {
-                    Text("Тяга SOS", fontWeight = FontWeight.Bold)
+                    Text("РўСЏРіР° SOS", fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -139,10 +139,10 @@ fun StatsGrid() {
 fun SosDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Справиться с тягой", color = Amber) },
-        text = { Text("Острая тяга длится всего 3-5 минут. Сделайте дыхательное упражнение и переждите волну.") },
+        title = { Text("РЎРїСЂР°РІРёС‚СЊСЃСЏ СЃ С‚СЏРіРѕР№", color = Amber) },
+        text = { Text("РћСЃС‚СЂР°СЏ С‚СЏРіР° РґР»РёС‚СЃСЏ РІСЃРµРіРѕ 3-5 РјРёРЅСѓС‚. РЎРґРµР»Р°Р№С‚Рµ РґС‹С…Р°С‚РµР»СЊРЅРѕРµ СѓРїСЂР°Р¶РЅРµРЅРёРµ Рё РїРµСЂРµР¶РґРёС‚Рµ РІРѕР»РЅСѓ.") },
         confirmButton = {
-            Button(onClick = onDismiss) { Text("Тяга отступила!") }
+            Button(onClick = onDismiss) { Text("РўСЏРіР° РѕС‚СЃС‚СѓРїРёР»Р°!") }
         },
         containerColor = BgCard
     )
@@ -155,10 +155,10 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
     
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Настройки", color = TextPrimary) },
+        title = { Text("РќР°СЃС‚СЂРѕР№РєРё", color = TextPrimary) },
         text = { 
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Содержание никотина (мг/г или мг/пак):", color = TextDim)
+                Text("РЎРѕРґРµСЂР¶Р°РЅРёРµ РЅРёРєРѕС‚РёРЅР° (РјРі/Рі РёР»Рё РјРі/РїР°Рє):", color = TextDim)
                 OutlinedTextField(
                     value = activeProfile?.nicotinePerPouch?.toString() ?: "0.0",
                     onValueChange = { /* Placeholder to show field exists */ },
@@ -170,22 +170,21 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                         unfocusedTextColor = TextPrimary
                     )
                 )
-                Text("Здесь будут остальные настройки (в разработке).", color = TextDim)
+                Text("Р—РґРµСЃСЊ Р±СѓРґСѓС‚ РѕСЃС‚Р°Р»СЊРЅС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё (РІ СЂР°Р·СЂР°Р±РѕС‚РєРµ).", color = TextDim)
             }
         },
         confirmButton = {
-            Button(onClick = onDismiss) { Text("Закрыть") }
+            Button(onClick = onDismiss) { Text("Р—Р°РєСЂС‹С‚СЊ") }
         },
         containerColor = BgCard
     )
 }
 
 fun formatTime(ms: Long): String {
-    if (ms <= 0) return "— : — : —"
+    if (ms <= 0) return "вЂ” : вЂ” : вЂ”"
     val s = ms / 1000
     val h = s / 3600
     val m = (s % 3600) / 60
     val q = s % 60
     return String.format("%02d:%02d:%02d", h, m, q)
 }
-

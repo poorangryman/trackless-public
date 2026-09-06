@@ -1,4 +1,4 @@
-package ru.otvykaniye.tracker.ui.screens
+п»їpackage ru.otvykaniye.tracker.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,14 +25,14 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
             Column(Modifier.align(Alignment.Center).fillMaxWidth()) {
                 Text("TrackLess", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                 Spacer(Modifier.height(8.dp))
-                Text("Базовые настройки", fontSize = 20.sp, color = TextPrimary)
+                Text("Р‘Р°Р·РѕРІС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё", fontSize = 20.sp, color = TextPrimary)
                 Spacer(Modifier.height(24.dp))
                 
-                Text("Что отслеживать:", color = TextDim)
+                Text("Р§С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°С‚СЊ:", color = TextDim)
                 Spacer(Modifier.height(8.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    ChoiceButton("Снюс", activeKind == "snus", Modifier.weight(1f)) { activeKind = "snus" }
-                    ChoiceButton("Сигареты", activeKind == "cigarette", Modifier.weight(1f)) { activeKind = "cigarette" }
+                    ChoiceButton("РЎРЅСЋСЃ", activeKind == "snus", Modifier.weight(1f)) { activeKind = "snus" }
+                    ChoiceButton("РЎРёРіР°СЂРµС‚С‹", activeKind == "cigarette", Modifier.weight(1f)) { activeKind = "cigarette" }
                 }
                 
                 Spacer(Modifier.height(32.dp))
@@ -41,12 +41,12 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
                     modifier = Modifier.fillMaxWidth().height(50.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Emerald)
                 ) {
-                    Text("Далее", color = BgDeep, fontWeight = FontWeight.Bold)
+                    Text("Р”Р°Р»РµРµ", color = BgDeep, fontWeight = FontWeight.Bold)
                 }
             }
         } else {
             Column(Modifier.align(Alignment.Center).fillMaxWidth()) {
-                Text("Настройка трекера", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+                Text("РќР°СЃС‚СЂРѕР№РєР° С‚СЂРµРєРµСЂР°", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                 Spacer(Modifier.height(24.dp))
                 // Just a simplified onboarding for now to get it compiling and working.
                 Button(
@@ -54,7 +54,7 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
                     modifier = Modifier.fillMaxWidth().height(50.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = Emerald)
                 ) {
-                    Text("Начать отслеживание", color = BgDeep, fontWeight = FontWeight.Bold)
+                    Text("РќР°С‡Р°С‚СЊ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ", color = BgDeep, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -73,4 +73,3 @@ fun ChoiceButton(text: String, selected: Boolean, modifier: Modifier = Modifier,
         Text(text, color = if (selected) Emerald else TextDim, fontWeight = FontWeight.Bold)
     }
 }
-
