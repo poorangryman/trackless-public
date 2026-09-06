@@ -64,4 +64,10 @@
     <string name="sos_success">Craving is gone!</string>
     <string name="snus">Snus</string>
     <string name="cigarettes">Cigarettes</string>
+    <string name="widget_small_name">TrackLess 1x1</string>
+    <string name="widget_wide_name">TrackLess 2x1</string>
+    <string name="widget_small_description">TrackLess - timer and quick logging</string>
+    <string name="widget_wide_description">TrackLess - timer, count and quick logging</string>
+    <string name="widget_preview_snus">Snus</string>
+    <string name="widget_preview_no_entries">No data</string>
 </resources>

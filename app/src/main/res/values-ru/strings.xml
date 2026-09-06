@@ -64,4 +64,10 @@
     <string name="sos_success">Тяга отступила!</string>
     <string name="snus">Снюс</string>
     <string name="cigarettes">Сигареты</string>
+    <string name="widget_small_name">TrackLess 1x1</string>
+    <string name="widget_wide_name">TrackLess 2x1</string>
+    <string name="widget_small_description">Таймер и быстрая запись</string>
+    <string name="widget_wide_description">Таймер, счетчик и запись</string>
+    <string name="widget_preview_snus">Снюс</string>
+    <string name="widget_preview_no_entries">Нет данных</string>
 </resources>
