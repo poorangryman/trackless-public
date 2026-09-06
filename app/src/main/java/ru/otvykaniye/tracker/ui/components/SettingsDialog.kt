@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker.ui.components
+package ru.otvykaniye.tracker.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -139,7 +140,7 @@ fun SettingsField(label: String, value: String, isDecimal: Boolean = false, isTe
                 textStyle = androidx.compose.ui.text.TextStyle(
                     color = Emerald, 
                     fontSize = 16.sp, 
-                    textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                    textAlign = TextAlign.End,
                     fontWeight = FontWeight.Bold
                 ),
                 singleLine = true,
@@ -155,5 +156,5 @@ fun SettingsField(label: String, value: String, isDecimal: Boolean = false, isTe
             )
         }
     }
-    Divider(color = BgDeep, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp))
+    HorizontalDivider(color = BgDeep, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp))
 }

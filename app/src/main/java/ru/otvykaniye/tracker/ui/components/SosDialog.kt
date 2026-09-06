@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker.ui.components
+package ru.otvykaniye.tracker.ui.components
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
@@ -13,10 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
-import ru.otvykaniye.tracker.ui.theme.Amber
-import ru.otvykaniye.tracker.ui.theme.BgCard
-import ru.otvykaniye.tracker.ui.theme.BgDeep
-import ru.otvykaniye.tracker.ui.theme.Emerald
+import ru.otvykaniye.tracker.ui.theme.*
 
 @Composable
 fun SosDialog(onDismiss: () -> Unit) {
