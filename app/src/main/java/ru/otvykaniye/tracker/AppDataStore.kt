@@ -21,13 +21,20 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 )
 
 object AppDataStore {
-    private val KEY_STATE = stringPreferencesKey("state_json")
+    val KEY_STATE = stringPreferencesKey("state_json")
 
     fun getState(context: Context): String {
         return runBlocking {
             context.dataStore.data.map { preferences ->
                 preferences[KEY_STATE] ?: ""
             }.first()
+        }
+    }
+
+    suspend fun saveStateSuspend(context: Context, json: String?) {
+        if (json.isNullOrBlank()) return
+        context.dataStore.edit { preferences ->
+            preferences[KEY_STATE] = json
         }
     }
 
