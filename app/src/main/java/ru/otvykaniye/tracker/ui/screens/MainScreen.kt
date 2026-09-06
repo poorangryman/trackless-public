@@ -1,7 +1,6 @@
-package ru.otvykaniye.tracker.ui.screens
+﻿package ru.otvykaniye.tracker.ui.screens
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -15,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.TracklessViewModel
+import ru.otvykaniye.tracker.ui.components.*
 import ru.otvykaniye.tracker.ui.theme.*
 
 @Composable
@@ -28,43 +28,26 @@ fun MainScreen(viewModel: TracklessViewModel) {
     val scrollState = rememberScrollState()
 
     if (showSettings) {
-        BackHandler {
-            showSettings = false
-        }
+        BackHandler { showSettings = false }
     }
 
     Scaffold(
         containerColor = BgDeep,
         topBar = {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "TrackLess",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = TextPrimary
-                )
+                Text("TrackLess", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
                 IconButton(onClick = { showSettings = true }) {
-                    Icon(
-                        imageVector = Icons.Default.Settings,
-                        contentDescription = "Настройки",
-                        tint = TextDim
-                    )
+                    Icon(Icons.Default.Settings, contentDescription = "Настройки", tint = TextDim)
                 }
             }
         }
     ) { padding ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(scrollState)
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxSize().padding(padding).verticalScroll(scrollState).padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             HeroCard(
@@ -72,7 +55,15 @@ fun MainScreen(viewModel: TracklessViewModel) {
                 onRecord = { viewModel.recordUse("habit") },
                 onSos = { showSos = true }
             )
-            StatsGridWrapper(state, timeSinceLast)
+            
+            StatsGrid(state, timeSinceLast)
+            
+            val profile = state.profiles[state.activeKind]
+            if (profile != null) {
+                ChartComponent(profile)
+                HourlyStats(profile)
+            }
+            
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
@@ -82,102 +73,29 @@ fun MainScreen(viewModel: TracklessViewModel) {
     }
     
     if (showSettings) {
-        SettingsDialog(
-            viewModel = viewModel,
-            onDismiss = { showSettings = false }
-        )
+        SettingsDialog(viewModel = viewModel, onDismiss = { showSettings = false })
     }
 }
 
 @Composable
-fun HeroCard(
-    timeSinceLast: Long,
-    onRecord: () -> Unit,
-    onSos: () -> Unit
-) {
-    ru.otvykaniye.tracker.ui.components.GlassCard(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+fun HeroCard(timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
+    ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+        Column(Modifier.padding(20.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Text("С последнего использования прошло", color = TextDim, fontSize = 14.sp)
             Spacer(Modifier.height(8.dp))
             val timeStr = formatTime(timeSinceLast)
             Text(timeStr, color = TextPrimary, fontSize = 36.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.height(24.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Button(
-                    onClick = onRecord,
-                    modifier = Modifier.weight(1f).height(50.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Emerald)
-                ) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Button(onClick = onRecord, modifier = Modifier.weight(1f).height(50.dp), colors = ButtonDefaults.buttonColors(containerColor = Emerald)) {
                     Text("Записать", color = BgDeep, fontWeight = FontWeight.Bold)
                 }
-                OutlinedButton(
-                    onClick = onSos,
-                    modifier = Modifier.weight(1f).height(50.dp),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = Amber)
-                ) {
+                OutlinedButton(onClick = onSos, modifier = Modifier.weight(1f).height(50.dp), colors = ButtonDefaults.outlinedButtonColors(contentColor = Amber)) {
                     Text("Тяга SOS", fontWeight = FontWeight.Bold)
                 }
             }
         }
     }
-}
-
-@Composable
-fun StatsGridWrapper(state: ru.otvykaniye.tracker.TracklessState, timeSinceLast: Long) {
-    ru.otvykaniye.tracker.ui.components.StatsGrid(state, timeSinceLast)
-}
-
-@Composable
-fun SosDialog(onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Справиться с тягой", color = Amber) },
-        text = { Text("Острая тяга длится всего 3-5 минут. Сделайте дыхательное упражнение и переждите волну.") },
-        confirmButton = {
-            Button(onClick = onDismiss) { Text("Тяга отступила!") }
-        },
-        containerColor = BgCard
-    )
-}
-
-@Composable
-fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
-    val state by viewModel.state.collectAsState()
-    val activeProfile = state.profiles[state.activeKind]
-    
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Настройки", color = TextPrimary) },
-        text = { 
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Содержание никотина (мг/г или мг/пак):", color = TextDim)
-                OutlinedTextField(
-                    value = activeProfile?.nicotinePerPouch?.toString() ?: "0.0",
-                    onValueChange = { /* Placeholder to show field exists */ },
-                    textStyle = androidx.compose.ui.text.TextStyle(color = TextPrimary),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = BgDeep,
-                        unfocusedContainerColor = BgDeep,
-                        focusedTextColor = TextPrimary,
-                        unfocusedTextColor = TextPrimary
-                    )
-                )
-                Text("Здесь будут остальные настройки (в разработке).", color = TextDim)
-            }
-        },
-        confirmButton = {
-            Button(onClick = onDismiss) { Text("Закрыть") }
-        },
-        containerColor = BgCard
-    )
 }
 
 fun formatTime(ms: Long): String {
