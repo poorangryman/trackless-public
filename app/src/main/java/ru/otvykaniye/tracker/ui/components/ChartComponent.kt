@@ -33,18 +33,24 @@ fun ChartComponent(state: TracklessState) {
     val dailyLimit = profile.dailyLimit
     val lang = state.language
 
-    val calendar = Calendar.getInstance()
-    calendar.set(Calendar.HOUR_OF_DAY, 0)
-    calendar.set(Calendar.MINUTE, 0)
-    calendar.set(Calendar.SECOND, 0)
-    calendar.set(Calendar.MILLISECOND, 0)
-    val startOfToday = calendar.timeInMillis
+    val startOfToday = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }
 
-    val days = (0..13).map { i ->
-        val start = startOfToday - (13 - i) * 86400000L
-        val end = start + 86400000L
-        val count = entries.count { it.ts in start until end }
-        DayData(start, count)
+    val days = (0..13).map { index ->
+        val start = (startOfToday.clone() as Calendar).apply {
+            add(Calendar.DAY_OF_YEAR, -(13 - index))
+        }
+        val end = (start.clone() as Calendar).apply {
+            add(Calendar.DAY_OF_YEAR, 1)
+        }
+        val startMs = start.timeInMillis
+        val endMs = end.timeInMillis
+        val count = entries.count { it.ts in startMs until endMs }
+        DayData(startMs, count)
     }
 
     val maxCount = (days.maxOfOrNull { it.count } ?: 0).coerceAtLeast(dailyLimit).coerceAtLeast(1)
@@ -55,7 +61,7 @@ fun ChartComponent(state: TracklessState) {
         Column(Modifier.padding(20.dp)) {
             SectionHeader(Strings.get(lang, "chart_14_days"), Icons.Rounded.BarChart, Emerald)
             Spacer(Modifier.height(16.dp))
-            
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -76,7 +82,7 @@ fun ChartComponent(state: TracklessState) {
                     Text(Strings.get(lang, "tap_bar"), color = TextDim, fontSize = 13.sp)
                 }
             }
-            
+
             Spacer(Modifier.height(24.dp))
 
             Canvas(
