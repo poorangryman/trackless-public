@@ -1,4 +1,4 @@
-﻿package ru.otvykaniye.tracker
+package ru.otvykaniye.tracker
 
 import org.json.JSONArray
 import org.json.JSONObject
