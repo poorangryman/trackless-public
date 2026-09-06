@@ -3,7 +3,6 @@ package ru.otvykaniye.tracker
 import android.content.Context
 import android.os.SystemClock
 import android.widget.RemoteViews
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
