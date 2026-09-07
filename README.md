@@ -1,6 +1,28 @@
 # TrackLess
 
-**A simple Android tracker for snus, nicotine pouches, and cigarette use.**
+<p align="center">
+  <strong>A modern, offline-first personal tracker for snus, nicotine pouches, and cigarettes — built with privacy, zero ads, and zero subscriptions.</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/poorangryman/trackless-public/releases/latest">
+    <img src="https://img.shields.io/github/v/release/poorangryman/trackless-public?style=for-the-badge&logo=android&color=3DDC84&label=Download%20APK" alt="Download APK" />
+  </a>
+  <img src="https://img.shields.io/badge/Platform-Android%206.0+-blue.svg?style=for-the-badge&logo=android" alt="Android 6.0+" />
+  <img src="https://img.shields.io/badge/Privacy-100%25%20Offline-brightgreen.svg?style=for-the-badge" alt="Offline Privacy" />
+  <img src="https://img.shields.io/badge/Ads-Zero-red.svg?style=for-the-badge" alt="Zero Ads" />
+  <img src="https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge" alt="MIT License" />
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/01_dashboard_tracker.jpg" width="19%" alt="Main Dashboard & Timer" />
+  <img src="docs/screenshots/02_stats_and_history.jpg" width="19%" alt="Daily Limits & History" />
+  <img src="docs/screenshots/03_analytics_14day_circadian.jpg" width="19%" alt="14-Day Analytics & Patterns" />
+  <img src="docs/screenshots/04_settings_wishlist.jpg" width="19%" alt="Settings & Wishlist Goal" />
+  <img src="docs/screenshots/05_settings_savings.jpg" width="19%" alt="Portion & Pack Economics" />
+</p>
+
+---
 
 I want to start by making one thing clear: **I have absolutely no professional experience in Android application development.**
 
@@ -11,6 +33,24 @@ So I decided to make one myself.
 And I relied **heavily on ChatGPT throughout the entire development process** — from the initial idea and project structure to implementation, debugging, UI improvements, and fixing various Android-specific issues. So if you're an experienced Android developer and wondering why something was implemented in a particular way... please be gentle.
 
 I'm sharing the project publicly because I thought that someone else might find it useful too. If it helps even a few people track their habits without ads or unnecessary distractions, then publishing it was worth it.
+
+## 📱 Interface & Screenshots
+
+### Core Dashboard & Analytics
+
+| ⏱️ Dashboard & Health | 📋 Daily Log & Widgets | 📊 14-Day Analytics & Patterns |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/01_dashboard_tracker.jpg" width="260" alt="TrackLess Main Dashboard" /> | <img src="docs/screenshots/02_stats_and_history.jpg" width="260" alt="Daily Stats & History" /> | <img src="docs/screenshots/03_analytics_14day_circadian.jpg" width="260" alt="14-Day Analytics & Circadian Rhythm" /> |
+| **Abstinence timer**, Craving SOS urge surfer, Financial Target goal progress, and real-time biological **Health Recovery Milestones**. | **Today's usage vs daily limit**, live chronological history feed with **one-tap home screen widget logging** tags. | **Interactive 14-day bar chart** with limit threshold indicator and **Circadian Time of Use breakdown** (Morning, Day, Evening, Night). |
+
+### Personalization & Savings Calculator
+
+| ⚙️ Personalization & Limits | 💰 Pack Economics & Savings |
+| :---: | :---: |
+| <img src="docs/screenshots/04_settings_wishlist.jpg" width="260" alt="Settings & Wishlist Goal" /> | <img src="docs/screenshots/05_settings_savings.jpg" width="260" alt="Savings & Pricing Settings" /> |
+| **Bilingual interface (RU/EN)**, daily consumption limits, nicotine dosage format, and custom **Wishlist reward** target. | **Financial savings calculator**: baseline consumption, pack price, and portions to compute real money saved. |
+
+---
 
 ## What is TrackLess?
 
