@@ -72,7 +72,8 @@ fun ChartComponent(state: TracklessState) {
                 contentAlignment = Alignment.CenterStart
             ) {
                 if (selectedDay != null) {
-                    val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
+                    val locale = if (lang == "en") Locale.ENGLISH else Locale("ru")
+                    val sdf = SimpleDateFormat("dd MMM", locale)
                     val dateStr = sdf.format(selectedDay!!.ts)
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(dateStr, color = TextPrimary, fontWeight = FontWeight.Medium)
