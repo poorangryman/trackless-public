@@ -150,6 +150,30 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     SettingsField(Strings.get(language, "pcs_per_pack"), perPack) { perPack = it }
                 }
 
+                SettingsGroup(Strings.get(language, "data_management")) {
+                    val context = androidx.compose.ui.platform.LocalContext.current
+                    val activity = context as? ru.otvykaniye.tracker.MainActivity
+                    Row(modifier = Modifier.fillMaxWidth().clickable {
+                        val json = state.toJson().toString()
+                        activity?.exportData(json)
+                    }.padding(16.dp)) {
+                        Text(Strings.get(language, "export_backup"), color = TextPrimary)
+                    }
+                    HorizontalDivider(color = BgDeep, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp))
+                    Row(modifier = Modifier.fillMaxWidth().clickable {
+                        activity?.launchImport()
+                    }.padding(16.dp)) {
+                        Text(Strings.get(language, "import_backup"), color = TextPrimary)
+                    }
+                    HorizontalDivider(color = BgDeep, thickness = 1.dp, modifier = Modifier.padding(start = 16.dp))
+                    Row(modifier = Modifier.fillMaxWidth().clickable {
+                        viewModel.resetData()
+                        onDismiss()
+                    }.padding(16.dp)) {
+                        Text(Strings.get(language, "reset_data"), color = Coral)
+                    }
+                }
+
                 Spacer(Modifier.height(32.dp))
             }
         }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.rounded.Undo
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -116,10 +117,11 @@ fun MainScreen(viewModel: TracklessViewModel) {
                     state = state,
                     timeSinceLast = timeSinceLast,
                     onRecord = { viewModel.recordUse("habit") },
-                    onSos = { showSos = true }
+                    onSos = { showSos = true },
+                    onUndo = { viewModel.undoLastUse() }
                 )
                 
-                StatsGrid(state, timeSinceLast)
+                StatsGrid(state, timeSinceLast, onDeleteEntry = { id -> viewModel.deleteEntry(id) })
                 
                 val profile = state.profiles[state.activeKind]
                 if (profile != null) {
@@ -142,11 +144,18 @@ fun MainScreen(viewModel: TracklessViewModel) {
 }
 
 @Composable
-fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit) {
+fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onUndo: () -> Unit) {
     val lang = state.language
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(Strings.get(lang, "time_passed"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text(Strings.get(lang, "time_passed"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
+                if ((state.profiles[state.activeKind]?.entries?.size ?: 0) > 0) {
+                    IconButton(onClick = onUndo, modifier = Modifier.size(24.dp)) {
+                        Icon(androidx.compose.material.icons.Icons.Rounded.Undo, contentDescription = "Undo", tint = TextDim)
+                    }
+                }
+            }
             Spacer(Modifier.height(12.dp))
             val timeStr = formatTime(timeSinceLast)
             Text(timeStr, color = TextPrimary, fontSize = 42.sp, fontWeight = FontWeight.ExtraBold)

@@ -57,7 +57,11 @@ object Strings {
         "sos_remains" to "Осталось переждать:",
         "sos_success" to "Тяга преодолена!",
         "snus" to "Снюс",
-        "cigarettes" to "Сигареты"
+        "cigarettes" to "Сигареты",
+        "data_management" to "УПРАВЛЕНИЕ ДАННЫМИ",
+        "export_backup" to "Экспорт (Бэкап)",
+        "import_backup" to "Импорт (Восстановить)",
+        "reset_data" to "Сбросить все данные"
     )
 
     val EN = mapOf(
@@ -116,7 +120,11 @@ object Strings {
         "sos_remains" to "Time remaining:",
         "sos_success" to "Craving is gone!",
         "snus" to "Snus",
-        "cigarettes" to "Cigarettes"
+        "cigarettes" to "Cigarettes",
+        "data_management" to "DATA MANAGEMENT",
+        "export_backup" to "Export Backup",
+        "import_backup" to "Import Backup",
+        "reset_data" to "Reset All Data"
     )
 
     fun get(lang: String, key: String): String {

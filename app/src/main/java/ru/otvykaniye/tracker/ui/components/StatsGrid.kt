@@ -8,6 +8,7 @@ import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material.icons.rounded.Timeline
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -33,7 +34,7 @@ fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.u
 }
 
 @Composable
-fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
+fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String) -> Unit) {
     val profile = state.profiles[state.activeKind] ?: return
     val lang = state.language
 
@@ -62,14 +63,26 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                     Text(profile.wishlistTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     Spacer(Modifier.height(4.dp))
 
-                    // Convert pack price to a single-piece price before applying
-                    // consumption counts. Both baseline and entries are in pieces.
                     val pricePerPiece = if (profile.perPack > 0) {
                         profile.price / profile.perPack
                     } else {
                         0.0
                     }
-                    val saved = (profile.baseline * pricePerPiece) - (profile.entries.size * pricePerPiece)
+                    
+                    val firstEntry = profile.entries.minByOrNull { it.ts }
+                    val startDateMs = firstEntry?.ts ?: System.currentTimeMillis()
+                    val startOfFirstDay = Calendar.getInstance().apply {
+                        timeInMillis = startDateMs
+                        set(Calendar.HOUR_OF_DAY, 0)
+                        set(Calendar.MINUTE, 0)
+                        set(Calendar.SECOND, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }.timeInMillis
+                    
+                    val daysPassed = Math.max(1L, (System.currentTimeMillis() - startOfFirstDay) / (1000 * 60 * 60 * 24) + 1).toInt()
+                    val expectedTotal = profile.baseline * daysPassed
+                    val saved = (expectedTotal - profile.entries.size) * pricePerPiece
+                    
                     val progress = (saved.coerceAtLeast(0.0) / profile.wishlistCost).toFloat().coerceIn(0f, 1f)
 
                     Text("${saved.coerceAtLeast(0.0).toInt()} / ${profile.wishlistCost.toInt()} ${state.currency}", color = TextDim, fontSize = 14.sp)
@@ -161,10 +174,18 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(formatDate(entry.ts), color = TextPrimary, fontWeight = FontWeight.Medium, fontSize = 15.sp)
-                            Box(
-                                modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(BgDeep).padding(horizontal = 8.dp, vertical = 4.dp)
-                            ) {
-                                Text(entry.trigger, color = TextDim, fontSize = 12.sp)
+                            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                Box(
+                                    modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(BgDeep).padding(horizontal = 8.dp, vertical = 4.dp)
+                                ) {
+                                    Text(entry.trigger, color = TextDim, fontSize = 12.sp)
+                                }
+                                androidx.compose.material3.IconButton(
+                                    onClick = { onDeleteEntry(entry.id) },
+                                    modifier = Modifier.size(24.dp)
+                                ) {
+                                    Icon(androidx.compose.material.icons.Icons.Rounded.Delete, contentDescription = "Delete", tint = Coral)
+                                }
                             }
                         }
                     }

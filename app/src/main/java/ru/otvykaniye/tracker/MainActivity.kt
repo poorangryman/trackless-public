@@ -26,52 +26,51 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    // Export intent helper
-    fun exportData(json: String) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
-            type = "application/json"
-            putExtra(Intent.EXTRA_TEXT, json)
-            putExtra(Intent.EXTRA_TITLE, "trackless-backup.json")
+    // Export intent helper using ActivityResultContracts
+    private var exportDataPending: String? = null
+    private val exportLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.CreateDocument("application/json")) { uri: Uri? ->
+        if (uri != null && exportDataPending != null) {
+            try {
+                contentResolver.openOutputStream(uri)?.use { out ->
+                    out.write(exportDataPending!!.toByteArray(StandardCharsets.UTF_8))
+                }
+                android.widget.Toast.makeText(this, "Exported successfully", android.widget.Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                android.widget.Toast.makeText(this, "Export failed", android.widget.Toast.LENGTH_SHORT).show()
+            }
+            exportDataPending = null
         }
-        startActivity(Intent.createChooser(intent, null))
     }
 
-    // Import intent helper (ActivityResult could be cleaner but keeping it simple for now)
-    companion object {
-        const val IMPORT_REQUEST = 741
+    fun exportData(json: String) {
+        exportDataPending = json
+        val sdf = java.text.SimpleDateFormat("yyyyMMdd_HHmmss", java.util.Locale.US)
+        val filename = "trackless_backup_${sdf.format(java.util.Date())}.json"
+        exportLauncher.launch(filename)
+    }
+
+    // Import intent helper using ActivityResultContracts
+    private val importLauncher = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+        if (uri != null) {
+            try {
+                contentResolver.openInputStream(uri)?.use { input ->
+                    BufferedReader(InputStreamReader(input, StandardCharsets.UTF_8)).use { reader ->
+                        val json = reader.readText()
+                        val state = TracklessState.fromJson(json)
+                        viewModel.importState(state)
+                        android.widget.Toast.makeText(this, "Data imported successfully", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                android.widget.Toast.makeText(this, "Import failed or invalid file", android.widget.Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun launchImport() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            type = "application/json"
-            addCategory(Intent.CATEGORY_OPENABLE)
-        }
-        startActivityForResult(intent, IMPORT_REQUEST)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == IMPORT_REQUEST && resultCode == RESULT_OK && data != null) {
-            val uri: Uri? = data.data
-            if (uri != null) {
-                try {
-                    contentResolver.openInputStream(uri)?.use { input ->
-                        BufferedReader(InputStreamReader(input, StandardCharsets.UTF_8)).use { reader ->
-                            val jsonBuilder = StringBuilder()
-                            var line: String?
-                            while (reader.readLine().also { line = it } != null) {
-                                jsonBuilder.append(line).append("\n")
-                            }
-                            val state = TracklessState.fromJson(jsonBuilder.toString())
-                            viewModel.importState(state)
-                        }
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
+        importLauncher.launch(arrayOf("application/json", "*/*"))
     }
 }
 

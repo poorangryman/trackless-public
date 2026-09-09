@@ -9,8 +9,6 @@ Whenever ANY change is made in this repository (code modification, UI update, fe
    - `app/build.gradle`:
      - `versionCode` is computed automatically from `tracklessVersionName` (`major * 10000 + minor * 100 + patch`), ensuring an strictly increasing versionCode for Android package management.
      - `versionName` automatically reads from `VERSION.txt`.
-   - Update `app/src/main/assets/index.html`:
-     - Keep the version in `#settings-about` in sync: `TrackLess vX.Y.Z · Liquid Glass Edition`.
 3. **Always build release APK before committing**:
    - Run: `./gradlew assembleRelease`
    - Verify that `app/build/outputs/apk/release/TrackLess-vX.Y.Z.apk` is generated.
@@ -24,4 +22,3 @@ Whenever ANY change is made in this repository (code modification, UI update, fe
 ## 📱 UI/UX Standards
 - **No native browser alerts (`alert()`, `confirm()`)**: Use inline liquid glass cards, toasts, or modals with haptic feedback.
 - **No emojis in core controls or lists**: Use minimalist stroked SVG icons (`stroke="currentColor"`, `fill="none"`).
-- **GPU Acceleration**: Always preserve `translateZ(0)` on `.bg-ambient` and `LAYER_TYPE_HARDWARE` in `MainActivity.java`.
