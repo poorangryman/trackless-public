@@ -7,4 +7,7 @@
     android:textColor="#FFFFFF"
     android:textSize="15sp"
     android:textStyle="bold"
+    android:singleLine="true"
+    android:maxLines="1"
+    android:autoSizeTextType="uniform"
     android:format="%s" />

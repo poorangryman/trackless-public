@@ -77,7 +77,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                 contentAlignment = Alignment.Center
             ) {
                 Column(
-                    modifier = GlanceModifier.fillMaxSize().padding(end = 92.dp),
+                    modifier = GlanceModifier.fillMaxSize().padding(end = 56.dp),
                     verticalAlignment = Alignment.Vertical.CenterVertically
                 ) {
                     val kindLabel = if (kind == "snus") {
