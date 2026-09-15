@@ -42,6 +42,15 @@ class LogActionCallback : ActionCallback {
     }
 }
 
+class UndoActionCallback : ActionCallback {
+    override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
+        if (AppDataStore.removeLastRecord(context)) {
+            SmallTrackerWidget().updateAll(context)
+            WideTrackerWidget().updateAll(context)
+        }
+    }
+}
+
 class SmallTrackerWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
@@ -83,6 +92,7 @@ class SmallTrackerWidget : GlanceAppWidget() {
                     val baseTime = SystemClock.elapsedRealtime() - elapsed
                     AndroidRemoteViews(
                         remoteViews = RemoteViews(context.packageName, R.layout.widget_chrono_small).apply {
+                            setChronometer(R.id.widget_timer, baseTime, "%s", false)
                             setChronometer(R.id.widget_timer, baseTime, "%s", true)
                         },
                         modifier = GlanceModifier.padding(bottom = 6.dp)
@@ -99,15 +109,31 @@ class SmallTrackerWidget : GlanceAppWidget() {
                     )
                 }
 
-                Image(
-                    provider = ImageProvider(R.drawable.ic_widget_plus),
-                    contentDescription = "Add",
-                    modifier = GlanceModifier
-                        .size(28.dp)
-                        .background(ImageProvider(R.drawable.widget_add_bg))
-                        .padding(6.dp)
-                        .clickable(actionRunCallback<LogActionCallback>())
-                )
+                androidx.glance.layout.Row(
+                    horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
+                    verticalAlignment = Alignment.Vertical.CenterVertically
+                ) {
+                    if (last > 0) {
+                        Image(
+                            provider = ImageProvider(R.drawable.ic_widget_undo),
+                            contentDescription = "Undo",
+                            modifier = GlanceModifier
+                                .size(24.dp)
+                                .padding(4.dp)
+                                .clickable(actionRunCallback<UndoActionCallback>())
+                        )
+                        Spacer(modifier = GlanceModifier.size(4.dp))
+                    }
+                    Image(
+                        provider = ImageProvider(R.drawable.ic_widget_plus),
+                        contentDescription = "Add",
+                        modifier = GlanceModifier
+                            .size(28.dp)
+                            .background(ImageProvider(R.drawable.widget_add_bg))
+                            .padding(6.dp)
+                            .clickable(actionRunCallback<LogActionCallback>())
+                    )
+                }
             }
         }
     }

@@ -24,6 +24,7 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -33,6 +34,8 @@ import androidx.glance.text.TextStyle
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+
 
 class WideTrackerWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -74,7 +77,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                 verticalAlignment = Alignment.Vertical.CenterVertically
             ) {
                 Column(
-                    modifier = GlanceModifier.padding(end = 8.dp)
+                    modifier = GlanceModifier.fillMaxWidth().padding(end = 8.dp)
                 ) {
                     val kindLabel = if (kind == "snus") {
                         if (lang == "en") "SNUS" else "СНЮС"
@@ -97,6 +100,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                         val baseTime = SystemClock.elapsedRealtime() - elapsed
                         AndroidRemoteViews(
                             remoteViews = RemoteViews(context.packageName, R.layout.widget_chrono_wide).apply {
+                                setChronometer(R.id.widget_timer, baseTime, "%s", false)
                                 setChronometer(R.id.widget_timer, baseTime, "%s", true)
                             }
                         )
@@ -124,15 +128,31 @@ class WideTrackerWidget : GlanceAppWidget() {
                     )
                 }
 
-                Image(
-                    provider = ImageProvider(R.drawable.ic_widget_plus),
-                    contentDescription = "Add",
-                    modifier = GlanceModifier
-                        .size(44.dp)
-                        .background(ImageProvider(R.drawable.widget_add_bg))
-                        .padding(12.dp)
-                        .clickable(actionRunCallback<LogActionCallback>())
-                )
+                Row(
+                    verticalAlignment = Alignment.Vertical.CenterVertically,
+                    modifier = GlanceModifier.padding(start = 4.dp)
+                ) {
+                    if (last > 0) {
+                        Image(
+                            provider = ImageProvider(R.drawable.ic_widget_undo),
+                            contentDescription = "Undo",
+                            modifier = GlanceModifier
+                                .size(32.dp)
+                                .padding(6.dp)
+                                .clickable(actionRunCallback<UndoActionCallback>())
+                        )
+                        Spacer(modifier = GlanceModifier.size(8.dp))
+                    }
+                    Image(
+                        provider = ImageProvider(R.drawable.ic_widget_plus),
+                        contentDescription = "Add",
+                        modifier = GlanceModifier
+                            .size(44.dp)
+                            .background(ImageProvider(R.drawable.widget_add_bg))
+                            .padding(12.dp)
+                            .clickable(actionRunCallback<LogActionCallback>())
+                    )
+                }
             }
         }
     }

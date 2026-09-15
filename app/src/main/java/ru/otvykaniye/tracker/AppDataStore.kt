@@ -72,4 +72,50 @@ object AppDataStore {
     suspend fun recordActiveKind(context: Context): Boolean {
         return recordUse(context, "widget")
     }
+
+    suspend fun removeLastRecord(context: Context): Boolean {
+        return try {
+            var removed = false
+            context.dataStore.edit { preferences ->
+                val raw = preferences[KEY_STATE] ?: return@edit
+                if (raw.isEmpty()) return@edit
+
+                val state = JSONObject(raw)
+                val kind = state.optString("activeKind", "snus")
+                val profiles = state.optJSONObject("profiles") ?: return@edit
+                val profile = profiles.optJSONObject(kind) ?: return@edit
+                val entries = profile.optJSONArray("entries") ?: return@edit
+
+                if (entries.length() > 0) {
+                    var maxIndex = -1
+                    var maxTs = -1L
+                    for (i in 0 until entries.length()) {
+                        val entry = entries.optJSONObject(i)
+                        if (entry != null) {
+                            val ts = entry.optLong("ts", 0L)
+                            if (ts > maxTs) {
+                                maxTs = ts
+                                maxIndex = i
+                            }
+                        }
+                    }
+                    if (maxIndex != -1) {
+                        // Workaround for API levels < 19 missing remove(int)
+                        val newEntries = JSONArray()
+                        for (i in 0 until entries.length()) {
+                            if (i != maxIndex) {
+                                newEntries.put(entries.get(i))
+                            }
+                        }
+                        profile.put("entries", newEntries)
+                        preferences[KEY_STATE] = state.toString()
+                        removed = true
+                    }
+                }
+            }
+            removed
+        } catch (ignored: Exception) {
+            false
+        }
+    }
 }
