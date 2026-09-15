@@ -68,16 +68,17 @@ class WideTrackerWidget : GlanceAppWidget() {
                 }
             } catch (ignored: Exception) {}
 
-            Row(
+            androidx.glance.layout.Box(
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .padding(12.dp)
                     .background(ImageProvider(R.drawable.widget_bg))
                     .clickable(actionStartActivity(android.content.Intent(context, MainActivity::class.java))),
-                verticalAlignment = Alignment.Vertical.CenterVertically
+                contentAlignment = Alignment.Center
             ) {
                 Column(
-                    modifier = GlanceModifier.fillMaxWidth().padding(end = 8.dp)
+                    modifier = GlanceModifier.fillMaxSize().padding(end = 92.dp),
+                    verticalAlignment = Alignment.Vertical.CenterVertically
                 ) {
                     val kindLabel = if (kind == "snus") {
                         if (lang == "en") "SNUS" else "СНЮС"
@@ -129,8 +130,9 @@ class WideTrackerWidget : GlanceAppWidget() {
                 }
 
                 Row(
+                    modifier = GlanceModifier.fillMaxSize(),
                     verticalAlignment = Alignment.Vertical.CenterVertically,
-                    modifier = GlanceModifier.padding(start = 4.dp)
+                    horizontalAlignment = Alignment.Horizontal.End
                 ) {
                     if (last > 0) {
                         Image(
