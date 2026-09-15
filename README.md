@@ -1,18 +1,21 @@
-# TrackLess
-
-<p align="center">
-  <strong>A modern, offline-first personal tracker for snus, nicotine pouches, and cigarettes — built with privacy, zero ads, and zero subscriptions.</strong>
-</p>
-
-<p align="center">
-  <a href="https://github.com/poorangryman/trackless-public/releases/latest">
-    <img src="https://img.shields.io/github/v/release/poorangryman/trackless-public?style=for-the-badge&logo=android&color=3DDC84&label=Download%20APK" alt="Download APK" />
-  </a>
-  <img src="https://img.shields.io/badge/Platform-Android%206.0+-blue.svg?style=for-the-badge&logo=android" alt="Android 6.0+" />
-  <img src="https://img.shields.io/badge/Privacy-100%25%20Offline-brightgreen.svg?style=for-the-badge" alt="Offline Privacy" />
-  <img src="https://img.shields.io/badge/Ads-Zero-red.svg?style=for-the-badge" alt="Zero Ads" />
-  <img src="https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge" alt="MIT License" />
-</p>
+<div align="center">
+  <img src="app/src/main/assets/icon.svg" width="120" alt="TrackLess Logo" />
+  <h1>TrackLess: Nicotine & Habit Tracker</h1>
+  <p><b>Quit Smoking, Snus & Nicotine Pouches — No Ads, 100% Offline & Private</b></p>
+  <p>
+    <a href="#english">🇬🇧 English</a> • <a href="#русский">🇷🇺 Русский</a>
+  </p>
+  
+  <p>
+    <a href="https://github.com/poorangryman/trackless-public/releases/latest">
+      <img src="https://img.shields.io/github/v/release/poorangryman/trackless-public?style=for-the-badge&color=00A982" alt="Latest Release" />
+    </a>
+    <img src="https://img.shields.io/badge/Platform-Android%206.0+-blue.svg?style=for-the-badge&logo=android" alt="Android 6.0+" />
+    <img src="https://img.shields.io/badge/Privacy-100%25%20Offline-brightgreen.svg?style=for-the-badge" alt="Offline Privacy" />
+    <img src="https://img.shields.io/badge/Ads-Zero-red.svg?style=for-the-badge" alt="Zero Ads" />
+    <img src="https://img.shields.io/badge/License-MIT-purple.svg?style=for-the-badge" alt="MIT License" />
+  </p>
+</div>
 
 <p align="center">
   <img src="docs/screenshots/01_dashboard_tracker.jpg" width="19%" alt="Main Dashboard & Timer" />
@@ -24,103 +27,66 @@
 
 ---
 
-I want to start by making one thing clear: **I have absolutely no professional experience in Android application development.**
+<h2 id="english">🇬🇧 English</h2>
 
-TrackLess was created as a personal project for my own needs. I couldn't find a simple, reasonable tracker on the Google Play Store that didn't come with ads, unnecessary features, accounts, subscriptions, or other things I simply didn't need.
+**TrackLess** is a lightweight, ad-free Android application designed to help you track and reduce your consumption of **snus, nicotine pouches, and cigarettes**. Built with a focus on privacy and simplicity, it acts as a personal quit-smoking tracker and habit diary without relying on cloud services, subscriptions, or intrusive permissions.
 
-So I decided to make one myself.
+### 🌟 Key Features
+- **Abstinence Timer & Health Milestones:** Track the time passed since your last use and monitor real-time biological health recovery stages (from 20 minutes to 1 month).
+- **Craving SOS (Urge Surfer):** Built-in 4-7-8 breathing guide to help you ride out intense cravings without relapsing.
+- **Financial Savings Calculator:** Set a personal wishlist goal (e.g., a new gadget) and see how much money you've saved by cutting back on packs or portions.
+- **Advanced Analytics:** Interactive 14-day history chart, circadian pattern breakdown (Morning/Day/Evening/Night), and context triggers (Stress, Coffee, Social, Habit).
+- **Home-Screen Widgets:** 1x1 and 2x1 Android widgets for instant, one-tap logging directly from your home screen.
+- **100% Offline & Private:** All data is stored locally on your device. Import/export your JSON data at any time. Zero ads, zero telemetry.
 
-And I relied **heavily on ChatGPT throughout the entire development process** — from the initial idea and project structure to implementation, debugging, UI improvements, and fixing various Android-specific issues. So if you're an experienced Android developer and wondering why something was implemented in a particular way... please be gentle.
+### 📱 UI & Screenshots
+TrackLess features a sleek **Noble Apple Liquid Glass** interface with obsidian dark tones, translucent frosted glass cards, and smooth micro-interactions powered by native Android haptic feedback.
 
-I'm sharing the project publicly because I thought that someone else might find it useful too. If it helps even a few people track their habits without ads or unnecessary distractions, then publishing it was worth it.
-
-## 📱 Interface & Screenshots
-
-### Core Dashboard & Analytics
-
-| ⏱️ Dashboard & Health | 📋 Daily Log & Widgets | 📊 14-Day Analytics & Patterns |
+| ⏱️ Dashboard & Health | 📋 Daily Log & Widgets | 📊 14-Day Analytics |
 | :---: | :---: | :---: |
-| <img src="docs/screenshots/01_dashboard_tracker.jpg" width="260" alt="TrackLess Main Dashboard" /> | <img src="docs/screenshots/02_stats_and_history.jpg" width="260" alt="Daily Stats & History" /> | <img src="docs/screenshots/03_analytics_14day_circadian.jpg" width="260" alt="14-Day Analytics & Circadian Rhythm" /> |
-| **Abstinence timer**, Craving SOS urge surfer, Financial Target goal progress, and real-time biological **Health Recovery Milestones**. | **Today's usage vs daily limit**, live chronological history feed with **one-tap home screen widget logging** tags. | **Interactive 14-day bar chart** with limit threshold indicator and **Circadian Time of Use breakdown** (Morning, Day, Evening, Night). |
+| <img src="docs/screenshots/01_dashboard_tracker.jpg" width="260" alt="Dashboard" /> | <img src="docs/screenshots/02_stats_and_history.jpg" width="260" alt="History" /> | <img src="docs/screenshots/03_analytics_14day_circadian.jpg" width="260" alt="Analytics" /> |
+| **Timer, SOS Button, & Goals** | **Limits, Tags, & History Feed** | **Bar Charts & Usage Patterns** |
 
-### Personalization & Savings Calculator
+### 🛠️ Background Story
+I have no professional background in Android development. I created TrackLess for myself because I couldn't find a straightforward habit tracker on Google Play that wasn't bloated with ads or subscriptions. I relied heavily on ChatGPT for the architecture, UI design, and debugging. If you are an experienced developer and see room for improvement, constructive PRs and feedback are very welcome!
 
-| ⚙️ Personalization & Limits | 💰 Pack Economics & Savings |
-| :---: | :---: |
-| <img src="docs/screenshots/04_settings_wishlist.jpg" width="260" alt="Settings & Wishlist Goal" /> | <img src="docs/screenshots/05_settings_savings.jpg" width="260" alt="Savings & Pricing Settings" /> |
-| **Bilingual interface (RU/EN)**, daily consumption limits, nicotine dosage format, and custom **Wishlist reward** target. | **Financial savings calculator**: baseline consumption, pack price, and portions to compute real money saved. |
+[Report a bug or request a feature](https://github.com/poorangryman/trackless-public/issues)
 
 ---
 
-## What is TrackLess?
+<h2 id="русский">🇷🇺 Русский</h2>
 
-TrackLess is a lightweight Android application for tracking **snus, nicotine pouch, and cigarette consumption**.
+**TrackLess** — это легковесное Android-приложение без рекламы, созданное для трекинга и контроля употребления **снюса, никотиновых паков и сигарет**. Разработанное с упором на приватность и минимализм, оно работает как ваш личный дневник привычек и помощник в отказе от курения — без подписок, регистрации и облаков.
 
-The idea is simple: record each use and let the application handle the statistics.
+### 🌟 Главные возможности
+- **Таймер воздержания и этапы здоровья:** Отслеживайте время с последнего употребления и наблюдайте за биологическим восстановлением организма (от 20 минут до 1 месяца).
+- **Кнопка SOS (Urge Surfer):** Встроенный помощник с дыхательной практикой 4-7-8, чтобы пережить острые приступы тяги без срывов.
+- **Финансовая копилка (Wishlist):** Задайте цель (например, новую приставку или кроссовки) и смотрите, как быстро вы копите на неё за счет сэкономленных на сигаретах или снюсе денег.
+- **Детальная аналитика:** Горизонтальный интерактивный график за 14 дней, статистика по времени суток (утро, день, вечер, ночь) и теги причин (Стресс, Привычка, Кофе, Компания).
+- **Виджеты для рабочего стола:** Удобные виджеты (1x1 и 2x1) для записи употребления в один клик прямо с главного экрана.
+- **100% Оффлайн и Приватно:** Все данные хранятся только на вашем телефоне. Доступен экспорт/импорт в формате JSON. Никакой рекламы и сбора данных.
 
-### Features
+### 📱 Интерфейс и дизайн
+В TrackLess используется темный интерфейс **Liquid Glass** — полупрозрачные стеклянные карточки на глубоком черном фоне (идеально для AMOLED-экранов), плавные анимации и тактильный виброотклик.
 
-- Track individual snus/nicotine pouch and cigarette uses
-- **Noble Apple Liquid Glass interface** with obsidian dark tones, translucent frosted glass cards, and fluid micro-interactions
-- **SOS Craving Surfer & 4-7-8 Breathing Guide** to help overcome intense urge spikes without relapsing
-- **Health Recovery Milestones Timeline** tracking biological body repair from 20 minutes to 1 month
-- **Financial Wishlist ("Копилка на мечту")** calculating real-time progress toward personal reward goals using saved money
-- **Context Trigger Tagging** (Stress, Habit, After Meal, Coffee, Boredom, Social) to understand consumption drivers
-- **Hourly Pattern Breakdown** to visualize peak usage times throughout the day
-- **Native Android Haptic Feedback** for tactile button presses and breathing pulses
-- Record product type and relevant consumption details
-- View consumption history and interactive 14-day bar chart
-- Track daily and historical consumption statistics
-- Monitor changes in consumption over time
-- Track spending and money saved based on configured prices
-- Track time since the last recorded use
-- Home-screen widgets (1x1 and 2x1) for quick glance and one-tap logging
-- Import and export application data (JSON)
-- 100% local data storage on device
-- No mandatory account or cloud service
-- No advertising or telemetry
+| 🎯 Персонализация и Лимиты | 💰 Экономика и Сбережения |
+| :---: | :---: |
+| <img src="docs/screenshots/04_settings_wishlist.jpg" width="260" alt="Настройки цели" /> | <img src="docs/screenshots/05_settings_savings.jpg" width="260" alt="Цены и экономия" /> |
+| **Двуязычный UI, настройка лимитов** | **Расчет реальной экономии** |
 
-TrackLess is intentionally designed to stay relatively simple. It is not intended to replace medical advice, smoking-cessation treatment, or professional healthcare.
+### 🛠️ История создания
+Я не являюсь профессиональным Android-разработчиком. TrackLess был создан изначально для личного пользования, так как в Google Play не нашлось простого трекера без навязчивой рекламы и премиум-подписок. В процессе разработки, архитектуры и создания дизайна я активно использовал ChatGPT. Если вы опытный разработчик и видите способы улучшить код — буду рад вашим Pull Requests и советам!
 
-## Why does it exist?
+[Сообщить об ошибке или предложить идею](https://github.com/poorangryman/trackless-public/issues)
 
-I wanted a tool that would simply help me **see what I was actually consuming**, without turning the process into another subscription-based service or filling the interface with advertisements.
+---
 
-That's basically the whole idea behind TrackLess.
+### 📦 Building & Contribution (Сборка и участие)
+- **IDE:** Android Studio
+- **Language:** Kotlin (Jetpack Compose)
+- **Build:** `assembleRelease` to build a production APK without a private key (suitable for testing).
 
-## Community feedback and contributions
+We welcome contributions! Feel free to open issues, submit pull requests, or translate the app into your language.
 
-If you use TrackLess, **feedback, bug reports, feature requests, and contributions are welcome**.
-
-- [Report a bug or discuss TrackLess](https://github.com/poorangryman/trackless-public/issues/1)
-- [Open a new issue](https://github.com/poorangryman/trackless-public/issues/new)
-
-For bug reports, please include your Android version, device model, TrackLess version, steps to reproduce the problem, and screenshots or logs when possible.
-
-If you are an Android developer, or have experience with Kotlin/Java, testing, security, architecture, or UI/UX, constructive suggestions and pull requests are especially welcome.
-
-## A note about the code
-
-This project is my first serious attempt at creating an Android application, and I am learning as I go.
-
-**ChatGPT was heavily involved in the development of TrackLess.** The application would not have reached its current state without it.
-
-I am publishing the source code openly because I believe that sharing a real, imperfect project can be more useful than pretending it was written by an experienced developer from the beginning.
-
-If you're an experienced Android developer and notice something that could be significantly improved, constructive feedback is welcome.
-
-**I'm also very open to suggestions and contributions from the community.** If you have ideas for new features, improvements, bug fixes, UI/UX changes, or anything else that could make TrackLess better, feel free to share them.
-
-If you have experience with Android development, Kotlin/Java, UI/UX, testing, security, or any other area relevant to the project, **any help, advice, constructive criticism, or contribution would be greatly appreciated.** I'm still learning, so there is definitely a lot I can improve.
-
-**I also used ChatGPT to write and polish this README.** My English isn't good enough to express all of this clearly and naturally on my own, so I relied on ChatGPT to help translate and formulate my thoughts. The ideas and information about the project are mine; ChatGPT helped me put them into proper English.
-
-## Building
-
-Open the project in Android Studio and run it on an Android device or emulator.
-
-For a release build without a private signing key, run the Gradle `assembleRelease` task. The resulting APK is suitable for testing. A production release key can be supplied through environment variables without committing it to the repository.
-
-## License
-
-See [LICENSE](LICENSE).
+### 📄 License
+This project is licensed under the [MIT License](LICENSE).
