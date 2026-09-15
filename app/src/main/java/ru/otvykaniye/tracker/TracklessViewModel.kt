@@ -60,17 +60,19 @@ class TracklessViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun recordUse(trigger: String) {
+        recordUseAtTime(trigger, null)
+    }
+
+    fun recordUseAtTime(trigger: String, timestamp: Long?) {
         viewModelScope.launch {
             val recorded = stateMutex.withLock {
-                repository.recordUse(trigger)
+                repository.recordUse(trigger, timestamp)
             }
             if (recorded) {
                 try {
                     SmallTrackerWidget().updateAll(getApplication())
                     WideTrackerWidget().updateAll(getApplication())
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+                } catch (ignored: Exception) {}
             }
         }
     }

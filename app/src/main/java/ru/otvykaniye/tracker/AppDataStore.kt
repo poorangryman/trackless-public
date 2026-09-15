@@ -35,7 +35,7 @@ object AppDataStore {
         }
     }
 
-    suspend fun recordUse(context: Context, trigger: String): Boolean {
+    suspend fun recordUse(context: Context, trigger: String, customTimestamp: Long? = null): Boolean {
         return try {
             var recorded = false
             context.dataStore.edit { preferences ->
@@ -53,18 +53,32 @@ object AppDataStore {
                     profile.put("entries", entries)
                 }
 
-                val now = System.currentTimeMillis()
+                val now = customTimestamp ?: System.currentTimeMillis()
                 entries.put(JSONObject().apply {
                     put("id", "$now-${trigger.hashCode()}")
                     put("ts", now)
                     put("trigger", trigger)
                 })
 
+                // If a custom timestamp is inserted, we must ensure entries remain sorted by time
+                if (customTimestamp != null) {
+                    val entryList = mutableListOf<JSONObject>()
+                    for (i in 0 until entries.length()) {
+                        entryList.add(entries.getJSONObject(i))
+                    }
+                    entryList.sortBy { it.optLong("ts", 0L) }
+                    
+                    val newEntries = JSONArray()
+                    entryList.forEach { newEntries.put(it) }
+                    profile.put("entries", newEntries)
+                }
+
                 preferences[KEY_STATE] = state.toString()
                 recorded = true
             }
             recorded
-        } catch (ignored: Exception) {
+        } catch (e: Exception) {
+            e.printStackTrace()
             false
         }
     }

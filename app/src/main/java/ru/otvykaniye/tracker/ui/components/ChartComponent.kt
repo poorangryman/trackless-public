@@ -2,6 +2,7 @@ package ru.otvykaniye.tracker.ui.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -86,48 +87,51 @@ fun ChartComponent(state: TracklessState) {
 
             Spacer(Modifier.height(24.dp))
 
-            Canvas(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(160.dp)
-                    .pointerInput(days) {
-                        detectTapGestures { offset ->
-                            val canvasWidth = size.width
-                            val barWidth = canvasWidth / 14
-                            val index = (offset.x / barWidth).toInt().coerceIn(0, 13)
-                            selectedDay = days[index]
+            val scrollState = androidx.compose.foundation.rememberScrollState()
+            Row(modifier = Modifier.fillMaxWidth().horizontalScroll(scrollState)) {
+                Canvas(
+                    modifier = Modifier
+                        .width(480.dp)
+                        .height(160.dp)
+                        .pointerInput(days) {
+                            detectTapGestures { offset ->
+                                val canvasWidth = size.width
+                                val barWidth = canvasWidth / 14
+                                val index = (offset.x / barWidth).toInt().coerceIn(0, 13)
+                                selectedDay = days[index]
+                            }
                         }
-                    }
-            ) {
-                val canvasWidth = size.width
-                val canvasHeight = size.height
-                val barWidth = (canvasWidth / 14) * 0.65f
-                val spacing = (canvasWidth / 14) * 0.35f
+                ) {
+                    val canvasWidth = size.width
+                    val canvasHeight = size.height
+                    val barWidth = (canvasWidth / 14) * 0.65f
+                    val spacing = (canvasWidth / 14) * 0.35f
 
-                // Draw limit line
-                val limitY = canvasHeight - (dailyLimit.toFloat() / maxCount) * canvasHeight
-                drawLine(
-                    color = Coral.copy(alpha = 0.4f),
-                    start = Offset(0f, limitY),
-                    end = Offset(canvasWidth, limitY),
-                    strokeWidth = 2f,
-                    pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
-                )
-
-                days.forEachIndexed { index, day ->
-                    val x = index * (canvasWidth / 14) + spacing / 2
-                    val barHeight = (day.count.toFloat() / maxCount) * canvasHeight
-                    val y = canvasHeight - barHeight
-
-                    val color = if (day.count > dailyLimit) Coral else Emerald
-                    val alpha = if (selectedDay == day) 1f else 0.5f
-
-                    drawRoundRect(
-                        color = color.copy(alpha = alpha),
-                        topLeft = Offset(x, y),
-                        size = Size(barWidth, barHeight),
-                        cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx())
+                    // Draw limit line
+                    val limitY = canvasHeight - (dailyLimit.toFloat() / maxCount) * canvasHeight
+                    drawLine(
+                        color = Coral.copy(alpha = 0.4f),
+                        start = Offset(0f, limitY),
+                        end = Offset(canvasWidth, limitY),
+                        strokeWidth = 2f,
+                        pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(10f, 10f))
                     )
+
+                    days.forEachIndexed { index, day ->
+                        val x = index * (canvasWidth / 14) + spacing / 2
+                        val barHeight = (day.count.toFloat() / maxCount) * canvasHeight
+                        val y = canvasHeight - barHeight
+
+                        val color = if (day.count > dailyLimit) Coral else Emerald
+                        val alpha = if (selectedDay == day) 1f else 0.5f
+
+                        drawRoundRect(
+                            color = color.copy(alpha = alpha),
+                            topLeft = Offset(x, y),
+                            size = Size(barWidth, barHeight),
+                            cornerRadius = CornerRadius(4.dp.toPx(), 4.dp.toPx())
+                        )
+                    }
                 }
             }
         }

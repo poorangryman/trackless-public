@@ -144,15 +144,33 @@ fun MainScreen(viewModel: TracklessViewModel) {
 }
 
 @Composable
-fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onUndo: () -> Unit) {
+fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onUndo: () -> Unit, onCustomRecord: (Long) -> Unit) {
     val lang = state.language
+    val context = androidx.compose.ui.platform.LocalContext.current
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(Strings.get(lang, "time_passed"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-                if ((state.profiles[state.activeKind]?.entries?.size ?: 0) > 0) {
-                    IconButton(onClick = onUndo, modifier = Modifier.size(24.dp)) {
-                        Icon(androidx.compose.material.icons.Icons.Rounded.Undo, contentDescription = "Undo", tint = TextDim)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    IconButton(
+                        onClick = {
+                            val cal = java.util.Calendar.getInstance()
+                            android.app.DatePickerDialog(context, { _, year, month, dayOfMonth ->
+                                val timeCal = java.util.Calendar.getInstance()
+                                android.app.TimePickerDialog(context, { _, hourOfDay, minute ->
+                                    timeCal.set(year, month, dayOfMonth, hourOfDay, minute, 0)
+                                    onCustomRecord(timeCal.timeInMillis)
+                                }, cal.get(java.util.Calendar.HOUR_OF_DAY), cal.get(java.util.Calendar.MINUTE), true).show()
+                            }, cal.get(java.util.Calendar.YEAR), cal.get(java.util.Calendar.MONTH), cal.get(java.util.Calendar.DAY_OF_MONTH)).show()
+                        },
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(androidx.compose.material.icons.Icons.Rounded.Add, contentDescription = "Custom Time", tint = TextDim)
+                    }
+                    if ((state.profiles[state.activeKind]?.entries?.size ?: 0) > 0) {
+                        IconButton(onClick = onUndo, modifier = Modifier.size(24.dp)) {
+                            Icon(androidx.compose.material.icons.Icons.Rounded.Undo, contentDescription = "Undo", tint = TextDim)
+                        }
                     }
                 }
             }
