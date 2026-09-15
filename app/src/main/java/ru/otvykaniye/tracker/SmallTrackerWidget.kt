@@ -113,17 +113,6 @@ class SmallTrackerWidget : GlanceAppWidget() {
                     horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
                     verticalAlignment = Alignment.Vertical.CenterVertically
                 ) {
-                    if (last > 0) {
-                        Image(
-                            provider = ImageProvider(R.drawable.ic_widget_undo),
-                            contentDescription = "Undo",
-                            modifier = GlanceModifier
-                                .size(24.dp)
-                                .padding(4.dp)
-                                .clickable(actionRunCallback<UndoActionCallback>())
-                        )
-                        Spacer(modifier = GlanceModifier.size(4.dp))
-                    }
                     Image(
                         provider = ImageProvider(R.drawable.ic_widget_plus),
                         contentDescription = "Add",

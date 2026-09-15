@@ -184,10 +184,13 @@ fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, o
 }
 
 fun formatTime(ms: Long): String {
-    if (ms <= 0) return "— : — : —"
+    if (ms <= 0) return "— : —"
     val s = ms / 1000
     val h = s / 3600
     val m = (s % 3600) / 60
-    val q = s % 60
-    return String.format("%02d:%02d:%02d", h, m, q)
+    
+    val blink = (System.currentTimeMillis() / 1000) % 2 == 0L
+    val sep = if (blink) ":" else " "
+    
+    return String.format("%02d%s%02d", h, sep, m)
 }

@@ -134,17 +134,6 @@ class WideTrackerWidget : GlanceAppWidget() {
                     verticalAlignment = Alignment.Vertical.CenterVertically,
                     horizontalAlignment = Alignment.Horizontal.End
                 ) {
-                    if (last > 0) {
-                        Image(
-                            provider = ImageProvider(R.drawable.ic_widget_undo),
-                            contentDescription = "Undo",
-                            modifier = GlanceModifier
-                                .size(32.dp)
-                                .padding(6.dp)
-                                .clickable(actionRunCallback<UndoActionCallback>())
-                        )
-                        Spacer(modifier = GlanceModifier.size(8.dp))
-                    }
                     Image(
                         provider = ImageProvider(R.drawable.ic_widget_plus),
                         contentDescription = "Add",
