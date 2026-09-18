@@ -12,6 +12,9 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,18 +28,33 @@ import ru.otvykaniye.tracker.ui.theme.*
 import java.util.Calendar
 
 @Composable
-fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.ui.graphics.Color) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(20.dp))
-        Spacer(Modifier.width(8.dp))
-        Text(title, color = iconTint, fontWeight = FontWeight.Bold, fontSize = 16.sp, letterSpacing = 0.5.sp)
+fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.ui.graphics.Color, action: @Composable () -> Unit = {}) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(8.dp))
+            Text(title, color = iconTint, fontWeight = FontWeight.Bold, fontSize = 16.sp, letterSpacing = 0.5.sp)
+        }
+        action()
     }
 }
 
 @Composable
-fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String) -> Unit) {
+fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String) -> Unit, onCustomRecord: (Long) -> Unit = {}) {
     val profile = state.profiles[state.activeKind] ?: return
     val lang = state.language
+
+    var showCustomTimePicker by remember { mutableStateOf(false) }
+
+    if (showCustomTimePicker) {
+        CustomTimePickerDialog(
+            onDismiss = { showCustomTimePicker = false },
+            onConfirm = { ts ->
+                onCustomRecord(ts)
+                showCustomTimePicker = false
+            }
+        )
+    }
 
     val startOfToday = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 0)
@@ -162,7 +180,16 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
         // History List
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
-                SectionHeader(Strings.get(lang, "history"), Icons.Rounded.History, TextPrimary)
+                SectionHeader(
+                    Strings.get(lang, "history"), 
+                    Icons.Rounded.History, 
+                    TextPrimary,
+                    action = {
+                        IconButton(onClick = { showCustomTimePicker = true }, modifier = Modifier.size(24.dp)) {
+                            Icon(Icons.Default.Add, contentDescription = "Add custom record", tint = TextDim)
+                        }
+                    }
+                )
                 Spacer(Modifier.height(16.dp))
                 if (profile.entries.isEmpty()) {
                     Text(Strings.get(lang, "no_entries"), color = TextDim)

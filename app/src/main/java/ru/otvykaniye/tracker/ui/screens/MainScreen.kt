@@ -123,7 +123,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                     onCustomRecord = { ts -> viewModel.recordUseAtTime("habit", ts) }
                 )
                 
-                StatsGrid(state, timeSinceLast, onDeleteEntry = { id -> viewModel.deleteEntry(id) })
+                StatsGrid(state, timeSinceLast, onDeleteEntry = { id -> viewModel.deleteEntry(id) }, onCustomRecord = { ts -> viewModel.recordUseAtTime(state.activeKind, ts) })
                 
                 val profile = state.profiles[state.activeKind]
                 if (profile != null) {
@@ -148,29 +148,11 @@ fun MainScreen(viewModel: TracklessViewModel) {
 @Composable
 fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onUndo: () -> Unit, onCustomRecord: (Long) -> Unit) {
     val lang = state.language
-    var showCustomTimePicker by remember { mutableStateOf(false) }
-
-    if (showCustomTimePicker) {
-        ru.otvykaniye.tracker.ui.components.CustomTimePickerDialog(
-            onDismiss = { showCustomTimePicker = false },
-            onConfirm = { ts ->
-                onCustomRecord(ts)
-                showCustomTimePicker = false
-            }
-        )
-    }
-
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(Strings.get(lang, "time_passed"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    IconButton(
-                        onClick = { showCustomTimePicker = true },
-                        modifier = Modifier.size(24.dp)
-                    ) {
-                        Icon(Icons.Default.Add, contentDescription = "Custom Time", tint = TextDim)
-                    }
                     if ((state.profiles[state.activeKind]?.entries?.size ?: 0) > 0) {
                         IconButton(onClick = onUndo, modifier = Modifier.size(24.dp)) {
                             Icon(androidx.compose.material.icons.Icons.Rounded.Undo, contentDescription = "Undo", tint = TextDim)
