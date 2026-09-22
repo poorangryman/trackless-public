@@ -60,7 +60,7 @@ fun ChartComponent(state: TracklessState) {
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(20.dp)) {
-            SectionHeader(Strings.get(lang, "chart_14_days"), Icons.Rounded.BarChart, Emerald)
+            SectionHeader(Strings.get(lang, "chart_14_days"), Icons.Rounded.BarChart, PrimaryAccent)
             Spacer(Modifier.height(16.dp))
 
             Box(
@@ -78,7 +78,7 @@ fun ChartComponent(state: TracklessState) {
                     val dateStr = sdf.format(selectedDay!!.ts)
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(dateStr, color = TextPrimary, fontWeight = FontWeight.Medium)
-                        Text("${selectedDay!!.count} ${Strings.get(lang, "pcs")}", color = if (selectedDay!!.count > dailyLimit) Coral else Emerald, fontWeight = FontWeight.Bold)
+                        Text("${selectedDay!!.count} ${Strings.get(lang, "pcs")}", color = if (selectedDay!!.count > dailyLimit) Coral else PrimaryAccent, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Text(Strings.get(lang, "tap_bar"), color = TextDim, fontSize = 13.sp)
@@ -122,7 +122,7 @@ fun ChartComponent(state: TracklessState) {
                         val barHeight = (day.count.toFloat() / maxCount) * canvasHeight
                         val y = canvasHeight - barHeight
 
-                        val color = if (day.count > dailyLimit) Coral else Emerald
+                        val color = if (day.count > dailyLimit) Coral else PrimaryAccent
                         val alpha = if (selectedDay == day) 1f else 0.5f
 
                         drawRoundRect(

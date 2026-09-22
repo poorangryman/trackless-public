@@ -39,7 +39,7 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
                 Button(
                     onClick = { setupStep = 2 },
                     modifier = Modifier.fillMaxWidth().height(50.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Emerald)
+                    colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
                 ) {
                     Text("Далее", color = BgDeep, fontWeight = FontWeight.Bold)
                 }
@@ -57,7 +57,7 @@ fun OnboardingScreen(state: TracklessState, onComplete: (TracklessState) -> Unit
                         onComplete(state.copy(onboarded = true, activeKind = activeKind)) 
                     },
                     modifier = Modifier.fillMaxWidth().height(50.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Emerald)
+                    colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
                 ) {
                     Text("Начать отслеживание", color = BgDeep, fontWeight = FontWeight.Bold)
                 }
@@ -71,10 +71,10 @@ fun ChoiceButton(text: String, selected: Boolean, modifier: Modifier = Modifier,
     Box(
         modifier = modifier
             .height(60.dp)
-            .background(if (selected) Emerald.copy(alpha = 0.2f) else BgCard, RoundedCornerShape(12.dp))
+            .background(if (selected) PrimaryAccent.copy(alpha = 0.2f) else BgCard, RoundedCornerShape(12.dp))
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(text, color = if (selected) Emerald else TextDim, fontWeight = FontWeight.Bold)
+        Text(text, color = if (selected) PrimaryAccent else TextDim, fontWeight = FontWeight.Bold)
     }
 }

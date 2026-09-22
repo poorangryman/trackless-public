@@ -66,10 +66,10 @@ fun SosDialog(state: TracklessState, onDismiss: () -> Unit) {
                 
                 Box(contentAlignment = Alignment.Center, modifier = Modifier.size(150.dp)) {
                     Canvas(modifier = Modifier.fillMaxSize()) {
-                        drawCircle(color = Emerald.copy(alpha = 0.3f), radius = size.width / 2 * scale, center = Offset(size.width/2, size.height/2))
+                        drawCircle(color = PrimaryAccent.copy(alpha = 0.3f), radius = size.width / 2 * scale, center = Offset(size.width/2, size.height/2))
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(phase, color = Emerald, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(phase, color = PrimaryAccent, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                         Text(seconds.toString(), color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.Bold)
                     }
                 }
@@ -81,7 +81,7 @@ fun SosDialog(state: TracklessState, onDismiss: () -> Unit) {
             }
         },
         confirmButton = {
-            Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = Emerald)) {
+            Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)) {
                 Text(Strings.get(lang, "sos_success"), color = BgDeep, fontWeight = FontWeight.Bold)
             }
         }

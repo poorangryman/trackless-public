@@ -98,7 +98,7 @@ fun CustomTimePickerDialog(
                             resultCal.set(Calendar.MINUTE, selectedMinute)
                             onConfirm(resultCal.timeInMillis)
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = Emerald)
+                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
                     ) {
                         Text("Сохранить", color = BgDeep, fontWeight = FontWeight.Bold)
                     }
@@ -122,13 +122,13 @@ fun QuickPill(text: String, onClick: () -> Unit) {
 @Composable
 fun DatePill(text: String, isSelected: Boolean, onClick: () -> Unit) {
     Surface(
-        color = if (isSelected) Emerald.copy(alpha = 0.15f) else BgCard,
+        color = if (isSelected) PrimaryAccent.copy(alpha = 0.15f) else BgCard,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.clickable(onClick = onClick)
     ) {
         Text(
             text,
-            color = if (isSelected) Emerald else TextDim,
+            color = if (isSelected) PrimaryAccent else TextDim,
             fontSize = 13.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)

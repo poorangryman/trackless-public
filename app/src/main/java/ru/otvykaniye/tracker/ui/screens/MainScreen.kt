@@ -31,10 +31,9 @@ import ru.otvykaniye.tracker.ui.theme.*
 fun AmbientBackground() {
     val gradient = Brush.radialGradient(
         colors = listOf(
-            Emerald.copy(alpha = 0.15f),
+            PrimaryAccent.copy(alpha = 0.10f),
             Color.Transparent,
-            Amber.copy(alpha = 0.08f),
-            Cyan.copy(alpha = 0.05f)
+            Color.White.copy(alpha = 0.05f)
         ),
         radius = 1500f
     )
@@ -93,7 +92,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                         ) {
                             Text(
                                 text = if (state.activeKind == "snus") Strings.get(state.language, "snus") else Strings.get(state.language, "cigarettes"),
-                                color = Emerald,
+                                color = PrimaryAccent,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 13.sp
                             )
@@ -119,7 +118,6 @@ fun MainScreen(viewModel: TracklessViewModel) {
                     timeSinceLast = timeSinceLast,
                     onRecord = { viewModel.recordUse("habit") },
                     onSos = { showSos = true },
-                    onUndo = { viewModel.undoLastUse() },
                     onCustomRecord = { ts -> viewModel.recordUseAtTime("habit", ts) }
                 )
                 
@@ -146,19 +144,12 @@ fun MainScreen(viewModel: TracklessViewModel) {
 }
 
 @Composable
-fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onUndo: () -> Unit, onCustomRecord: (Long) -> Unit) {
+fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onCustomRecord: (Long) -> Unit) {
     val lang = state.language
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text(Strings.get(lang, "time_passed"), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if ((state.profiles[state.activeKind]?.entries?.size ?: 0) > 0) {
-                        IconButton(onClick = onUndo, modifier = Modifier.size(24.dp)) {
-                            Icon(androidx.compose.material.icons.Icons.Rounded.Undo, contentDescription = "Undo", tint = TextDim)
-                        }
-                    }
-                }
             }
             Spacer(Modifier.height(12.dp))
             val timeStr = formatTime(timeSinceLast)
@@ -169,7 +160,7 @@ fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, o
                     onClick = onRecord, 
                     modifier = Modifier.weight(1f).height(52.dp), 
                     shape = RoundedCornerShape(14.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Emerald)
+                    colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
                 ) {
                     Text(Strings.get(lang, "record"), color = BgDeep, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }

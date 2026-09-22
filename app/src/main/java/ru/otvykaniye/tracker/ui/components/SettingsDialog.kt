@@ -74,7 +74,7 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                             viewModel.saveSettings(state.copy(language = language, profiles = newProfiles))
                             onDismiss()
                         }) {
-                            Text(Strings.get(language, "save"), color = Emerald, fontWeight = FontWeight.Bold)
+                            Text(Strings.get(language, "save"), color = PrimaryAccent, fontWeight = FontWeight.Bold)
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = BgCard)
@@ -94,10 +94,10 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     Box(modifier = Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(if (language == "ru") BgDeep else Color.Transparent).clickable { language = "ru" }.padding(12.dp), contentAlignment = Alignment.Center) {
-                        Text("Русский", color = if (language == "ru") Emerald else TextDim, fontWeight = FontWeight.Bold)
+                        Text("Русский", color = if (language == "ru") PrimaryAccent else TextDim, fontWeight = FontWeight.Bold)
                     }
                     Box(modifier = Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(if (language == "en") BgDeep else Color.Transparent).clickable { language = "en" }.padding(12.dp), contentAlignment = Alignment.Center) {
-                        Text("English", color = if (language == "en") Emerald else TextDim, fontWeight = FontWeight.Bold)
+                        Text("English", color = if (language == "en") PrimaryAccent else TextDim, fontWeight = FontWeight.Bold)
                     }
                 }
 
@@ -126,7 +126,7 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                                         "per_gram" -> Strings.get(language, "nic_per_gram")
                                         else -> Strings.get(language, "nic_per_pouch")
                                     },
-                                    color = Emerald, fontWeight = FontWeight.Bold
+                                    color = PrimaryAccent, fontWeight = FontWeight.Bold
                                 )
                             }
                         }
@@ -211,7 +211,7 @@ fun SettingsField(label: String, value: String, isDecimal: Boolean = false, isTe
                 value = value,
                 onValueChange = onValueChange,
                 textStyle = androidx.compose.ui.text.TextStyle(
-                    color = Emerald,
+                    color = PrimaryAccent,
                     fontSize = 16.sp,
                     textAlign = TextAlign.End,
                     fontWeight = FontWeight.Bold
@@ -223,7 +223,7 @@ fun SettingsField(label: String, value: String, isDecimal: Boolean = false, isTe
                     unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    cursorColor = Emerald
+                    cursorColor = PrimaryAccent
                 ),
                 modifier = Modifier.fillMaxWidth()
             )

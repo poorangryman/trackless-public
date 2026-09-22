@@ -118,7 +118,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
         // Health
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
-                SectionHeader(Strings.get(lang, "health"), Icons.Rounded.Favorite, Emerald)
+                SectionHeader(Strings.get(lang, "health"), Icons.Rounded.Favorite, PrimaryAccent)
                 Spacer(Modifier.height(12.dp))
 
                 val hours = timeSinceLast / (1000 * 60 * 60)
@@ -150,7 +150,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
                     LinearProgressIndicator(
                         progress = progress,
                         modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
-                        color = Emerald.copy(alpha = 0.5f),
+                        color = PrimaryAccent.copy(alpha = 0.5f),
                         trackColor = BgDeep
                     )
                 }
