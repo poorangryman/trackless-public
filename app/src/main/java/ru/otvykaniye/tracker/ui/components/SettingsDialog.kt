@@ -152,7 +152,19 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
 
                 SettingsGroup(Strings.get(language, "data_management")) {
                     val context = androidx.compose.ui.platform.LocalContext.current
-                    val activity = context as? ru.otvykaniye.tracker.MainActivity
+                    var activity: ru.otvykaniye.tracker.MainActivity? = null
+                    var ctx = context
+                    while (ctx is android.content.ContextWrapper) {
+                        if (ctx is ru.otvykaniye.tracker.MainActivity) {
+                            activity = ctx
+                            break
+                        }
+                        ctx = ctx.baseContext
+                    }
+                    if (activity == null && ctx is ru.otvykaniye.tracker.MainActivity) {
+                        activity = ctx
+                    }
+                    
                     Row(modifier = Modifier.fillMaxWidth().clickable {
                         val json = state.toJson().toString()
                         activity?.exportData(json)
