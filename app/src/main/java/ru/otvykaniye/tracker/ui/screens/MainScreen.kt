@@ -26,6 +26,7 @@ import ru.otvykaniye.tracker.TracklessState
 import ru.otvykaniye.tracker.TracklessViewModel
 import ru.otvykaniye.tracker.ui.components.*
 import ru.otvykaniye.tracker.ui.theme.*
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun AmbientBackground() {
@@ -44,7 +45,6 @@ fun AmbientBackground() {
 @Composable
 fun MainScreen(viewModel: TracklessViewModel) {
     val state by viewModel.state.collectAsState()
-    val timeSinceLast by viewModel.timeSinceLastEntry.collectAsState()
 
     var showSos by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
@@ -115,13 +115,13 @@ fun MainScreen(viewModel: TracklessViewModel) {
             ) {
                 HeroCard(
                     state = state,
-                    timeSinceLast = timeSinceLast,
+                    timeSinceLastFlow = viewModel.timeSinceLastEntry,
                     onRecord = { viewModel.recordUse("habit") },
                     onSos = { showSos = true },
                     onCustomRecord = { ts -> viewModel.recordUseAtTime("habit", ts) }
                 )
                 
-                StatsGrid(state, timeSinceLast, onDeleteEntry = { id -> viewModel.deleteEntry(id) }, onCustomRecord = { ts -> viewModel.recordUseAtTime(state.activeKind, ts) })
+                StatsGrid(state, viewModel.timeSinceLastEntry, onDeleteEntry = { id -> viewModel.deleteEntry(id) }, onCustomRecord = { ts -> viewModel.recordUseAtTime(state.activeKind, ts) })
                 
                 val profile = state.profiles[state.activeKind]
                 if (profile != null) {
@@ -144,7 +144,8 @@ fun MainScreen(viewModel: TracklessViewModel) {
 }
 
 @Composable
-fun HeroCard(state: TracklessState, timeSinceLast: Long, onRecord: () -> Unit, onSos: () -> Unit, onCustomRecord: (Long) -> Unit) {
+fun HeroCard(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onRecord: () -> Unit, onSos: () -> Unit, onCustomRecord: (Long) -> Unit) {
+    val timeSinceLast by timeSinceLastFlow.collectAsState()
     val lang = state.language
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
         Column(Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {

@@ -165,7 +165,7 @@ fun HourlyStats(state: TracklessState) {
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(20.dp)) {
-            SectionHeader(Strings.get(lang, "time_of_use"), Icons.Rounded.AccessTime, Cyan)
+            SectionHeader(Strings.get(lang, "time_of_use"), Icons.Rounded.AccessTime, PrimaryAccent)
             Spacer(Modifier.height(24.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 HourlyBlock(Strings.get(lang, "morning"), "6-12", morning)
@@ -183,6 +183,6 @@ fun HourlyBlock(title: String, time: String, count: Int) {
         Text(title, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
         Text(time, color = TextDim, fontSize = 11.sp)
         Spacer(Modifier.height(12.dp))
-        Text(count.toString(), color = Cyan, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
+        Text(count.toString(), color = PrimaryAccent, fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
     }
 }

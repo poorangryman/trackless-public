@@ -22,3 +22,13 @@ Whenever ANY change is made in this repository (code modification, UI update, fe
 ## 📱 UI/UX Standards
 - **No native browser alerts (`alert()`, `confirm()`)**: Use inline liquid glass cards, toasts, or modals with haptic feedback.
 - **No emojis in core controls or lists**: Use minimalist stroked SVG icons (`stroke="currentColor"`, `fill="none"`).
+
+## 📋 Batch Update Workflow (`BATCH_QUEUE.md`)
+- Bugs, feature tweaks, and cosmetic fixes are accumulated in `BATCH_QUEUE.md` instead of triggering individual releases for minor edits.
+- On explicit user command (e.g. "примени очередь", "выкати батч"):
+  1. Implement all items from `BATCH_QUEUE.md`.
+  2. Bump `VERSION.txt` once for the entire batch.
+  3. Verify / assemble release.
+  4. Commit, tag, and push once.
+  5. Archive resolved items in `BATCH_QUEUE.md`.
+

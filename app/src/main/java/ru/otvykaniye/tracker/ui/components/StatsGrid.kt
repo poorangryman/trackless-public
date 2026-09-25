@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.TracklessState
 import ru.otvykaniye.tracker.ui.theme.*
+import kotlinx.coroutines.flow.StateFlow
 import java.util.Calendar
 
 @Composable
@@ -40,7 +41,8 @@ fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.u
 }
 
 @Composable
-fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String) -> Unit, onCustomRecord: (Long) -> Unit = {}) {
+fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDeleteEntry: (String) -> Unit, onCustomRecord: (Long) -> Unit = {}) {
+    val timeSinceLast by timeSinceLastFlow.collectAsState()
     val profile = state.profiles[state.activeKind] ?: return
     val lang = state.language
 
@@ -76,7 +78,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
         if (profile.wishlistTitle.isNotEmpty() && profile.wishlistCost > 0) {
             GlassCard(modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(20.dp)) {
-                    SectionHeader(Strings.get(lang, "target"), Icons.Rounded.Star, Amber)
+                    SectionHeader(Strings.get(lang, "target"), Icons.Rounded.Star, PrimaryAccent)
                     Spacer(Modifier.height(12.dp))
                     Text(profile.wishlistTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     Spacer(Modifier.height(4.dp))
@@ -106,9 +108,9 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
                     Text("${saved.coerceAtLeast(0.0).toInt()} / ${profile.wishlistCost.toInt()} ${state.currency}", color = TextDim, fontSize = 14.sp)
                     Spacer(Modifier.height(12.dp))
                     LinearProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         modifier = Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(5.dp)),
-                        color = Amber,
+                        color = PrimaryAccent,
                         trackColor = BgDeep
                     )
                 }
@@ -148,7 +150,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
                     Text(Strings.get(lang, "next_stage").format(nextTitle), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     Spacer(Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = progress,
+                        progress = { progress },
                         modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
                         color = PrimaryAccent.copy(alpha = 0.5f),
                         trackColor = BgDeep
@@ -160,7 +162,7 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
         // Stats summary
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {
-                SectionHeader(Strings.get(lang, "stats"), Icons.Rounded.Timeline, Cyan)
+                SectionHeader(Strings.get(lang, "stats"), Icons.Rounded.Timeline, PrimaryAccent)
                 Spacer(Modifier.height(16.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
@@ -185,8 +187,8 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
                     Icons.Rounded.History, 
                     TextPrimary,
                     action = {
-                        IconButton(onClick = { showCustomTimePicker = true }, modifier = Modifier.size(24.dp)) {
-                            Icon(Icons.Default.Add, contentDescription = "Add custom record", tint = TextDim)
+                        IconButton(onClick = { showCustomTimePicker = true }) {
+                            Icon(Icons.Default.Add, contentDescription = "Add custom record", tint = TextDim, modifier = Modifier.size(24.dp))
                         }
                     }
                 )
@@ -207,11 +209,10 @@ fun StatsGrid(state: TracklessState, timeSinceLast: Long, onDeleteEntry: (String
                                 ) {
                                     Text(entry.trigger, color = TextDim, fontSize = 12.sp)
                                 }
-                                androidx.compose.material3.IconButton(
-                                    onClick = { onDeleteEntry(entry.id) },
-                                    modifier = Modifier.size(24.dp)
+                                IconButton(
+                                    onClick = { onDeleteEntry(entry.id) }
                                 ) {
-                                    Icon(androidx.compose.material.icons.Icons.Rounded.Delete, contentDescription = "Delete", tint = Coral)
+                                    Icon(Icons.Rounded.Delete, contentDescription = "Delete", tint = Coral, modifier = Modifier.size(24.dp))
                                 }
                             }
                         }
