@@ -26,6 +26,7 @@ import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
@@ -79,7 +80,7 @@ class SmallTrackerWidget : GlanceAppWidget() {
                 Text(
                     text = "TRACKLESS",
                     style = TextStyle(
-                        color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
+                        color = androidx.glance.unit.ColorProvider(Color(0xFFB5A595)),
                         fontSize = 8.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -95,13 +96,13 @@ class SmallTrackerWidget : GlanceAppWidget() {
                             setChronometer(R.id.widget_timer, baseTime, "%s", false)
                             setChronometer(R.id.widget_timer, baseTime, "%s", true)
                         },
-                        modifier = GlanceModifier.padding(bottom = 6.dp)
+                        modifier = GlanceModifier.padding(bottom = 6.dp).fillMaxWidth()
                     )
                 } else {
                     Text(
                         text = "— : — : —",
                         style = TextStyle(
-                            color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
+                            color = androidx.glance.unit.ColorProvider(Color(0xFFB5A595)),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold
                         ),

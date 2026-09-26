@@ -88,7 +88,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                     Text(
                         text = "TRACKLESS · $kindLabel",
                         style = TextStyle(
-                            color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
+                            color = androidx.glance.unit.ColorProvider(Color(0xFFB5A595)),
                             fontSize = 9.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -103,13 +103,14 @@ class WideTrackerWidget : GlanceAppWidget() {
                             remoteViews = RemoteViews(context.packageName, R.layout.widget_chrono_wide).apply {
                                 setChronometer(R.id.widget_timer, baseTime, "%s", false)
                                 setChronometer(R.id.widget_timer, baseTime, "%s", true)
-                            }
+                            },
+                            modifier = GlanceModifier.fillMaxWidth()
                         )
                     } else {
                         Text(
                             text = "— : — : —",
                             style = TextStyle(
-                                color = androidx.glance.unit.ColorProvider(Color(0xFF8FA89B)),
+                                color = androidx.glance.unit.ColorProvider(Color(0xFFB5A595)),
                                 fontSize = 22.sp,
                                 fontWeight = FontWeight.Bold
                             )
@@ -122,7 +123,7 @@ class WideTrackerWidget : GlanceAppWidget() {
                     Text(
                         text = countText,
                         style = TextStyle(
-                            color = androidx.glance.unit.ColorProvider(Color(0xFF4ADE80)),
+                            color = androidx.glance.unit.ColorProvider(Color(0xFFE5D5C5)),
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold
                         )
