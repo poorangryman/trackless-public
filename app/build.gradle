@@ -11,7 +11,9 @@ def tracklessVersionName = versionFile.exists() && versionFile.text.trim()
 def computeVersionCode(String ver) {
     try {
         def parts = ver.tokenize('.').collect { it.toInteger() }
-        if (parts.size() >= 3) {
+        if (parts.size() >= 4) {
+            return parts[0] * 100000 + parts[1] * 1000 + parts[2] * 10 + parts[3]
+        } else if (parts.size() == 3) {
             return parts[0] * 10000 + parts[1] * 100 + parts[2]
         } else if (parts.size() == 2) {
             return parts[0] * 10000 + parts[1] * 100

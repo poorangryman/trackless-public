@@ -165,9 +165,15 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Column {
-                                Text(Strings.get(language, "check_updates"), color = TextPrimary, fontWeight = FontWeight.Medium)
-                                Text("v$currentVersion", color = TextDim, fontSize = 12.sp)
+                            Column(modifier = Modifier.weight(1f).padding(end = 12.dp)) {
+                                Text(
+                                    Strings.get(language, "app_version"),
+                                    color = TextPrimary,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 15.sp
+                                )
+                                Spacer(Modifier.height(2.dp))
+                                Text("v$currentVersion", color = TextDim, fontSize = 13.sp)
                             }
 
                             Button(
@@ -196,10 +202,11 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                                 },
                                 shape = RoundedCornerShape(10.dp),
                                 colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent),
+                                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp),
                                 enabled = !isChecking
                             ) {
                                 Text(
-                                    text = if (isChecking) Strings.get(language, "checking_updates") else Strings.get(language, "check_updates"),
+                                    text = if (isChecking) Strings.get(language, "checking_updates") else Strings.get(language, "check_short"),
                                     color = BgDeep,
                                     fontSize = 13.sp,
                                     fontWeight = FontWeight.Bold
