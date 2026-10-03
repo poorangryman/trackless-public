@@ -134,25 +134,53 @@ fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDelet
                     }
                 }
 
-                val pricePerPiece = if (profile.perPack > 0) profile.price / profile.perPack else 0.0
+                val effectiveReuse = if (state.activeKind == "snus" && profile.reuse > 0) profile.reuse else 1.0
+                val totalUnits = profile.perPack * effectiveReuse
+                val pricePerPiece = if (totalUnits > 0) profile.price / totalUnits else 0.0
                 if (pricePerPiece > 0) {
-                    val spentToday = todayEntries * pricePerPiece
-                    val totalSpent = profile.entries.size * pricePerPiece
-                    Spacer(Modifier.height(14.dp))
+                    val spentToday = (todayEntries * pricePerPiece).toInt()
+                    val totalSpent = (profile.entries.size * pricePerPiece).toInt()
+
+                    HorizontalDivider(
+                        color = BgDeep,
+                        thickness = 1.dp,
+                        modifier = Modifier.padding(top = 16.dp, bottom = 12.dp)
+                    )
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            "${Strings.get(lang, "spent_today")}: ${spentToday.toInt()} ${state.currency}",
-                            color = TextDim,
-                            fontSize = 12.sp
-                        )
-                        Text(
-                            "${Strings.get(lang, "spent_total")}: ${totalSpent.toInt()} ${state.currency}",
-                            color = TextDim,
-                            fontSize = 12.sp
-                        )
+                        Column {
+                            Text(
+                                Strings.get(lang, "spent_today"),
+                                color = TextDim,
+                                fontSize = 11.sp
+                            )
+                            Spacer(Modifier.height(2.dp))
+                            Text(
+                                "$spentToday ${state.currency}",
+                                color = TextPrimary,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text(
+                                Strings.get(lang, "spent_total"),
+                                color = TextDim,
+                                fontSize = 11.sp
+                            )
+                            Spacer(Modifier.height(2.dp))
+                            Text(
+                                "$totalSpent ${state.currency}",
+                                color = TextPrimary,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
                     }
                 }
             }

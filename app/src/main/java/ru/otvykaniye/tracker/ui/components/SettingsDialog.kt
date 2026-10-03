@@ -40,6 +40,7 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
     var baseline by remember { mutableStateOf(activeProfile.baseline.toString()) }
     var price by remember { mutableStateOf(activeProfile.price.toString()) }
     var perPack by remember { mutableStateOf(activeProfile.perPack.toString()) }
+    var reuse by remember { mutableStateOf(activeProfile.reuse.toString()) }
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -64,7 +65,8 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                                 pouchWeight = pouchWeight.toDoubleOrNull() ?: activeProfile.pouchWeight,
                                 baseline = baseline.toIntOrNull() ?: activeProfile.baseline,
                                 price = price.toDoubleOrNull() ?: activeProfile.price,
-                                perPack = perPack.toIntOrNull() ?: activeProfile.perPack
+                                perPack = perPack.toIntOrNull() ?: activeProfile.perPack,
+                                reuse = reuse.toDoubleOrNull() ?: activeProfile.reuse
                             )
                             val newProfiles = state.profiles.toMutableMap()
                             newProfiles[state.activeKind] = updatedProfile
@@ -140,6 +142,9 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     SettingsField(Strings.get(language, "baseline_per_day"), baseline) { baseline = it }
                     SettingsField(Strings.get(language, "price_per_pack"), price, isDecimal = true) { price = it }
                     SettingsField(Strings.get(language, "pcs_per_pack"), perPack) { perPack = it }
+                    if (state.activeKind == "snus") {
+                        SettingsField(Strings.get(language, "reuse_count"), reuse, isDecimal = true) { reuse = it }
+                    }
                 }
 
                 SettingsGroup(Strings.get(language, "app_updates")) {
