@@ -133,6 +133,28 @@ fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDelet
                         Text("${profile.dailyLimit}", color = TextPrimary, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                     }
                 }
+
+                val pricePerPiece = if (profile.perPack > 0) profile.price / profile.perPack else 0.0
+                if (pricePerPiece > 0) {
+                    val spentToday = todayEntries * pricePerPiece
+                    val totalSpent = profile.entries.size * pricePerPiece
+                    Spacer(Modifier.height(14.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            "${Strings.get(lang, "spent_today")}: ${spentToday.toInt()} ${state.currency}",
+                            color = TextDim,
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            "${Strings.get(lang, "spent_total")}: ${totalSpent.toInt()} ${state.currency}",
+                            color = TextDim,
+                            fontSize = 12.sp
+                        )
+                    }
+                }
             }
         }
 

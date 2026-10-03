@@ -34,8 +34,6 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
 
     var language by remember { mutableStateOf(state.language) }
     var dailyLimit by remember { mutableStateOf(activeProfile.dailyLimit.toString()) }
-    var wishlistTitle by remember { mutableStateOf(activeProfile.wishlistTitle) }
-    var wishlistCost by remember { mutableStateOf(activeProfile.wishlistCost.toString()) }
     var nicotineFormat by remember { mutableStateOf(activeProfile.nicotineFormat) }
     var nicotineDeclaredAmount by remember { mutableStateOf(activeProfile.nicotineDeclaredAmount.toString()) }
     var pouchWeight by remember { mutableStateOf(activeProfile.pouchWeight.toString()) }

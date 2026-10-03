@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.provider.Settings
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -87,8 +88,9 @@ object UpdateManager {
     }
 
     fun startDownloadAndInstall(context: Context, downloadUrl: String, version: String) {
+        val appContext = context.applicationContext
         val fileName = "TrackLess-v$version.apk"
-        val destination = File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
+        val destination = File(appContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
         if (destination.exists()) {
             destination.delete()
         }
@@ -101,7 +103,7 @@ object UpdateManager {
             setMimeType("application/vnd.android.package-archive")
         }
 
-        val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        val downloadManager = appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         val downloadId = downloadManager.enqueue(request)
 
         val receiver = object : BroadcastReceiver() {
@@ -109,7 +111,7 @@ object UpdateManager {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1L) ?: -1L
                 if (id == downloadId) {
                     try {
-                        context.unregisterReceiver(this)
+                        appContext.unregisterReceiver(this)
                     } catch (_: Exception) {}
                     installApk(context, destination)
                 }
@@ -117,18 +119,29 @@ object UpdateManager {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            context.registerReceiver(
+            appContext.registerReceiver(
                 receiver,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
                 Context.RECEIVER_EXPORTED
             )
         } else {
-            context.registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+            appContext.registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
         }
     }
 
     fun installApk(context: Context, apkFile: File) {
         if (!apkFile.exists()) return
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!context.packageManager.canRequestPackageInstalls()) {
+                val settingsIntent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).apply {
+                    data = Uri.parse("package:${context.packageName}")
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                context.startActivity(settingsIntent)
+                return
+            }
+        }
 
         val apkUri = FileProvider.getUriForFile(
             context,

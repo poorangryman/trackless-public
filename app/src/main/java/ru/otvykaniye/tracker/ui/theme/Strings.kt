@@ -71,7 +71,9 @@ object Strings {
         "update_available" to "Доступно обновление",
         "download_and_install" to "Скачать и установить",
         "downloading_update" to "Скачивание обновления...",
-        "update_failed" to "Ошибка проверки"
+        "update_failed" to "Ошибка проверки",
+        "spent_today" to "Потрачено сегодня",
+        "spent_total" to "Всего"
     )
 
     val EN = mapOf(
@@ -144,7 +146,9 @@ object Strings {
         "update_available" to "Update Available",
         "download_and_install" to "Download & Install",
         "downloading_update" to "Downloading update...",
-        "update_failed" to "Check failed"
+        "update_failed" to "Check failed",
+        "spent_today" to "Spent today",
+        "spent_total" to "Total"
     )
 
     fun get(lang: String, key: String): String {
