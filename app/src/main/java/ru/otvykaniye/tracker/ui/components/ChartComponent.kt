@@ -56,7 +56,7 @@ fun ChartComponent(state: TracklessState) {
 
     val maxCount = (days.maxOfOrNull { it.count } ?: 0).coerceAtLeast(dailyLimit).coerceAtLeast(1)
 
-    var selectedDay by remember { mutableStateOf<DayData?>(null) }
+    var selectedDay by remember(days) { mutableStateOf<DayData?>(days.lastOrNull()) }
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(20.dp)) {

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import kotlinx.coroutines.launch
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -60,8 +61,6 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                         TextButton(onClick = {
                             val updatedProfile = activeProfile.copy(
                                 dailyLimit = dailyLimit.toIntOrNull() ?: activeProfile.dailyLimit,
-                                wishlistTitle = wishlistTitle,
-                                wishlistCost = wishlistCost.toDoubleOrNull() ?: activeProfile.wishlistCost,
                                 nicotineFormat = nicotineFormat,
                                 nicotineDeclaredAmount = nicotineDeclaredAmount.toDoubleOrNull() ?: activeProfile.nicotineDeclaredAmount,
                                 pouchWeight = pouchWeight.toDoubleOrNull() ?: activeProfile.pouchWeight,
@@ -139,15 +138,129 @@ fun SettingsDialog(viewModel: TracklessViewModel, onDismiss: () -> Unit) {
                     }
                 }
 
-                SettingsGroup(Strings.get(language, "wishlist")) {
-                    SettingsField(Strings.get(language, "wishlist_title"), wishlistTitle, isText = true) { wishlistTitle = it }
-                    SettingsField(Strings.get(language, "wishlist_cost"), wishlistCost) { wishlistCost = it }
-                }
-
                 SettingsGroup(Strings.get(language, "savings")) {
                     SettingsField(Strings.get(language, "baseline_per_day"), baseline) { baseline = it }
                     SettingsField(Strings.get(language, "price_per_pack"), price, isDecimal = true) { price = it }
                     SettingsField(Strings.get(language, "pcs_per_pack"), perPack) { perPack = it }
+                }
+
+                SettingsGroup(Strings.get(language, "app_updates")) {
+                    val context = androidx.compose.ui.platform.LocalContext.current
+                    val scope = rememberCoroutineScope()
+                    var isChecking by remember { mutableStateOf(false) }
+                    var statusText by remember { mutableStateOf<String?>(null) }
+                    var availableUpdate by remember { mutableStateOf<ru.otvykaniye.tracker.UpdateCheckResult.UpdateAvailable?>(null) }
+
+                    val currentVersion = remember(context) {
+                        try {
+                            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.6.10"
+                        } catch (_: Exception) {
+                            "1.6.10"
+                        }
+                    }
+
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text(Strings.get(language, "check_updates"), color = TextPrimary, fontWeight = FontWeight.Medium)
+                                Text("v$currentVersion", color = TextDim, fontSize = 12.sp)
+                            }
+
+                            Button(
+                                onClick = {
+                                    if (isChecking) return@Button
+                                    scope.launch {
+                                        isChecking = true
+                                        statusText = Strings.get(language, "checking_updates")
+                                        val result = ru.otvykaniye.tracker.UpdateManager.checkForUpdates(currentVersion)
+                                        isChecking = false
+                                        when (result) {
+                                            is ru.otvykaniye.tracker.UpdateCheckResult.UpdateAvailable -> {
+                                                availableUpdate = result
+                                                statusText = null
+                                            }
+                                            is ru.otvykaniye.tracker.UpdateCheckResult.UpToDate -> {
+                                                availableUpdate = null
+                                                statusText = Strings.get(language, "up_to_date")
+                                            }
+                                            is ru.otvykaniye.tracker.UpdateCheckResult.Error -> {
+                                                availableUpdate = null
+                                                statusText = "${Strings.get(language, "update_failed")}: ${result.message}"
+                                            }
+                                        }
+                                    }
+                                },
+                                shape = RoundedCornerShape(10.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent),
+                                enabled = !isChecking
+                            ) {
+                                Text(
+                                    text = if (isChecking) Strings.get(language, "checking_updates") else Strings.get(language, "check_updates"),
+                                    color = BgDeep,
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+
+                        if (statusText != null) {
+                            Spacer(Modifier.height(8.dp))
+                            Text(statusText!!, color = TextDim, fontSize = 13.sp)
+                        }
+
+                        if (availableUpdate != null) {
+                            Spacer(Modifier.height(12.dp))
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(BgDeep)
+                                    .padding(12.dp)
+                            ) {
+                                Column {
+                                    Text(
+                                        "${Strings.get(language, "update_available")}: v${availableUpdate!!.version}",
+                                        color = PrimaryAccent,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 15.sp
+                                    )
+                                    if (availableUpdate!!.notes.isNotEmpty()) {
+                                        Spacer(Modifier.height(4.dp))
+                                        Text(
+                                            availableUpdate!!.notes,
+                                            color = TextDim,
+                                            fontSize = 12.sp,
+                                            maxLines = 4
+                                        )
+                                    }
+                                    Spacer(Modifier.height(10.dp))
+                                    Button(
+                                        onClick = {
+                                            ru.otvykaniye.tracker.UpdateManager.startDownloadAndInstall(
+                                                context,
+                                                availableUpdate!!.downloadUrl,
+                                                availableUpdate!!.version
+                                            )
+                                        },
+                                        modifier = Modifier.fillMaxWidth(),
+                                        shape = RoundedCornerShape(8.dp),
+                                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryAccent)
+                                    ) {
+                                        Text(
+                                            Strings.get(language, "download_and_install"),
+                                            color = BgDeep,
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 13.sp
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 SettingsGroup(Strings.get(language, "data_management")) {

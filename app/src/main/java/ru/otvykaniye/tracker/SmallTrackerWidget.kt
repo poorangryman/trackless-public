@@ -77,17 +77,6 @@ class SmallTrackerWidget : GlanceAppWidget() {
                 horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
                 verticalAlignment = Alignment.Vertical.CenterVertically
             ) {
-                Text(
-                    text = "TRACKLESS",
-                    style = TextStyle(
-                        color = androidx.glance.unit.ColorProvider(Color(0xFFB5A595)),
-                        fontSize = 8.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                )
-
-                Spacer(modifier = GlanceModifier.height(3.dp))
-
                 if (last > 0) {
                     val elapsed = Math.max(0L, System.currentTimeMillis() - last)
                     val baseTime = SystemClock.elapsedRealtime() - elapsed
@@ -96,17 +85,17 @@ class SmallTrackerWidget : GlanceAppWidget() {
                             setChronometer(R.id.widget_timer, baseTime, "%s", false)
                             setChronometer(R.id.widget_timer, baseTime, "%s", true)
                         },
-                        modifier = GlanceModifier.padding(bottom = 6.dp).fillMaxWidth()
+                        modifier = GlanceModifier.padding(bottom = 8.dp).fillMaxWidth()
                     )
                 } else {
                     Text(
                         text = "— : — : —",
                         style = TextStyle(
                             color = androidx.glance.unit.ColorProvider(Color(0xFFB5A595)),
-                            fontSize = 14.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.Bold
                         ),
-                        modifier = GlanceModifier.padding(bottom = 6.dp)
+                        modifier = GlanceModifier.padding(bottom = 8.dp)
                     )
                 }
 

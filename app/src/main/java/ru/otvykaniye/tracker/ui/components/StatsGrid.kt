@@ -74,49 +74,6 @@ fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDelet
 
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
 
-        // Wishlist
-        if (profile.wishlistTitle.isNotEmpty() && profile.wishlistCost > 0) {
-            GlassCard(modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(20.dp)) {
-                    SectionHeader(Strings.get(lang, "target"), Icons.Rounded.Star, PrimaryAccent)
-                    Spacer(Modifier.height(12.dp))
-                    Text(profile.wishlistTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Spacer(Modifier.height(4.dp))
-
-                    val pricePerPiece = if (profile.perPack > 0) {
-                        profile.price / profile.perPack
-                    } else {
-                        0.0
-                    }
-                    
-                    val firstEntry = profile.entries.minByOrNull { it.ts }
-                    val startDateMs = firstEntry?.ts ?: System.currentTimeMillis()
-                    val startOfFirstDay = Calendar.getInstance().apply {
-                        timeInMillis = startDateMs
-                        set(Calendar.HOUR_OF_DAY, 0)
-                        set(Calendar.MINUTE, 0)
-                        set(Calendar.SECOND, 0)
-                        set(Calendar.MILLISECOND, 0)
-                    }.timeInMillis
-                    
-                    val daysPassed = Math.max(1L, (System.currentTimeMillis() - startOfFirstDay) / (1000 * 60 * 60 * 24) + 1).toInt()
-                    val expectedTotal = profile.baseline * daysPassed
-                    val saved = (expectedTotal - profile.entries.size) * pricePerPiece
-                    
-                    val progress = (saved.coerceAtLeast(0.0) / profile.wishlistCost).toFloat().coerceIn(0f, 1f)
-
-                    Text("${saved.coerceAtLeast(0.0).toInt()} / ${profile.wishlistCost.toInt()} ${state.currency}", color = TextDim, fontSize = 14.sp)
-                    Spacer(Modifier.height(12.dp))
-                    LinearProgressIndicator(
-                        progress = { progress },
-                        modifier = Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(5.dp)),
-                        color = PrimaryAccent,
-                        trackColor = BgDeep
-                    )
-                }
-            }
-        }
-
         // Health
         GlassCard(modifier = Modifier.fillMaxWidth()) {
             Column(Modifier.padding(20.dp)) {

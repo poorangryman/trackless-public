@@ -34,18 +34,18 @@
 ### 🌟 Key Features
 - **Abstinence Timer & Health Milestones:** Track the time passed since your last use and monitor real-time biological health recovery stages (from 20 minutes to 1 month).
 - **Craving SOS (Urge Surfer):** Built-in 4-7-8 breathing guide to help you ride out intense cravings without relapsing.
-- **Financial Savings Calculator:** Set a personal wishlist goal (e.g., a new gadget) and see how much money you've saved by cutting back on packs or portions.
-- **Advanced Analytics:** Interactive 14-day history chart, circadian pattern breakdown (Morning/Day/Evening/Night), and context triggers (Stress, Coffee, Social, Habit).
-- **Home-Screen Widgets:** 1x1 and 2x1 Android widgets for instant, one-tap logging directly from your home screen.
-- **100% Offline & Private:** All data is stored locally on your device. Import/export your JSON data at any time. Zero ads, zero telemetry.
+- **Advanced Analytics:** Interactive 14-day history chart (defaults to today), circadian pattern breakdown (Morning/Day/Evening/Night), and context triggers.
+- **Home-Screen Widgets:** 1x1 and 2x1 scalable Android widgets for instant, one-tap logging directly from your home screen.
+- **In-App Updater:** Check for new GitHub releases directly in Settings and install updates with one tap.
+- **100% Private:** All data is stored locally on your device with JSON import/export backup. Zero ads, zero tracking.
 
 ### 📱 UI & Screenshots
-TrackLess features a sleek **Noble Apple Liquid Glass** interface with obsidian dark tones, translucent frosted glass cards, and smooth micro-interactions powered by native Android haptic feedback.
+TrackLess features a sleek **Obsidian & Warm Beige Glass** interface with deep black tones, minimalist cards, and smooth micro-interactions powered by native Android haptic feedback.
 
 | ⏱️ Dashboard & Health | 📋 Daily Log & Widgets | 📊 14-Day Analytics |
 | :---: | :---: | :---: |
 | <img src="docs/screenshots/01_dashboard_tracker.jpg" width="260" alt="Dashboard" /> | <img src="docs/screenshots/02_stats_and_history.jpg" width="260" alt="History" /> | <img src="docs/screenshots/03_analytics_14day_circadian.jpg" width="260" alt="Analytics" /> |
-| **Timer, SOS Button, & Goals** | **Limits, Tags, & History Feed** | **Bar Charts & Usage Patterns** |
+| **Timer & SOS Button** | **Limits, Tags, & History Feed** | **Bar Charts & Usage Patterns** |
 
 ### 🛠️ Background Story
 I have no professional background in Android development. I created TrackLess for myself because I couldn't find a straightforward habit tracker on Google Play that wasn't bloated with ads or subscriptions. I relied heavily on ChatGPT for the architecture, UI design, and debugging. If you are an experienced developer and see room for improvement, constructive PRs and feedback are very welcome!
@@ -61,13 +61,13 @@ I have no professional background in Android development. I created TrackLess fo
 ### 🌟 Главные возможности
 - **Таймер воздержания и этапы здоровья:** Отслеживайте время с последнего употребления и наблюдайте за биологическим восстановлением организма (от 20 минут до 1 месяца).
 - **Кнопка SOS (Urge Surfer):** Встроенный помощник с дыхательной практикой 4-7-8, чтобы пережить острые приступы тяги без срывов.
-- **Финансовая копилка (Wishlist):** Задайте цель (например, новую приставку или кроссовки) и смотрите, как быстро вы копите на неё за счет сэкономленных на сигаретах или снюсе денег.
-- **Детальная аналитика:** Горизонтальный интерактивный график за 14 дней, статистика по времени суток (утро, день, вечер, ночь) и теги причин (Стресс, Привычка, Кофе, Компания).
-- **Виджеты для рабочего стола:** Удобные виджеты (1x1 и 2x1) для записи употребления в один клик прямо с главного экрана.
-- **100% Оффлайн и Приватно:** Все данные хранятся только на вашем телефоне. Доступен экспорт/импорт в формате JSON. Никакой рекламы и сбора данных.
+- **Детальная аналитика:** Интерактивный график за 14 дней (по умолчанию выбран текущий день), статистика по времени суток (утро, день, вечер, ночь) и теги причин.
+- **Виджеты для рабочего стола:** Адаптивные виджеты (1x1 и 2x1) для быстрой фиксации употребления в один клик.
+- **Встроенное обновление:** Проверка новых версий на GitHub прямо из настроек с автозагрузкой и установкой APK.
+- **100% Приватно:** Все данные хранятся только локально. Доступен экспорт/импорт бэкапа в JSON. Никакой рекламы и телеметрии.
 
 ### 📱 Интерфейс и дизайн
-В TrackLess используется темный интерфейс **Liquid Glass** — полупрозрачные стеклянные карточки на глубоком черном фоне (идеально для AMOLED-экранов), плавные анимации и тактильный виброотклик.
+В TrackLess используется темный минималистичный интерфейс **Obsidian & Warm Beige** — полупрозрачные карточки на глубоком черном фоне (идеально для AMOLED-экранов), приятный бежевый акцент и тактильный виброотклик.
 
 | 🎯 Персонализация и Лимиты | 💰 Экономика и Сбережения |
 | :---: | :---: |

@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:text="TRACKLESS · SNUS"
-                android:textColor="#8FA89B"
+                android:textColor="#B5A595"
                 android:textSize="9sp"
                 android:letterSpacing="0.12"
                 android:textStyle="bold" />
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:text="3 today"
-                android:textColor="#4ADE80"
+                android:textColor="#E5D5C5"
                 android:textSize="11sp"
                 android:textStyle="bold"
                 android:layout_marginTop="3dp" />

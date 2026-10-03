@@ -61,7 +61,15 @@ object Strings {
         "data_management" to "УПРАВЛЕНИЕ ДАННЫМИ",
         "export_backup" to "Экспорт (Бэкап)",
         "import_backup" to "Импорт (Восстановить)",
-        "reset_data" to "Сбросить все данные"
+        "reset_data" to "Сбросить все данные",
+        "app_updates" to "ОБНОВЛЕНИЯ",
+        "check_updates" to "Проверить обновления",
+        "checking_updates" to "Проверка...",
+        "up_to_date" to "У вас последняя версия",
+        "update_available" to "Доступно обновление",
+        "download_and_install" to "Скачать и установить",
+        "downloading_update" to "Скачивание обновления...",
+        "update_failed" to "Ошибка проверки"
     )
 
     val EN = mapOf(
@@ -124,7 +132,15 @@ object Strings {
         "data_management" to "DATA MANAGEMENT",
         "export_backup" to "Export Backup",
         "import_backup" to "Import Backup",
-        "reset_data" to "Reset All Data"
+        "reset_data" to "Reset All Data",
+        "app_updates" to "APP UPDATES",
+        "check_updates" to "Check for Updates",
+        "checking_updates" to "Checking...",
+        "up_to_date" to "You have the latest version",
+        "update_available" to "Update Available",
+        "download_and_install" to "Download & Install",
+        "downloading_update" to "Downloading update...",
+        "update_failed" to "Check failed"
     )
 
     fun get(lang: String, key: String): String {
