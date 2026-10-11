@@ -13,15 +13,14 @@ def tracklessVersionName = versionFile.exists() && versionFile.text.trim()
 def computeVersionCode(String ver) {
     try {
         def parts = ver.tokenize('.').collect { it.toInteger() }
-        if (parts.size() >= 4) {
-            return parts[0] * 100000 + parts[1] * 1000 + parts[2] * 10 + parts[3]
-        } else if (parts.size() == 3) {
-            return parts[0] * 10000 + parts[1] * 100 + parts[2]
-        } else if (parts.size() == 2) {
-            return parts[0] * 10000 + parts[1] * 100
-        }
+        def major = parts.size() > 0 ? parts[0] : 1
+        def minor = parts.size() > 1 ? parts[1] : 0
+        def patch = parts.size() > 2 ? parts[2] : 0
+        def build = parts.size() > 3 ? parts[3] : 0
+        // Monotonically increasing across version formats: > 106114 (1.6.11.4)
+        return major * 100000 + minor * 10000 + patch * 100 + build
     } catch (Exception ignored) {}
-    return 10
+    return 200000
 }
 
 def hasReleaseSigning = System.getenv('TRACKLESS_KEYSTORE_PATH') &&
