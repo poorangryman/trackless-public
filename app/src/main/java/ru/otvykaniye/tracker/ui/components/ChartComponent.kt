@@ -22,10 +22,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.TracklessState
+import ru.otvykaniye.tracker.domain.DayData
+import ru.otvykaniye.tracker.domain.StatsCalculator
 import ru.otvykaniye.tracker.ui.theme.*
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Locale
+
 
 @Composable
 fun ChartComponent(state: TracklessState) {
@@ -34,24 +36,8 @@ fun ChartComponent(state: TracklessState) {
     val dailyLimit = profile.dailyLimit
     val lang = state.language
 
-    val startOfToday = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 0)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
-    }
-
-    val days = (0..13).map { index ->
-        val start = (startOfToday.clone() as Calendar).apply {
-            add(Calendar.DAY_OF_YEAR, -(13 - index))
-        }
-        val end = (start.clone() as Calendar).apply {
-            add(Calendar.DAY_OF_YEAR, 1)
-        }
-        val startMs = start.timeInMillis
-        val endMs = end.timeInMillis
-        val count = entries.count { it.ts in startMs until endMs }
-        DayData(startMs, count)
+    val days = remember(entries) {
+        StatsCalculator.calculate14DayChart(entries)
     }
 
     val maxCount = (days.maxOfOrNull { it.count } ?: 0).coerceAtLeast(dailyLimit).coerceAtLeast(1)
@@ -138,29 +124,14 @@ fun ChartComponent(state: TracklessState) {
     }
 }
 
-data class DayData(val ts: Long, val count: Int)
-
 @Composable
 fun HourlyStats(state: TracklessState) {
     val profile = state.profiles[state.activeKind] ?: return
     val entries = profile.entries
     val lang = state.language
 
-    var morning = 0
-    var day = 0
-    var eve = 0
-    var night = 0
-
-    val calendar = Calendar.getInstance()
-    entries.forEach { entry ->
-        calendar.timeInMillis = entry.ts
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        when (hour) {
-            in 6..11 -> morning++
-            in 12..17 -> day++
-            in 18..23 -> eve++
-            else -> night++
-        }
+    val hourly = remember(entries) {
+        StatsCalculator.calculateHourlyDistribution(entries)
     }
 
     GlassCard(modifier = Modifier.fillMaxWidth()) {
@@ -168,10 +139,10 @@ fun HourlyStats(state: TracklessState) {
             SectionHeader(Strings.get(lang, "time_of_use"), Icons.Rounded.AccessTime, PrimaryAccent)
             Spacer(Modifier.height(24.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                HourlyBlock(Strings.get(lang, "morning"), "6-12", morning)
-                HourlyBlock(Strings.get(lang, "day"), "12-18", day)
-                HourlyBlock(Strings.get(lang, "evening"), "18-24", eve)
-                HourlyBlock(Strings.get(lang, "night"), "0-6", night)
+                HourlyBlock(Strings.get(lang, "morning"), "6-12", hourly.morning)
+                HourlyBlock(Strings.get(lang, "day"), "12-18", hourly.day)
+                HourlyBlock(Strings.get(lang, "evening"), "18-24", hourly.evening)
+                HourlyBlock(Strings.get(lang, "night"), "0-6", hourly.night)
             }
         }
     }

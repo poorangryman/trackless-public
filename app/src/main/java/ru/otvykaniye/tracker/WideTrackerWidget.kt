@@ -20,6 +20,7 @@ import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
+import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
@@ -31,44 +32,26 @@ import androidx.glance.layout.size
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
-
-
+import ru.otvykaniye.tracker.di.DefaultAppContainer
+import ru.otvykaniye.tracker.domain.StatsCalculator
 
 class WideTrackerWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+        val app = context.applicationContext as? TracklessApplication
+        val container = app?.container ?: DefaultAppContainer(context.applicationContext)
+
         provideContent {
-            val preferences by context.dataStore.data
-                .collectAsState(initial = androidx.datastore.preferences.core.emptyPreferences())
-            val raw = preferences[AppDataStore.KEY_STATE].orEmpty()
+            val state by container.tracklessRepository.stateFlow
+                .collectAsState(initial = TracklessState.defaultState())
 
-            var today = 0
-            var last = 0L
-            var lang = "ru"
-            var kind = "snus"
+            val kind = state.activeKind
+            val lang = if (state.language == "en") "en" else "ru"
+            val profile = state.profiles[kind]
 
-            try {
-                if (raw.isNotEmpty()) {
-                    val state = TracklessState.fromJson(raw)
-                    kind = state.activeKind
-                    lang = if (state.language == "en") "en" else "ru"
-                    val profile = state.profiles[kind]
-                    val todayKey = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                        .format(Date(System.currentTimeMillis()))
+            val today = profile?.let { StatsCalculator.calculateTodayCount(it.entries) } ?: 0
+            val last = profile?.entries?.lastOrNull()?.ts ?: 0L
 
-                    profile?.entries?.forEach { entry ->
-                        if (entry.ts <= 0) return@forEach
-                        val entryKey = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                            .format(Date(entry.ts))
-                        if (todayKey == entryKey) today++
-                        if (entry.ts > last) last = entry.ts
-                    }
-                }
-            } catch (ignored: Exception) {}
-
-            androidx.glance.layout.Box(
+            Box(
                 modifier = GlanceModifier
                     .fillMaxSize()
                     .padding(12.dp)

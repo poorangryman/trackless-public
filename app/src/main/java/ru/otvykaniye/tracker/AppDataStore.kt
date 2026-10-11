@@ -4,13 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import org.json.JSONArray
-import org.json.JSONObject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
     name = "trackless_datastore",
@@ -21,115 +16,4 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
 
 object AppDataStore {
     val KEY_STATE = stringPreferencesKey("state_json")
-
-    suspend fun getState(context: Context): String {
-        return context.dataStore.data.map { preferences ->
-            preferences[KEY_STATE] ?: ""
-        }.first()
-    }
-
-    suspend fun saveStateSuspend(context: Context, json: String?) {
-        if (json.isNullOrBlank()) return
-        context.dataStore.edit { preferences ->
-            preferences[KEY_STATE] = json
-        }
-    }
-
-    suspend fun recordUse(context: Context, trigger: String, customTimestamp: Long? = null): Boolean {
-        return try {
-            var recorded = false
-            context.dataStore.edit { preferences ->
-                val raw = preferences[KEY_STATE] ?: return@edit
-                if (raw.isEmpty()) return@edit
-
-                val state = JSONObject(raw)
-                val kind = state.optString("activeKind", "snus")
-                val profiles = state.optJSONObject("profiles") ?: return@edit
-                val profile = profiles.optJSONObject(kind) ?: return@edit
-
-                var entries = profile.optJSONArray("entries")
-                if (entries == null) {
-                    entries = JSONArray()
-                    profile.put("entries", entries)
-                }
-
-                val now = customTimestamp ?: System.currentTimeMillis()
-                entries.put(JSONObject().apply {
-                    put("id", "$now-${trigger.hashCode()}")
-                    put("ts", now)
-                    put("trigger", trigger)
-                })
-
-                // If a custom timestamp is inserted, we must ensure entries remain sorted by time
-                if (customTimestamp != null) {
-                    val entryList = mutableListOf<JSONObject>()
-                    for (i in 0 until entries.length()) {
-                        entryList.add(entries.getJSONObject(i))
-                    }
-                    entryList.sortBy { it.optLong("ts", 0L) }
-                    
-                    val newEntries = JSONArray()
-                    entryList.forEach { newEntries.put(it) }
-                    profile.put("entries", newEntries)
-                }
-
-                preferences[KEY_STATE] = state.toString()
-                recorded = true
-            }
-            recorded
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    suspend fun recordActiveKind(context: Context): Boolean {
-        return recordUse(context, "widget")
-    }
-
-    suspend fun removeLastRecord(context: Context): Boolean {
-        return try {
-            var removed = false
-            context.dataStore.edit { preferences ->
-                val raw = preferences[KEY_STATE] ?: return@edit
-                if (raw.isEmpty()) return@edit
-
-                val state = JSONObject(raw)
-                val kind = state.optString("activeKind", "snus")
-                val profiles = state.optJSONObject("profiles") ?: return@edit
-                val profile = profiles.optJSONObject(kind) ?: return@edit
-                val entries = profile.optJSONArray("entries") ?: return@edit
-
-                if (entries.length() > 0) {
-                    var maxIndex = -1
-                    var maxTs = -1L
-                    for (i in 0 until entries.length()) {
-                        val entry = entries.optJSONObject(i)
-                        if (entry != null) {
-                            val ts = entry.optLong("ts", 0L)
-                            if (ts > maxTs) {
-                                maxTs = ts
-                                maxIndex = i
-                            }
-                        }
-                    }
-                    if (maxIndex != -1) {
-                        // Workaround for API levels < 19 missing remove(int)
-                        val newEntries = JSONArray()
-                        for (i in 0 until entries.length()) {
-                            if (i != maxIndex) {
-                                newEntries.put(entries.get(i))
-                            }
-                        }
-                        profile.put("entries", newEntries)
-                        preferences[KEY_STATE] = state.toString()
-                        removed = true
-                    }
-                }
-            }
-            removed
-        } catch (ignored: Exception) {
-            false
-        }
-    }
 }

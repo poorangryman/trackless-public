@@ -13,7 +13,7 @@ echo ========================================
 echo TrackLess %VERSION% - release APK build
 echo ========================================
 echo.
-call gradlew.bat assembleRelease --no-daemon
+call gradlew.bat assembleRelease --no-daemon --no-problems-report
 if errorlevel 1 (
   echo.
   echo BUILD FAILED.

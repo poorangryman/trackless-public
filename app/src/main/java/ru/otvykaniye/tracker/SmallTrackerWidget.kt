@@ -19,54 +19,48 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.action.actionStartActivity
-import androidx.glance.appwidget.updateAll
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
-import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import ru.otvykaniye.tracker.di.DefaultAppContainer
 
 class LogActionCallback : ActionCallback {
     override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-        if (AppDataStore.recordUse(context, "widget")) {
-            SmallTrackerWidget().updateAll(context)
-            WideTrackerWidget().updateAll(context)
-        }
+        val app = context.applicationContext as? TracklessApplication
+        val container = app?.container ?: DefaultAppContainer(context.applicationContext)
+        val state = container.settingsRepository.getSettings()
+        container.tracklessRepository.recordUse(state.activeKind, "widget")
     }
 }
 
 class UndoActionCallback : ActionCallback {
     override suspend fun onAction(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-        if (AppDataStore.removeLastRecord(context)) {
-            SmallTrackerWidget().updateAll(context)
-            WideTrackerWidget().updateAll(context)
-        }
+        val app = context.applicationContext as? TracklessApplication
+        val container = app?.container ?: DefaultAppContainer(context.applicationContext)
+        val state = container.settingsRepository.getSettings()
+        container.tracklessRepository.undoLastUse(state.activeKind)
     }
 }
 
 class SmallTrackerWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-        provideContent {
-            val state by context.dataStore.data
-                .collectAsState(initial = androidx.datastore.preferences.core.emptyPreferences())
-            val raw = state[AppDataStore.KEY_STATE].orEmpty()
+        val app = context.applicationContext as? TracklessApplication
+        val container = app?.container ?: DefaultAppContainer(context.applicationContext)
 
-            var last = 0L
-            try {
-                if (raw.isNotEmpty()) {
-                    val parsed = TracklessState.fromJson(raw)
-                    val profile = parsed.profiles[parsed.activeKind]
-                    last = profile?.entries?.maxOfOrNull { it.ts } ?: 0L
-                }
-            } catch (ignored: Exception) {}
+        provideContent {
+            val state by container.tracklessRepository.stateFlow
+                .collectAsState(initial = TracklessState.defaultState())
+
+            val profile = state.profiles[state.activeKind]
+            val last = profile?.entries?.lastOrNull()?.ts ?: 0L
 
             Column(
                 modifier = GlanceModifier

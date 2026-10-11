@@ -25,9 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.otvykaniye.tracker.TracklessState
+import ru.otvykaniye.tracker.domain.StatsCalculator
 import ru.otvykaniye.tracker.ui.theme.*
 import kotlinx.coroutines.flow.StateFlow
-import java.util.Calendar
+
 
 @Composable
 fun SectionHeader(title: String, icon: ImageVector, iconTint: androidx.compose.ui.graphics.Color, action: @Composable () -> Unit = {}) {
@@ -59,19 +60,17 @@ fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDelet
         )
     }
 
-    val startOfToday = Calendar.getInstance().apply {
-        set(Calendar.HOUR_OF_DAY, 0)
-        set(Calendar.MINUTE, 0)
-        set(Calendar.SECOND, 0)
-        set(Calendar.MILLISECOND, 0)
-    }.timeInMillis
+    val todayEntries = remember(profile.entries) {
+        StatsCalculator.calculateTodayCount(profile.entries)
+    }
 
-    val endOfToday = Calendar.getInstance().apply {
-        timeInMillis = startOfToday
-        add(Calendar.DAY_OF_YEAR, 1)
-    }.timeInMillis
+    val healthStage = remember(timeSinceLast) {
+        StatsCalculator.calculateHealthStage(timeSinceLast)
+    }
 
-    val todayEntries = profile.entries.count { it.ts in startOfToday until endOfToday }
+    val spentSummary = remember(todayEntries, profile.entries.size, profile, state.activeKind) {
+        StatsCalculator.calculateSpent(todayEntries, profile.entries.size, profile, state.activeKind)
+    }
 
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
 
@@ -81,34 +80,21 @@ fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDelet
                 SectionHeader(Strings.get(lang, "health"), Icons.Rounded.Favorite, PrimaryAccent)
                 Spacer(Modifier.height(12.dp))
 
-                val hours = timeSinceLast / (1000 * 60 * 60)
-                val stageIdx = when {
-                    hours < 1 -> 0
-                    hours < 12 -> 1
-                    hours < 24 -> 2
-                    hours < 72 -> 3
-                    else -> 4
-                }
-
-                val currentTitle = Strings.get(lang, "stage_$stageIdx")
-                val currentDesc = Strings.get(lang, "stage_${stageIdx}_desc")
+                val currentTitle = Strings.get(lang, healthStage.currentTitleKey)
+                val currentDesc = Strings.get(lang, healthStage.currentDescKey)
 
                 Text(currentTitle, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 Spacer(Modifier.height(4.dp))
                 Text(currentDesc, color = TextDim, fontSize = 14.sp, lineHeight = 20.sp)
 
-                if (stageIdx < 4) {
-                    val nextTitle = Strings.get(lang, "stage_${stageIdx + 1}")
-                    val maxHours = when(stageIdx) { 0 -> 1; 1 -> 12; 2 -> 24; 3 -> 72; else -> 72 }.toFloat()
-                    val prevHours = when(stageIdx) { 0 -> 0; 1 -> 1; 2 -> 12; 3 -> 24; else -> 24 }.toFloat()
-
-                    val progress = ((hours - prevHours) / (maxHours - prevHours)).coerceIn(0f, 1f)
+                if (healthStage.nextTitleKey != null) {
+                    val nextTitle = Strings.get(lang, healthStage.nextTitleKey)
 
                     Spacer(Modifier.height(16.dp))
                     Text(Strings.get(lang, "next_stage").format(nextTitle), color = TextDim, fontSize = 13.sp, fontWeight = FontWeight.Bold)
                     Spacer(Modifier.height(8.dp))
                     LinearProgressIndicator(
-                        progress = { progress },
+                        progress = { healthStage.progress },
                         modifier = Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)),
                         color = PrimaryAccent.copy(alpha = 0.5f),
                         trackColor = BgDeep
@@ -135,12 +121,9 @@ fun StatsGrid(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onDelet
                     }
                 }
 
-                val effectiveReuse = if (state.activeKind == "snus" && profile.reuse > 0) profile.reuse else 1.0
-                val totalUnits = profile.perPack * effectiveReuse
-                val pricePerPiece = if (totalUnits > 0) profile.price / totalUnits else 0.0
-                if (pricePerPiece > 0) {
-                    val spentToday = (todayEntries * pricePerPiece).toInt()
-                    val totalSpent = (profile.entries.size * pricePerPiece).toInt()
+                if (spentSummary.hasPrice) {
+                    val spentToday = spentSummary.spentToday
+                    val totalSpent = spentSummary.totalSpent
 
                     HorizontalDivider(
                         color = BgDeep,

@@ -15,7 +15,9 @@ import java.nio.charset.StandardCharsets
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: TracklessViewModel by viewModels()
+    private val viewModel: TracklessViewModel by viewModels {
+        TracklessViewModel.provideFactory(application)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

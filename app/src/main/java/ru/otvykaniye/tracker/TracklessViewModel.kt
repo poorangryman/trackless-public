@@ -1,50 +1,42 @@
 package ru.otvykaniye.tracker
 
 import android.app.Application
-import androidx.glance.appwidget.updateAll
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
-class TracklessViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = TracklessRepository(application)
-    private val stateMutex = Mutex()
+class TracklessViewModel(
+    private val repository: TracklessRepository
+) : ViewModel() {
 
-    private val _state = MutableStateFlow(TracklessState.defaultState())
-    val state: StateFlow<TracklessState> = _state.asStateFlow()
+    val state: StateFlow<TracklessState> = repository.stateFlow
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = TracklessState.defaultState()
+        )
 
-    val timeSinceLastEntry = kotlinx.coroutines.flow.flow {
+    val timeSinceLastEntry = flow {
         while (true) {
-            val currentState = _state.value
+            val currentState = state.value
             val lastEntry = currentState.profiles[currentState.activeKind]?.entries?.lastOrNull()
-            val time = if (lastEntry != null) System.currentTimeMillis() - lastEntry.ts else 0L
+            val time = if (lastEntry != null) (System.currentTimeMillis() - lastEntry.ts).coerceAtLeast(0L) else 0L
             emit(time)
             kotlinx.coroutines.delay(1000)
         }
-    }.stateIn(viewModelScope, kotlinx.coroutines.flow.SharingStarted.WhileSubscribed(5000), 0L)
-
-    init {
-        viewModelScope.launch {
-            repository.stateFlow.collect { persistedState ->
-                stateMutex.withLock {
-                    _state.value = persistedState
-                }
-            }
-        }
-    }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
 
     fun setKind(kind: String) {
-        updateState { currentState ->
-            if (currentState.activeKind == kind) currentState
-            else currentState.copy(activeKind = kind)
+        viewModelScope.launch {
+            val current = state.value
+            if (current.activeKind != kind) {
+                repository.saveSettings(current.copy(activeKind = kind))
+            }
         }
     }
 
@@ -54,71 +46,56 @@ class TracklessViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun recordUseAtTime(trigger: String, timestamp: Long?) {
         viewModelScope.launch {
-            val recorded = stateMutex.withLock {
-                repository.recordUse(trigger, timestamp)
-            }
-            if (recorded) {
-                try {
-                    SmallTrackerWidget().updateAll(getApplication())
-                    WideTrackerWidget().updateAll(getApplication())
-                } catch (ignored: Exception) {}
-            }
+            val kind = state.value.activeKind
+            repository.recordUse(kind, trigger, timestamp)
         }
     }
 
     fun undoLastUse() {
-        updateState { currentState ->
-            val kind = currentState.activeKind
-            val profile = currentState.profiles[kind] ?: return@updateState currentState
-            if (profile.entries.isEmpty()) return@updateState currentState
-            val newProfile = profile.copy(entries = profile.entries.dropLast(1))
-            val newProfiles = currentState.profiles.toMutableMap()
-            newProfiles[kind] = newProfile
-            currentState.copy(profiles = newProfiles)
+        viewModelScope.launch {
+            val kind = state.value.activeKind
+            repository.undoLastUse(kind)
         }
     }
 
     fun deleteEntry(id: String) {
-        updateState { currentState ->
-            val kind = currentState.activeKind
-            val profile = currentState.profiles[kind] ?: return@updateState currentState
-            val newProfile = profile.copy(entries = profile.entries.filter { it.id != id })
-            val newProfiles = currentState.profiles.toMutableMap()
-            newProfiles[kind] = newProfile
-            currentState.copy(profiles = newProfiles)
+        viewModelScope.launch {
+            repository.deleteEntry(id)
         }
     }
 
     fun completeOnboarding(newState: TracklessState) {
-        updateState { newState.copy(onboarded = true) }
+        viewModelScope.launch {
+            repository.saveSettings(newState.copy(onboarded = true))
+        }
     }
 
     fun saveSettings(newState: TracklessState) {
-        updateState { newState }
+        viewModelScope.launch {
+            repository.saveSettings(newState)
+        }
     }
 
     fun resetData() {
-        updateState { TracklessState.defaultState() }
+        viewModelScope.launch {
+            repository.resetData()
+        }
     }
 
     fun importState(newState: TracklessState) {
-        updateState { newState }
+        viewModelScope.launch {
+            repository.importState(newState)
+        }
     }
 
-    private fun updateState(transform: (TracklessState) -> TracklessState) {
-        viewModelScope.launch {
-            stateMutex.withLock {
-                val newState = transform(_state.value)
-                _state.value = newState
-                repository.saveState(newState)
+    companion object {
+        fun provideFactory(application: Application): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    val app = application as TracklessApplication
+                    return TracklessViewModel(app.container.tracklessRepository) as T
+                }
             }
-
-            try {
-                SmallTrackerWidget().updateAll(getApplication())
-                WideTrackerWidget().updateAll(getApplication())
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
     }
 }

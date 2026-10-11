@@ -117,8 +117,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
                     state = state,
                     timeSinceLastFlow = viewModel.timeSinceLastEntry,
                     onRecord = { viewModel.recordUse("habit") },
-                    onSos = { showSos = true },
-                    onCustomRecord = { ts -> viewModel.recordUseAtTime("habit", ts) }
+                    onSos = { showSos = true }
                 )
                 
                 StatsGrid(state, viewModel.timeSinceLastEntry, onDeleteEntry = { id -> viewModel.deleteEntry(id) }, onCustomRecord = { ts -> viewModel.recordUseAtTime(state.activeKind, ts) })
@@ -144,7 +143,7 @@ fun MainScreen(viewModel: TracklessViewModel) {
 }
 
 @Composable
-fun HeroCard(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onRecord: () -> Unit, onSos: () -> Unit, onCustomRecord: (Long) -> Unit) {
+fun HeroCard(state: TracklessState, timeSinceLastFlow: StateFlow<Long>, onRecord: () -> Unit, onSos: () -> Unit) {
     val timeSinceLast by timeSinceLastFlow.collectAsState()
     val lang = state.language
     ru.otvykaniye.tracker.ui.components.GlassCard(modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)) {

@@ -57,7 +57,7 @@ jobs:
           echo "TRACKLESS_KEY_PASSWORD=${{ secrets.TRACKLESS_KEY_PASSWORD }}" >> "$GITHUB_ENV"
 
       - name: Build release APK
-        run: gradle assembleRelease --no-daemon
+        run: gradle assembleRelease --no-daemon --no-problems-report
 
       - name: Verify APK
         shell: bash
